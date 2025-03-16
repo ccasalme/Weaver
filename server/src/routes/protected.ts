@@ -1,6 +1,6 @@
 
 import express, { Router, Request, Response, NextFunction } from 'express';
-import { authenticateJWT } from '../middleware/authMiddleware';
+import { authenticateJWT } from '../middleware/authMiddleware.js';
 
 const router: Router = express.Router();
 

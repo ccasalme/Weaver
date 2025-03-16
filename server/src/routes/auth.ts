@@ -1,5 +1,5 @@
 import express, { Router, Request, Response } from 'express';
-import { generateToken } from '../utils/auth';
+import { generateToken } from '../utils/auth.js';
 
 const router: Router = express.Router(); // ✅ Explicitly define Router
 
