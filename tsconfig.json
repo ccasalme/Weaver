@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+      "target": "ES2020",
+      "module": "ESNext",
+      "moduleResolution": "node",
+      "baseUrl": ".",
+      "paths": {
+        "*": ["node_modules/*", "src/types/*"]
+      },
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "forceConsistentCasingInFileNames": true,
+      "strict": true,
+      "noImplicitReturns": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noFallthroughCasesInSwitch": true,
+      "exactOptionalPropertyTypes": true,
+      "noImplicitOverride": true,
+      "useUnknownInCatchVariables": true
+    },
+    "files": [],
+    "references": [
+      { "path": "./server/tsconfig.json" },
+      { "path": "./client/tsconfig.json" }
+    ]
+  }
+  
