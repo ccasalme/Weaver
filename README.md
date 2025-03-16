@@ -232,7 +232,7 @@ Weaver/
 
 ## 📢 Notes for the Team
 🚨 **DO NOT SKIP `.env` SETUP!**  
-✅ **Test GraphQL queries and mutations using Apollo Sandbox or GraphQL Playground.**
+✅ **Test GraphQL queries and mutations using Apollo Sandbox or GraphQL Playground.**  
 ✅ **Write tests before pushing code!**  
 ✅ **Run `npm run lint` before submitting a PR.**  
 ✅ **Always make sure `main` is up to date before starting a new branch!**  
