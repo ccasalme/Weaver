@@ -12,7 +12,7 @@ Weaver is a **full-stack TypeScript** project using **React, Express, Apollo Gra
 git clone https://github.com/ccasalme/Weaver.git
 cd Weaver
 ```
-🔀 **Make sure you're in the `Weaver` directory before continuing!**
+🔄 **Make sure you're in the `Weaver` directory before continuing!**
 
 ---
 
@@ -32,7 +32,7 @@ npm run install:server  # Backend dependencies
 ---
 
 ### **3️⃣ Setup Environment Variables (`.env` file)**
-🟠 **THIS STEP IS CRITICAL!** Without this, the server **WILL NOT RUN** ❌  
+🔴 **THIS STEP IS CRITICAL!** Without this, the server **WILL NOT RUN** ❌  
 
 Inside the **`server/`** directory, **create a `.env` file** and add:
 ```
@@ -43,6 +43,9 @@ JWT_EXPIRATION=7d
 ```
 🔹 Replace `yourUsername`, `yourPassword`, and `yourCluster` with **your actual MongoDB credentials**.  
 🔹 **DO NOT** push this `.env` file to GitHub!
+
+❌ **DO NOT INSTALL `cors`**
+Since the **client and server are within the same project**, there is **NO NEED** for CORS. If you install it, it may cause unnecessary issues.
 
 ---
 
@@ -95,7 +98,7 @@ npm run seed
 
 ---
 
-## 🌀 Running Only the Server (For Backend Devs)
+## 🌐 Running Only the Server (For Backend Devs) 
 If you're **only working on the server**, follow these steps:
 
 ### **1️⃣ Navigate to the Server**
@@ -203,4 +206,6 @@ Weaver/
 ✅ **Run `npm run lint` before submitting a PR.**  
 
 🚀 **Happy coding, team!** 💖✨
+
+
 
