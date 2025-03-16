@@ -1,5 +1,29 @@
 # 🕸️ Weaver
 
+## About
+A collaborative Short Story Community. A social media platform made for Creatives and Story Weavers. Weaver's goals are to promote creativity, the power of imagination, community among the Creators, and fun!
+
+## 🎭 Concept
+**Weaver** is a social media platform designed for **Creatives and Story Weavers**. It allows users (Weavers) to post short stories or prompts and collaboratively build rich, evolving narratives. Think of it as an **interactive storytelling experience**, inspired by the creativity of **Dungeons & Dragons (DnD)**, where users can thread, branch, and reimagine stories.
+
+### 📖 How It Works
+- **Origin (Post a Story)** – A Weaver can post a story or prompt in **280 characters**.
+- **Thread (Comment)** – Other Weavers can contribute to the story, continuing the narrative.
+- **Branching (Repost/Quote Repost)** – A Weaver can take a part of the story and create an **alternate/parallel universe** (a 'What If' scenario!).
+- **Vote (Love/Like)** – Weavers can engage with threads by **liking/loving** them.
+- **Delete** – Weavers can delete their own stories.
+  - ⚠️ **If an Origin story is deleted**, all its direct threads unravel, like a butterfly effect in history!
+  - **Branches remain intact**, as they have been taken into a separate universe by other Weavers.
+
+### 🏗️ Core Features
+- **Architects (Main Creators)** – The platform will have a set of **Architects** who create **Weekly Prompts** for Weavers to contribute to.
+- **Weaver Profile** – Each Weaver has a **profile page** where their stories, threads, and branches can be found.
+- **Community-Driven Creativity** – Encourages collaboration, imagination, and the exploration of storytelling.
+
+🌟 **Weaver is all about the power of imagination, community, and fun!** Let’s build incredible stories together! 🚀
+
+
+
 ## 📌 Project Overview
 Weaver is a **full-stack TypeScript** project using **React, Express, Apollo GraphQL, Mongoose, Cypress, and Vitest**. The project is structured with separate **client** and **server** folders.
 
