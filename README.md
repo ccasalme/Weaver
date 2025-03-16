@@ -236,6 +236,8 @@ Weaver/
 ✅ **Write tests before pushing code!**  
 ✅ **Run `npm run lint` before submitting a PR.**  
 ✅ **Always make sure `main` is up to date before starting a new branch!**
+✅ **Always commit up to your branch! Treat your commits as your save points (think of it this way: what if your computer decides to just "yeah, I don't feel like functioning anymore")**
+
 
 🚀 **Happy coding, team!** 💖✨
 
