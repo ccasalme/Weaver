@@ -163,6 +163,36 @@ npm run test
 ```bash
 npm run seed
 ```
+---
+
+🔀 Keeping Your Local Branch Up-to-Date
+
+Best Practice: Use a Throwaway Branch for Testing Before Merging to main
+
+Before working on a new feature or testing changes, create a throwaway branch:
+
+git checkout -b your-testing-branch
+
+Then, make sure your branch is up to date with main:
+
+git fetch origin
+git checkout main
+git pull origin main
+
+After updating your main, switch back to your branch and merge changes from main:
+
+git checkout your-testing-branch
+git merge main
+
+To test changes from a remote branch before merging:
+
+git pull origin remote-branch-name
+
+Then, merge it into your local branch:
+
+git merge remote-branch-name
+
+✅ Always make sure main is up to date before creating PRs!
 
 ---
 
