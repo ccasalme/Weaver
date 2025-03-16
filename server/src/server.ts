@@ -1,20 +1,20 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Application } from 'express';
 import path from 'node:path';
+import dotenv from 'dotenv';
 import db from './config/connection.js';
-import routes from './routes/index.js';
+import authRoutes from './routes/auth.js'; // ✅ Ensure this is importing the Router
 
-if (!process.env.PORT) {
-  console.error('PORT not set');
-  process.exit(1);
-}
+dotenv.config();
 
 await db();
 
-const app = express();
+const app: Application = express(); // ✅ Ensure this is an Express app
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(routes);
+
+// ✅ Register Routes Properly
+app.use('/api/auth', authRoutes); // ✅ This must be a Router, not a function!
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/dist')));
@@ -22,15 +22,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
   });
 }
-
-interface ErrorHandler extends Error {
-  status?: number;
-}
-
-app.use((err: ErrorHandler, _req: Request, res: Response, _next: NextFunction) => {
-  console.error(err.stack);
-  res.status(err.status || 500).send('Something went wrong!');
-});
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
