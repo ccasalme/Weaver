@@ -22,7 +22,7 @@ A collaborative Short Story Community. A social media platform made for Creative
 
 🌟 **Weaver is all about the power of imagination, community, and fun!** Let’s build incredible stories together! 🚀
 
-
+---
 
 ## 📌 Project Overview
 Weaver is a **full-stack TypeScript** project using **React, Express, Apollo GraphQL, Mongoose, Cypress, and Vitest**. The project is structured with separate **client** and **server** folders.
@@ -163,36 +163,39 @@ npm run test
 ```bash
 npm run seed
 ```
+
 ---
 
-🔀 Keeping Your Local Branch Up-to-Date
-
-Best Practice: Use a Throwaway Branch for Testing Before Merging to main
+## 🔀 Keeping Your Local Branch Up-to-Date
+### **Best Practice: Use a Throwaway Branch for Testing Before Merging to `main`**
 
 Before working on a new feature or testing changes, create a throwaway branch:
-
+```bash
 git checkout -b your-testing-branch
+```
 
-Then, make sure your branch is up to date with main:
-
+Then, **make sure your branch is up to date with `main`**:
+```bash
 git fetch origin
 git checkout main
 git pull origin main
+```
 
-After updating your main, switch back to your branch and merge changes from main:
-
+After updating your `main`, switch back to your branch and merge changes from `main`:
+```bash
 git checkout your-testing-branch
 git merge main
+```
 
-To test changes from a remote branch before merging:
-
+To **test changes from a remote branch before merging**:
+```bash
 git pull origin remote-branch-name
-
+```
 Then, merge it into your local branch:
-
+```bash
 git merge remote-branch-name
-
-✅ Always make sure main is up to date before creating PRs!
+```
+✅ **Always make sure `main` is up to date before creating PRs!**
 
 ---
 
@@ -227,39 +230,12 @@ Weaver/
 
 ---
 
-## 🛠️ Technologies Used
-- **Frontend:** React, Vite, TypeScript, ESLint  
-- **Backend:** Node.js, Express, Apollo GraphQL, Mongoose, JWT authentication  
-- **Testing:** Cypress (E2E & Component), Vitest (Unit & Integration)  
-- **Tooling:** Nodemon, ESLint, Prettier, Concurrently  
-
----
-
-## 👥 Contributing Guidelines
-1. **Clone the repo** and create a new branch:
-   ```bash
-   git checkout -b feature-name
-   ```
-2. **Make your changes** and commit:
-   ```bash
-   git commit -m "Added new feature"
-   ```
-3. **Push to GitHub** and open a Pull Request:
-   ```bash
-   git push origin feature-name
-   ```
-✅ **DO NOT push `.env` files!**  
-✅ **Run `npm run test` before submitting code!**  
-
----
-
 ## 📢 Notes for the Team
 🚨 **DO NOT SKIP `.env` SETUP!**  
 ✅ **Test API endpoints using Postman or Insomnia.**  
 ✅ **Write tests before pushing code!**  
 ✅ **Run `npm run lint` before submitting a PR.**  
+✅ **Always make sure `main` is up to date before starting a new branch!**
 
 🚀 **Happy coding, team!** 💖✨
-
-
 
