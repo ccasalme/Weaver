@@ -3,25 +3,27 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-      "install:dependencies": "npm run install:client && npm run install:server",
-      "install:client": "cd client && npm install",
-      "install:server": "cd server && npm install",
-      "build": "npm run build:client && npm run build:server",
-      "build:client": "cd client && npm run build",
-      "build:server": "cd server && npm run build",
-      "start": "concurrently \"npm run server\" \"npm run client\"",
-      "server": "cd server && npm start",
-      "client": "cd client && npm run dev",
-      "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
-      "server:dev": "cd server && npm run dev",
-      "client:dev": "cd client && npm run dev",
-      "test": "concurrently \"npm run test:client\" \"npm run test:server\"",
-      "test:client": "cd client && npm test",
-      "test:server": "cd server && npm test",
-      "seed": "cd server && npm run seed"
+        "install:dependencies": "npm run install:client && npm run install:server",
+        "install:client": "cd client && npm install",
+        "install:server": "cd server && npm install",
+        "build": "npm run build:client && npm run build:server",
+        "build:client": "cd client && npm run build",
+        "build:server": "cd server && npm run build",
+        "start": "concurrently \"npm run server\" \"npm run client\"",
+        "server": "cd server && npm start",
+        "client": "cd client && npm run dev",
+        "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+        "server:dev": "cd server && npm run dev",
+        "client:dev": "cd client && npm run dev",
+        "test": "concurrently \"npm run test:client\" \"npm run test:server\"",
+        "test:client": "cd client && npm test",
+        "test:server": "cd server && npm test",
+        "seed": "cd server && npm run seed"
     },
     "devDependencies": {
-      "concurrently": "^8.2.2"
+        "@testing-library/cypress": "^10.0.3",
+        "concurrently": "^8.2.2",
+        "cypress": "^14.2.0",
+        "eslint": "^9.22.0"
     }
-  }
-  
+}
