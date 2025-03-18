@@ -4,9 +4,7 @@
     "private": true,
     "scripts": {
         "install": "cd server && npm i && cd ../client && npm i",
-        "build": "npm run build:client && npm run build:server",
-        "build:client": "cd client && npm run build",
-        "build:server": "cd server && npm run build",
+        "build": "concurrently \"cd server && npm run build\" \"cd client && npm run build\"",
         "start": "concurrently \"npm run server\" \"npm run client\"",
         "server": "cd server && npm start",
         "client": "cd client && npm run dev",
