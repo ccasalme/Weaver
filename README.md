@@ -1,4 +1,6 @@
-# 🕸️ Weaver
+# 🕸️ Weaver  
+
+![weaverBanner](https://github.com/user-attachments/assets/0221f1c8-1428-4328-bfa3-c8a1a88cbe0d)
 
 ## About
 A collaborative Short Story Community. A social media platform made for Creatives and Story Weavers. Weaver's goals are to promote creativity, the power of imagination, community among the Creators, and fun!
