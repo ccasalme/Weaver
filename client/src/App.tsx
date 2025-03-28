@@ -1,6 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-
-
 import HomePage from './pages/Homepage';
 import Profile from './pages/Profile';
 import Architects from './pages/Architects';
