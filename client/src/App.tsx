@@ -6,7 +6,7 @@ import ErrorPage from './pages/Error';
 import Privacy from './pages/Privacy';
 import Rules from './pages/Rules';
 import WeaverInfo from './pages/WeaverInfo';
-import Navbar from './components/navbar';
+import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
 function App() {
