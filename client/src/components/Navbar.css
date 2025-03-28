@@ -1,22 +1,107 @@
+/* Navbar.css */
 .navbar {
-    background-color: #333;
-    padding: 8px 12px;
-}
-
-.nav-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: space-around;
-}
-
-.nav-links li {
+    position: fixed;
+    top: 0;
+    right: 0;
     padding: 8px;
+    z-index: 1000; /* Ensure it's above other content */
+    transition: transform 0.3s ease;
 }
 
-.nav-links a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
+.floating {
+    transform: translateY(5px); /* Slight movement to indicate floating */
 }
+
+.hamburger {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 20px;
+    height: 30px;
+	padding: 10px;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	border: 7px solid #ccc;
+	transition: background-color 0.3s ease;
+	/* Gradient background */
+	background: rgb(216,224,228);
+	background: linear-gradient(18deg, rgba(216,224,228,0.9976905311778291) 2%, rgba(218,221,224,1) 14%, rgba(245,255,255,1) 86%);
+}
+
+.hamburger span {
+    display: block;
+    height: 7px;
+    background-color: #333;
+    border-radius: 50px;
+}
+
+.hamburger:hover span {
+    background-color: silver;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+	background: rgb(207,200,200);
+	background: linear-gradient(180deg, rgba(207,200,200,1) 0%, rgba(197,203,217,1) 94%);
+    position: absolute;
+	padding: 8px;
+    right: 0;
+    top: 5px;
+    border: 3px solid #3d3939;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(66, 64, 64, 0.1);
+}
+
+.links a {
+    padding: 10px 15px;
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.links a:hover {
+    background-color: #f7f7f7;
+}
+
+.links a:last-child {
+    border-bottom: none;
+}
+
+/* media queries */
+@media (max-width: 768px) {
+    .navbar .hamburger {
+        width: 40px; /* Smaller width */
+        height: 20px; /* Smaller height */
+        padding: 5px; /* Smaller padding */
+    }
+
+    .navbar .hamburger span {
+        height: 5px; /* Thinner lines */
+    }
+
+    .navbar .links {
+        padding: 40px; /* Less padding */
+        font-size: 30px; /* Smaller font size for links */
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar .hamburger {
+        width: 60px; /* Even smaller width */
+        height: 50px; /* Even smaller height */
+        padding: 3px; /* Even less padding */
+    }
+
+    .navbar .hamburger span {
+        height: 3px; /* Even thinner lines */
+    }
+
+    .navbar .links {
+        padding: 20px; /* Even less padding */
+        font-size: 20px; /* Even smaller font size for links */
+    }
+}
+

@@ -1,20 +1,46 @@
+// This is a React functional component for a responsive navigation bar.
+// It includes a hamburger menu for mobile view and handles scroll events to change the navbar's style.
+// The component uses TypeScript for type safety and React hooks for state management and lifecycle methods.
 
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './Navbar.css'; // Assuming you will create a separate CSS file for styling
+import './Navbar.css'; // Ensure you have this CSS file in your project
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isFloating, setIsFloating] = useState<boolean>(false);
+
+    useEffect(() => {
+        const handleScroll = (): void => {
+            const shouldBeFloating = window.scrollY > 100;
+            setIsFloating(shouldBeFloating);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
-        <nav className="navbar">
-            <ul className="nav-links">
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/profile">Profile</Link></li>
-                <li><Link to="/architects">Architects</Link></li>
-                <li><Link to="/rules">Rules</Link></li>
-                <li><Link to="/privacy">Privacy</Link></li>
-                <li><Link to="/weaver-info">About Weaver</Link></li>
-            </ul>
+        <nav className={`navbar ${isFloating ? 'floating' : ''}`}>
+            <div className="hamburger" onClick={() => setIsOpen(!isOpen)}>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            {isOpen && (
+                <div className="links">
+                    <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
+                    <Link to="/resume" onClick={() => setIsOpen(false)}>Profile</Link>
+                    <Link to="/contact" onClick={() => setIsOpen(false)}>About the Architects</Link>
+                    <Link to="/contact" onClick={() => setIsOpen(false)}>Rules and Privacy</Link>
+                    <Link to="/contact" onClick={() => setIsOpen(false)}>About Weaver</Link>
+                </div>
+            )}
         </nav>
     );
-}
+};
 
 export default Navbar;
+
