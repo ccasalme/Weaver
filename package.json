@@ -24,6 +24,7 @@
         "@testing-library/cypress": "^10.0.3",
         "concurrently": "^8.2.2",
         "cypress": "^14.2.0",
-        "eslint": "^9.22.0"
+        "eslint": "^9.22.0",
+        "typescript": "^5.8.2"
     }
 }
