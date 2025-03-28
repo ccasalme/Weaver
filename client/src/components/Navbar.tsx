@@ -31,6 +31,7 @@ const Navbar: React.FC = () => {
             </div>
             {isOpen && (
                 <div className="links">
+                    <button onClick={() => setIsOpen(false)} className="close-button">❎</button>
                     <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
                     <Link to="/resume" onClick={() => setIsOpen(false)}>Profile</Link>
                     <Link to="/contact" onClick={() => setIsOpen(false)}>About the Architects</Link>
