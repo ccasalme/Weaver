@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import AuthModal from "./components/AuthModal";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+  // Track whether the modal is open
+  const [isAuthOpen, setAuthOpen] = useState(false);
+
+  // Track whether we're in login (true) or signup (false) mode
+  const [isLogin, setIsLogin] = useState(true);
+
+  // When the user clicks the "Login / Signup" button
+  const openModal = () => {
+    setIsLogin(true); // Always default to login mode
+    setAuthOpen(true); // Show the modal
+  };
+
+  // Function that gets called when user logs in
+  const handleLogin = (email: string, password: string) => {
+    console.log("Logging in with", email, password);
+    // TODO: call your GraphQL login mutation here
+    setAuthOpen(false); // Close the modal after login
+  };
+
+  // Function that gets called when user signs up
+  const handleSignup = (email: string, username: string, password: string) => {
+    console.log("Signing up with", email, username, password);
+    // TODO: call your GraphQL signup mutation here
+    setAuthOpen(false); // Close the modal after signup
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div>
+      {/* Only show the Login / Signup button if modal is NOT open */}
+      {!isAuthOpen && <button onClick={openModal}>Login / Signup</button>}
 
-export default App
+      {/* Auth Modal (handles both login and signup) */}
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setAuthOpen(false)}
+        isLogin={isLogin}
+        setIsLogin={setIsLogin}
+        onLogin={handleLogin}
+        onSignup={handleSignup}
+      />
+    </div>
+  );
+};
+
+export default App;
