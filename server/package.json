@@ -10,11 +10,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node dist/seeds/seed.js"
   },
-"nodemonConfig": {
-  "watch": ["dist"],
-  "ext": "js,json",
-  "exec": "node dist/server.js"
-},
+  "nodemonConfig": {
+    "watch": [
+      "dist"
+    ],
+    "ext": "js,json",
+    "exec": "node dist/server.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -25,7 +27,8 @@
     "express": "^4.21.2",
     "graphql": "^16.10.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.12.1"
+    "mongoose": "^8.12.1",
+    "react-router-dom": "^6.30.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",

@@ -1,68 +1,164 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+/* Base styles */
+html {
+  font-size: 12px; /* Set base font size to 12px */
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  background: rgb(221,228,233);
+  background: linear-gradient(239deg, rgba(221,228,233,0.9976905311778291) 0%, rgba(245,245,250,1) 51%, rgba(200,204,204,1) 100%);
+  font-family: 'Merryweather', Verdana, Tahoma, sans-serif; /* Set the base font family */
+  background-size: cover;
+  padding-bottom: 100px; /* Space for footer */
+  min-height: 100vh; /* Ensure the body covers the full height of the viewport */
+}
+
+header {
+  text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: black;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px #3F403E;
+  padding: 1rem;
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: 5rem; /* Adjust font size as a ratio of the base size */
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+h2, h3, h4, h5, h6 {
+  font-size: 3rem; /* Slightly larger than base size for visibility */
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+p {
+  color: rgb(3, 3, 3);
+  text-align: center;
+  border-radius: 10px;
+  line-height: 2;
+  padding: 5rem;
+  margin: 1rem;
+  font-size: 2.5rem; /* Slightly larger than base size for readability */
+}
+
+a {
+  display: inline-block;
+  margin: 2rem;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 8px 8px 8px #3F403E;
+  line-height: 2;
+  padding: 1rem;
+  background: none;
+  color: inherit; /* Ensures link color matches text */
+  text-decoration: none; /* Removes underline */
+  font-size: 2.5rem; /* Slightly larger than base size for visibility */
+}
+
+a:hover {
+  background: rgb(254,254,254);
+  background: linear-gradient(180deg, rgba(254,254,254,1) 0%, rgba(197,203,217,1) 94%);
+}
+
+ul.nav.nav-tabs {
+  background: rgb(240,238,227);
+  background: radial-gradient(circle, rgba(240,238,227,1) 63%, rgba(173,180,182,1) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  padding: 1rem;
+  font-size: 2.5rem; /* Slightly larger than base size for visibility */
+}
+
+li {
+  margin: 1rem;
+  padding: 1rem;
+  font-size: 2.5rem; /* Slightly larger than base size for visibility */
+}
+
+div.card-body, .home-intro, .container1, .container3 {
+  background: rgb(240,238,227);
+  background: radial-gradient(circle, rgba(240,238,227,1) 63%, rgba(173,180,182,1) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48.4463px 92.048px;
+}
+
+/* Media Queries */
+
+/* For tablets and small desktops */
+@media (max-width: 992px) {
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 1.2rem; /* Slightly reduce the size for smaller screens */
+    padding: 0.8rem; /* Adjust padding for compact appearance */
   }
-  a:hover {
-    color: #747bff;
+
+  p, .card-body, .home-intro, .container1, .container3 {
+    padding: 15px; /* Less padding for smaller devices */
+    margin: 0.5rem; /* Reduce margin */
+    text-align: center; /* Ensure center alignment for readability */
+    max-width: 100%; /* Use the full width available */
   }
-  button {
-    background-color: #f9f9f9;
+
+  div.card-body, .home-intro, .container1, .container3 {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center align the content */
+  }
+
+  ul.nav.nav-tabs {
+    flex-direction: column; /* Stack navigation links vertically */
   }
 }
+
+/* For mobile devices */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1rem; /* Further reduce for smaller screens */
+  }
+
+  h2, h3, h4, h5, h6 {
+    font-size: 0.9rem; /* Smaller headers on mobile */
+  }
+
+  p {
+    font-size: 0.8rem; /* Smaller paragraph text */
+    line-height: 1.4; /* Adjust line height for better readability */
+    padding: 10px; /* Reduce padding */
+  }
+
+  a, li {
+    font-size: 0.7rem; /* Smaller font size for links and list items */
+    padding: 0.5rem; /* Less padding */
+  }
+
+  div.card-body, .home-intro, .container1, .container3 {
+    padding: 5px; /* Minimal padding for content containers */
+  }
+}
+
+/* For very small devices */
+@media (max-width: 480px) {
+  body {
+    font-size: 0.7rem; /* Even smaller base font size */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 0.85rem; /* Tiny adjustments for headers */
+  }
+
+  p, a, li {
+    font-size: 0.65rem; /* Tiny text adjustments for readability */
+  }
+
+  header, footer {
+    padding: 0.25rem; /* Smaller padding for header and footer */
+  }
+
+  ul.nav.nav-tabs {
+    padding: 0.25rem; /* Smaller padding for navigation tabs */
+  }
+}
+
