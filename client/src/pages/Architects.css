@@ -1,0 +1,32 @@
+.page-container {
+    position: fixed; /* Ensures the container covers the entire viewport */
+    top: 0;
+    left: 0;
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+    background: url('../assets/WireFrameBackground.png') center center / cover no-repeat; /* Shorthand for setting the background image */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers content vertically */
+    align-items: center; /* Centers content horizontally */
+    color: white; /* For text visibility against a dark background */
+    text-align: center;
+    z-index: -1; /* Ensures the background does not overlap content */
+}
+
+/* Content Styling */
+h1, p {
+    z-index: 1; /* Ensures text appears above the background */
+    padding: 0 20px; /* Adds padding to maintain layout integrity */
+    color: #fff; /* Ensures text is white for visibility */
+}
+
+/* Additional adjustments to ensure all text and buttons are visible and not obscured by the background */
+h1 {
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem; /* Adjusts font size for visibility */
+}
+
+p {
+    font-size: 1.2rem;
+}
