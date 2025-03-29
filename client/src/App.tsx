@@ -1,3 +1,5 @@
+// src/App.tsx
+import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/Homepage";
 import Profile from "./pages/Profile";
@@ -8,8 +10,16 @@ import Rules from "./pages/Rules";
 import WeaverInfo from "./pages/WeaverInfo";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Login from "./components/Login";
+import JoinUs from "./components/JoinUs";
 
 function App() {
+  const [showLogin, setShowLogin] = useState(false);
+  const [showJoinUs, setShowJoinUs] = useState(false);
+
+  const toggleLogin = () => setShowLogin((prev) => !prev);
+  const toggleJoinUs = () => setShowJoinUs((prev) => !prev);
+
   return (
     <>
       <Navbar />
@@ -22,6 +32,21 @@ function App() {
         <Route path="/weaverinfo" element={<WeaverInfo />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
+
+      {showLogin && (
+        <Login onClose={toggleLogin} switchToJoinUs={() => {
+          setShowLogin(false);
+          setShowJoinUs(true);
+        }} />
+      )}
+
+      {showJoinUs && (
+        <JoinUs onClose={toggleJoinUs} switchToLogin={() => {
+          setShowJoinUs(false);
+          setShowLogin(true);
+        }} />
+      )}
+
       <Footer />
     </>
   );
