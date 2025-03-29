@@ -1,7 +1,8 @@
 {
-    "name": "main",
+    "name": "weaver",
     "version": "1.0.0",
     "description": "",
+    "private": true,
     "main": "server/server.js",
     "scripts": {
       "start": "node server/dist/server.js",
@@ -9,12 +10,20 @@
       "install": "cd server && npm i && cd ../client && npm i",
       "build": "concurrently \"cd server && npm run build\" \"cd client && npm run build\"",
       "seed": "cd server && npm run seed",
-      "render-build":"npm install && npm run build"
+      "render-build": "npm install && npm run build",
+      "test": "concurrently \"npm run test:client\" \"npm run test:server\"",
+      "test:client": "cd client && npm test",
+      "test:server": "cd server && npm test"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
-      "concurrently": "^8.2.0"
+      "@testing-library/cypress": "^10.0.3",
+      "concurrently": "^8.2.2",
+      "cypress": "^14.2.0",
+      "eslint": "^9.22.0",
+      "typescript": "^5.8.2"
     }
   }
+  
