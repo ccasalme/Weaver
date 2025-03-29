@@ -1,40 +1,47 @@
 /* Navbar.css */
 .navbar {
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     padding: 8px;
-    z-index: 1000; /* Ensure it's above other content */
-    transition: transform 0.3s ease;
+    z-index: 2000;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    background-color: transparent;
 }
 
+/* Floating style after scrolling */
 .floating {
-    transform: translateY(5px); /* Slight movement to indicate floating */
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Smaller Hamburger Button */
 .hamburger {
     cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 20px;
-    height: 30px;
-	padding: 10px;
-	border-radius: 8px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-	border: 7px solid #ccc;
-	transition: background-color 0.3s ease;
-	/* Gradient background */
-	background: rgb(216,224,228);
-	background: linear-gradient(18deg, rgba(216,224,228,0.9976905311778291) 2%, rgba(218,221,224,1) 14%, rgba(245,255,255,1) 86%);
+    width: 18px; /* Reduced size */
+    height: 24px;
+    padding: 6px; /* Smaller padding */
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 5px solid #ccc;
+    transition: background-color 0.3s ease;
+    background: rgb(216,224,228);
+    background: linear-gradient(18deg, rgba(216,224,228,0.9976905311778291) 2%, rgba(218,221,224,1) 14%, rgba(245,255,255,1) 86%);
 }
 
+/* Hamburger Lines */
 .hamburger span {
     display: block;
-    height: 7px;
+    height: 5px; /* Slimmer lines */
     background-color: #333;
     border-radius: 50px;
-    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
@@ -42,44 +49,148 @@
     background-color: silver;
 }
 
+
+/* General Close Button - to stop it from dancing around */
 .close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    z-index: 1500; /* Ensure it's above everything */
+}
+
+/* Close Button Hover Effect */
+.close-button:hover {
+    background-color: #ccc;
+}
+
+/* Icon Styling for X */
+.close-button::before {
+    content: "❎"; /* Replaced with a classic X */
+    font-size: 14px;
+}
+
+/* Position Fix for Close Button inside the Modal */
+.links {
+    display: flex;
+    flex-direction: column;
+    background: rgb(207, 200, 200);
+    background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
+    position: absolute;
+    padding: 8px;
+    right: 0;
+    top: 5px;
+    border: 3px solid #3d3939;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(66, 64, 64, 0.1);
+    width: 200px;
+    z-index: 1200; /* Make sure it's behind the button */
+}
+
+/* Media Queries for Close Button */
+@media (max-width: 768px) {
+    .close-button {
+        width: 20px;
+        height: 20px;
+        top: 5px;
+        right: 5px;
+    }
+
+    .close-button::before {
+        font-size: 12px;
+    }
+
+    .links {
+        width: 180px;
+        top: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .close-button {
+        width: 18px;
+        height: 18px;
+        top: 3px;
+        right: 3px;
+    }
+
+    .close-button::before {
+        font-size: 10px;
+    }
+
+    .links {
+        width: 160px;
+        top: 35px;
+    }
+}
+
+
+/* Media Queries for Smaller Screens */
+@media (max-width: 768px) {
+    .close-button {
+        width: 18px;
+        height: 18px;
+        top: 5px !important;
+        right: 5px !important;
+    }
+
+    .close-button::before {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .close-button {
+        width: 16px;
+        height: 16px;
+        top: 3px !important;
+        right: 3px !important;
+    }
+
+    .close-button::before {
+        font-size: 8px;
+    }
+}
+
+
+/* Menu Links */
+.links {
     display: flex;
     flex-direction: column;
     background: rgb(207,200,200);
     background: linear-gradient(180deg, rgba(207,200,200,1) 0%, rgba(197,203,217,1) 94%);
-    position: absolute;
-    right: 0;
-    top: 5px;
-    border: 1px solid #3d3939;
-    border-radius: 50px;
-    box-shadow: 0 4px 8px rgba(66, 64, 64, 0.1);
-    cursor: pointer; /* Ensure this is set to show a pointer cursor */
-}
-
-.close-button:hover {
-    background-color: silver !important; /* Ensure hover effect is applied */
-}
-
-.links {
-    display: flex;
-    flex-direction: column;
-	background: rgb(207,200,200);
-	background: linear-gradient(180deg, rgba(207,200,200,1) 0%, rgba(197,203,217,1) 94%);
-    position: absolute;
-	padding: 8px;
-    right: 0;
-    top: 5px;
+    position: fixed;
+    top: 50px;
+    right: 5%;
+    width: 85vw;
+    max-width: 300px;
+    padding: 10px;
     border: 3px solid #3d3939;
-    border-radius: 50px;
+    border-radius: 12px;
     box-shadow: 0 4px 8px rgba(66, 64, 64, 0.1);
+    z-index: 2000;
+    overflow-y: auto;
+    max-height: 80vh;
 }
 
+/* Smaller Menu Link Styles */
 .links a {
-    padding: 10px 15px;
+    padding: 8px 12px;
     text-decoration: none;
     color: black;
-    font-size: 15px;
+    font-size: 14px;
     border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
 }
 
 .links a:hover {
@@ -90,36 +201,52 @@
     border-bottom: none;
 }
 
-/* Media Queries */
+/* Media Queries - Open Menu */
 @media (max-width: 768px) {
-    .navbar .hamburger {
-        width: 25px; /* Adjust width for smaller screens */
-        height: 20px; /* Adjust height for smaller screens */
-    }
-
-    .navbar .links {
-        display: flex; /* Make links visible on smaller screens */
-        width: 100%; /* Full width */
-        top: 60px; /* Adjust top position to make it drop down */
+    .links {
+        width: 85vw;
+        top: 50px;
+        right: 7.5%;
+        max-width: 300px;
+        padding: 10px;
     }
 
     .links a {
-        font-size: 18px; /* Increase font size for better visibility */
+        font-size: 16px;
+        padding: 12px 14px;
+    }
+
+    .close-button {
+        top: 5px;
+        right: 5px;
+        width: 24px;
+        height: 24px;
     }
 }
 
 @media (max-width: 480px) {
-    .navbar .hamburger {
-        width: 20px; /* Further reduce width */
-        height: 15px; /* Further reduce height */
-    }
-
-    .navbar .links {
-        top: 45px; /* Adjust top position for very small screens */
+    .links {
+        width: 95vw;
+        top: 45px;
+        right: 2.5%;
+        padding: 8px;
     }
 
     .links a {
-        font-size: 16px; /* Adjust font size for very small screens */
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    .close-button {
+        top: 2px;
+        right: 5px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .hamburger {
+        width: 16px;
+        height: 22px;
+        padding: 5px;
     }
 }
-
