@@ -1,4 +1,3 @@
-
 const WeaverInfo = () => {
     return (
         <div className="page-container">
