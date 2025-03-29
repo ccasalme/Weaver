@@ -3,8 +3,8 @@
     position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
-    width: 100vw;
+    width: 100vw; /* Full width always */
+    height: 100vh; /* Full height always */
     background: url('../assets/WireFrameBackground.png') center center / cover no-repeat;
     display: flex;
     flex-direction: column;
@@ -13,6 +13,7 @@
     color: white;
     text-align: center;
     z-index: -1;
+    background-attachment: fixed; /* Keep it fixed while scrolling */
 }
 
 /* Content Styling */
@@ -31,45 +32,142 @@ p {
     font-size: 1.5rem; /* Suitable font size for detailed readability on desktops */
 }
 
-/* Media Queries for Tablet devices */
-@media (max-width: 992px) {
+/* ========================== */
+/* 🎯 Media Queries Section */
+/* ========================== */
+
+/* 📚 iPad Mini, iPad Air, iPad Pro */
+@media (max-width: 1024px) {
     h1 {
-        font-size: 2rem; /* Slightly smaller font size for tablet devices */
+        font-size: 2rem;
     }
 
     p {
-        font-size: 1.2rem; /* Adjust paragraph font size for better readability on tablets */
+        font-size: 1.2rem;
     }
 
     .page-container {
-        padding: 10px; /* Add padding to prevent text from touching the edges */
+        background-size: cover; /* Maintain aspect ratio */
+        height: 100vh; /* Ensure it covers the viewport */
+        width: 100vw; /* Full width for tablets */
     }
 }
 
-/* Media Queries for Mobile devices */
+/* 📱 Mobile Devices */
 @media (max-width: 768px) {
     h1 {
-        font-size: 1.5rem; /* Smaller font size for mobile devices */
+        font-size: 1.5rem; /* Smaller font size for mobile */
     }
 
     p {
-        font-size: 1rem; /* Smaller paragraph text for mobile devices */
+        font-size: 1rem;
     }
 
     .page-container {
-        flex-direction: column;
-        justify-content: flex-start; /* Adjust content alignment for better mobile layout */
-        padding: 20px; /* Increase padding for smaller screens */
+        background-size: cover; /* Maintain full cover */
+        height: 100vh; /* Full height for mobile */
+        width: 100vw; /* Full width for mobile */
     }
 }
 
-/* Additional styles for very small devices */
-@media (max-width: 480px) {
+/* 📱 iPhone 12 Pro, iPhone 14 Pro Max, Pixel 7 */
+@media (max-width: 430px) {
     h1 {
-        font-size: 1.2rem; /* Further reduced font size for small mobile devices */
+        font-size: 1.3rem;
     }
 
     p {
-        font-size: 0.9rem; /* Reduce paragraph text size for clarity on small screens */
+        font-size: 0.9rem;
+    }
+
+    .page-container {
+        background-size: cover;
+        height: 100vh;
+        width: 100vw;
+    }
+}
+
+/* 📱 iPhone SE, iPhone XR */
+@media (max-width: 390px) {
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    p {
+        font-size: 0.85rem;
+    }
+
+    .page-container {
+        background-size: cover;
+        height: 100vh;
+        width: 100vw;
+    }
+}
+
+/* 🎮 Galaxy Z Fold 5, Foldables */
+@media (max-width: 653px) {
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .page-container {
+        background-size: cover;
+        height: 100vh;
+        width: 100vw;
+    }
+}
+
+/* 📱 Samsung Galaxy A51/71, Nest Hub */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.3rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .page-container {
+        background-size: cover;
+        height: 100vh;
+        width: 100vw;
+    }
+}
+
+/* 📱 Surface Pro 7, Surface Duo, Zenbook Fold */
+@media (max-width: 912px) {
+    h1 {
+        font-size: 1.7rem;
+    }
+
+    p {
+        font-size: 1.1rem;
+    }
+
+    .page-container {
+        background-size: cover;
+        height: 100vh;
+        width: 100vw;
+    }
+}
+
+/* 📱 Very Small Devices */
+@media (max-width: 320px) {
+    h1 {
+        font-size: 1rem;
+    }
+
+    p {
+        font-size: 0.75rem;
+    }
+
+    .page-container {
+        background-size: cover;
+        height: 100vh;
+        width: 100vw;
     }
 }
