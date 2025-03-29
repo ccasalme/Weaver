@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/Homepage";
 import Profile from "./pages/Profile";
@@ -8,21 +9,36 @@ import Rules from "./pages/Rules";
 import WeaverInfo from "./pages/WeaverInfo";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import AuthModal from "./components/AuthModal";  // Ensure this import is correct
 
 function App() {
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const toggleAuthModal = () => {
+    setShowAuthModal(prev => !prev);
+  };
+
   return (
     <>
       <Navbar />
+      <button onClick={toggleAuthModal}>Toggle Auth Modal</button>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/architects" element={<Architects />} />
-        <Route path="/error" element={<ErrorPage />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/rules" element={<Rules />} />
-        <Route path="/weaver-info" element={<WeaverInfo />} />
+        <Route path="/weaverinfo" element={<WeaverInfo />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
+      {showAuthModal && <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)}
+        isLogin={true} // Assuming default mode
+        setIsLogin={() => {}} // Provide actual function if needed
+        onLogin={() => {}} // Placeholder
+        onSignup={() => {}} // Placeholder
+      />}
       <Footer />
     </>
   );
