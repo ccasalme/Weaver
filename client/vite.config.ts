@@ -9,7 +9,7 @@ export default defineConfig({
     host: '127.0.0.1',
     open: true,           // Automatically opens browser
     proxy: {
-      '/api': {
+      '/graphql': {
         target: 'http://localhost:3001',  // Backend API runs on port 3001
         secure: false,
         changeOrigin: true,
