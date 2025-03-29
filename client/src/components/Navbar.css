@@ -25,21 +25,21 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 18px; /* Reduced size */
+    width: 18px;
     height: 24px;
-    padding: 6px; /* Smaller padding */
+    padding: 6px;
     border-radius: 6px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border: 5px solid #ccc;
     transition: background-color 0.3s ease;
-    background: rgb(216,224,228);
-    background: linear-gradient(18deg, rgba(216,224,228,0.9976905311778291) 2%, rgba(218,221,224,1) 14%, rgba(245,255,255,1) 86%);
+    background: rgb(216, 224, 228);
+    background: linear-gradient(18deg, rgba(216, 224, 228, 0.997) 2%, rgba(218, 221, 224, 1) 14%, rgba(245, 255, 255, 1) 86%);
 }
 
 /* Hamburger Lines */
 .hamburger span {
     display: block;
-    height: 5px; /* Slimmer lines */
+    height: 5px;
     background-color: #333;
     border-radius: 50px;
     transition: background-color 0.3s ease;
@@ -49,8 +49,7 @@
     background-color: silver;
 }
 
-
-/* General Close Button - to stop it from dancing around */
+/* Close Button */
 .close-button {
     position: absolute;
     top: 5px;
@@ -66,21 +65,21 @@
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 0;
-    z-index: 1500; /* Ensure it's above everything */
+    z-index: 2500; /* Ensures close button is above everything */
 }
 
-/* Close Button Hover Effect */
+/* Close Button Hover */
 .close-button:hover {
     background-color: #ccc;
 }
 
-/* Icon Styling for X */
+/* Close Button Icon */
 .close-button::before {
-    content: "❎"; /* Replaced with a classic X */
+    content: "❎";
     font-size: 14px;
 }
 
-/* Position Fix for Close Button inside the Modal */
+/* Position Fix for Menu */
 .links {
     display: flex;
     flex-direction: column;
@@ -89,101 +88,41 @@
     position: absolute;
     padding: 8px;
     right: 0;
-    top: 5px;
+    top: 40px; /* Bring menu closer to hamburger */
     border: 3px solid #3d3939;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(66, 64, 64, 0.1);
     width: 200px;
-    z-index: 1200; /* Make sure it's behind the button */
+    z-index: 1200; /* Keep menu below close button */
 }
 
-/* Media Queries for Close Button */
-@media (max-width: 768px) {
-    .close-button {
-        width: 20px;
-        height: 20px;
-        top: 5px;
-        right: 5px;
-    }
-
-    .close-button::before {
-        font-size: 12px;
-    }
-
-    .links {
-        width: 180px;
-        top: 40px;
-    }
+/* Matching Buttons to Links */
+.links button {
+    display: inline-block;
+    width: 100%;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    text-align: center;
+    font-size: 14px;
+    text-decoration: none;
+    color: black;
+    border-radius: 12px;
+    border-bottom: 1px solid #eee;
+    background: rgb(207, 200, 200);
+    background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
+    box-shadow: 10px 10px 10px #3F403E;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
 }
 
-@media (max-width: 480px) {
-    .close-button {
-        width: 18px;
-        height: 18px;
-        top: 3px;
-        right: 3px;
-    }
-
-    .close-button::before {
-        font-size: 10px;
-    }
-
-    .links {
-        width: 160px;
-        top: 35px;
-    }
+/* Button Hover */
+.links button:hover {
+    background-color: #f7f7f7;
+    background: linear-gradient(180deg, rgba(254, 254, 254, 1) 0%, rgba(197, 203, 217, 1) 94%);
+    transform: translateY(-2px);
 }
-
-
-/* Media Queries for Smaller Screens */
-@media (max-width: 768px) {
-    .close-button {
-        width: 18px;
-        height: 18px;
-        top: 5px !important;
-        right: 5px !important;
-    }
-
-    .close-button::before {
-        font-size: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .close-button {
-        width: 16px;
-        height: 16px;
-        top: 3px !important;
-        right: 3px !important;
-    }
-
-    .close-button::before {
-        font-size: 8px;
-    }
-}
-
 
 /* Menu Links */
-.links {
-    display: flex;
-    flex-direction: column;
-    background: rgb(207,200,200);
-    background: linear-gradient(180deg, rgba(207,200,200,1) 0%, rgba(197,203,217,1) 94%);
-    position: fixed;
-    top: 50px;
-    right: 5%;
-    width: 85vw;
-    max-width: 300px;
-    padding: 10px;
-    border: 3px solid #3d3939;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(66, 64, 64, 0.1);
-    z-index: 2000;
-    overflow-y: auto;
-    max-height: 80vh;
-}
-
-/* Smaller Menu Link Styles */
 .links a {
     padding: 8px 12px;
     text-decoration: none;
@@ -197,23 +136,21 @@
     background-color: #f7f7f7;
 }
 
-.links a:last-child {
+/* Last Child Spacing Fix */
+.links a:last-child,
+.links button:last-child {
     border-bottom: none;
+    margin-bottom: 0;
 }
 
-/* Media Queries - Open Menu */
+/* Media Queries */
 @media (max-width: 768px) {
     .links {
         width: 85vw;
-        top: 50px;
+        top: 40px;
         right: 7.5%;
         max-width: 300px;
         padding: 10px;
-    }
-
-    .links a {
-        font-size: 16px;
-        padding: 12px 14px;
     }
 
     .close-button {
@@ -227,18 +164,13 @@
 @media (max-width: 480px) {
     .links {
         width: 95vw;
-        top: 45px;
+        top: 40px;
         right: 2.5%;
         padding: 8px;
     }
 
-    .links a {
-        font-size: 14px;
-        padding: 10px 12px;
-    }
-
     .close-button {
-        top: 2px;
+        top: 3px;
         right: 5px;
         width: 20px;
         height: 20px;
