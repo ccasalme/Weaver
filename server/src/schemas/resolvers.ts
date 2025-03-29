@@ -2,9 +2,22 @@ import User from '../models/user.js';
 import { signToken } from '../utils/auth.js';
 
 const resolvers = {
-    Query: {
-
+  Query: {
+    // This resolver returns the currently logged-in user's info.
+    me: async (_: any, _args: any, context: any) => {
+      console.log(context)
+      if (!context.user) {
+        throw new Error("You need to be logged in!");
+      }
+     
+      const foundUser = await User.findOne({ _id: context.user._id });
+      if (!foundUser) {
+        throw new Error("Cannot find a user with this id!");
+      }
+      return foundUser;
     },
+  },
+
 
     Mutation: {
         login: async (_parent: any, { email, password }: { email: string; password: string }) => {
