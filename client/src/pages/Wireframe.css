@@ -1,32 +1,75 @@
+/* Wireframe Background Styles */
 .page-container {
-    position: fixed; /* Ensures the container covers the entire viewport */
+    position: fixed;
     top: 0;
     left: 0;
-    height: 100vh; /* Full viewport height */
-    width: 100vw; /* Full viewport width */
-    background: url('../assets/WireFrameBackground.png') center center / cover no-repeat; /* Shorthand for setting the background image */
+    height: 100vh;
+    width: 100vw;
+    background: url('../assets/WireFrameBackground.png') center center / cover no-repeat;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centers content vertically */
-    align-items: center; /* Centers content horizontally */
-    color: white; /* For text visibility against a dark background */
+    justify-content: center;
+    align-items: center;
+    color: white;
     text-align: center;
-    z-index: -1; /* Ensures the background does not overlap content */
+    z-index: -1;
 }
 
 /* Content Styling */
 h1, p {
-    z-index: 1; /* Ensures text appears above the background */
-    padding: 0 20px; /* Adds padding to maintain layout integrity */
-    color: #fff; /* Ensures text is white for visibility */
+    z-index: 1;
+    padding: 0 20px;
+    color: #fff;
 }
 
-/* Additional adjustments to ensure all text and buttons are visible and not obscured by the background */
 h1 {
     margin-bottom: 0.5rem;
-    font-size: 2.5rem; /* Adjusts font size for visibility */
+    font-size: 2.5rem; /* Large font size for desktops */
 }
 
 p {
-    font-size: 1.2rem;
+    font-size: 1.5rem; /* Suitable font size for detailed readability on desktops */
+}
+
+/* Media Queries for Tablet devices */
+@media (max-width: 992px) {
+    h1 {
+        font-size: 2rem; /* Slightly smaller font size for tablet devices */
+    }
+
+    p {
+        font-size: 1.2rem; /* Adjust paragraph font size for better readability on tablets */
+    }
+
+    .page-container {
+        padding: 10px; /* Add padding to prevent text from touching the edges */
+    }
+}
+
+/* Media Queries for Mobile devices */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem; /* Smaller font size for mobile devices */
+    }
+
+    p {
+        font-size: 1rem; /* Smaller paragraph text for mobile devices */
+    }
+
+    .page-container {
+        flex-direction: column;
+        justify-content: flex-start; /* Adjust content alignment for better mobile layout */
+        padding: 20px; /* Increase padding for smaller screens */
+    }
+}
+
+/* Additional styles for very small devices */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.2rem; /* Further reduced font size for small mobile devices */
+    }
+
+    p {
+        font-size: 0.9rem; /* Reduce paragraph text size for clarity on small screens */
+    }
 }
