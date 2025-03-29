@@ -1,10 +1,12 @@
 import React from 'react';
 import CollapsibleSection from '../components/CollapsibleSection';
 import './Privacy.css';
+import './Wireframe.css'; // Import the CSS file for styling
+import Wireframe from "../assets/WireFrameBackground.png"; // Import the background image
 
 const PrivacyPolicy: React.FC = () => {
     return (
-        <div style={{ padding: '20px' }}>
+        <div className="page-container" style={{ backgroundImage: `url(${Wireframe})` }}>
             <h1 style={{ textAlign: 'center' }}>Privacy Policy and Terms of Use</h1>
 
             <CollapsibleSection title="Privacy Policy" content={
@@ -29,3 +31,5 @@ const PrivacyPolicy: React.FC = () => {
 };
 
 export default PrivacyPolicy;
+
+
