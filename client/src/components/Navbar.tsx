@@ -56,8 +56,6 @@ const Navbar: React.FC<NavbarProps> = ({ toggleLogin, toggleJoinUs }) => {
       <Link to="/" onClick={() => setIsOpen(false)}>
         Home
       </Link>
-      <button onClick={toggleLogin}>Log In</button> {/* ✅ Log In Button */}
-      <button onClick={toggleJoinUs}>Join Us</button> {/* ✅ Join Us Button */}
       <Link to="/weaverinfo" onClick={() => setIsOpen(false)}>
         What is Weaver
       </Link>
@@ -67,8 +65,14 @@ const Navbar: React.FC<NavbarProps> = ({ toggleLogin, toggleJoinUs }) => {
       <Link to="/architects" onClick={() => setIsOpen(false)}>
         About the Architects
       </Link>
+      {/* New Auth Buttons for Login & JoinUs */}
+      <div className="auth-buttons">
+        <button onClick={toggleLogin}>Log In</button>
+        <button onClick={toggleJoinUs}>Join Us</button>
+      </div>
     </>
   );
+  
 
   return (
     <nav className={`navbar ${isFloating ? "floating" : ""}`}>
