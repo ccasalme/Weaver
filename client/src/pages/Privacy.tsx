@@ -6,7 +6,7 @@ import Wireframe from "../assets/WireFrameBackground.png"; // Import the backgro
 
 const PrivacyPolicy: React.FC = () => {
     return (
-        <div className="page-container" style={{ backgroundImage: `url(${Wireframe})` }}>
+        <div className="page-container"  style={{ backgroundImage: `url(${Wireframe})` }}>
             <h1 style={{ textAlign: 'center' }}>Privacy Policy and Terms of Use</h1>
 
             <CollapsibleSection title="Privacy Policy" content={
