@@ -84,6 +84,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleLogin, toggleJoinUs }) => {
 
       {isOpen && (
         <div className="links">
+            <button onClick={() => setIsOpen(false)} className="close-button" aria-label="Close Menu"></button>
           {/* Show different menus based on login state */}
           {isAuthenticated ? loggedInMenu : loggedOutMenu}
         </div>
