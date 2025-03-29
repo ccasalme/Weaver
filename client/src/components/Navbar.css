@@ -90,38 +90,36 @@
     border-bottom: none;
 }
 
-/* media queries */
+/* Media Queries */
 @media (max-width: 768px) {
     .navbar .hamburger {
-        width: 40px; /* Smaller width */
-        height: 20px; /* Smaller height */
-        padding: 5px; /* Smaller padding */
-    }
-
-    .navbar .hamburger span {
-        height: 5px; /* Thinner lines */
+        width: 25px; /* Adjust width for smaller screens */
+        height: 20px; /* Adjust height for smaller screens */
     }
 
     .navbar .links {
-        padding: 40px; /* Less padding */
-        font-size: 30px; /* Smaller font size for links */
+        display: flex; /* Make links visible on smaller screens */
+        width: 100%; /* Full width */
+        top: 60px; /* Adjust top position to make it drop down */
+    }
+
+    .links a {
+        font-size: 18px; /* Increase font size for better visibility */
     }
 }
 
 @media (max-width: 480px) {
     .navbar .hamburger {
-        width: 60px; /* Even smaller width */
-        height: 50px; /* Even smaller height */
-        padding: 3px; /* Even less padding */
-    }
-
-    .navbar .hamburger span {
-        height: 3px; /* Even thinner lines */
+        width: 20px; /* Further reduce width */
+        height: 15px; /* Further reduce height */
     }
 
     .navbar .links {
-        padding: 20px; /* Even less padding */
-        font-size: 20px; /* Even smaller font size for links */
+        top: 45px; /* Adjust top position for very small screens */
+    }
+
+    .links a {
+        font-size: 16px; /* Adjust font size for very small screens */
     }
 }
 
