@@ -11,6 +11,7 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [isClosing, setIsClosing] = useState<boolean>(false);
 
   // Simulated login backend
   const mockLogin = async (email: string, password: string) => {
@@ -24,6 +25,12 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
         }
       }, 1000);
     });
+  };
+
+  // Handle modal close with animation
+  const handleClose = () => {
+    setIsClosing(true); // Add closing animation
+    setTimeout(onClose, 300); // Delay to match animation duration
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -44,7 +51,7 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
     try {
       await mockLogin(email, password);
       alert("Logged in successfully! 🎉");
-      onClose(); // Close modal on successful login
+      handleClose(); // Close modal after successful login
     } catch {
       console.error("Login failed: Invalid email or password.");
       setError("Invalid email or password.");
@@ -52,9 +59,12 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
   };
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <button className="close-btn" onClick={onClose}>
+    <div className="modal-backdrop" onClick={handleClose}>
+      <div
+        className={`modal ${isClosing ? "modal-closing" : ""}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button className="close-btn" onClick={handleClose}>
           ❎
         </button>
         <h2>Welcome Back</h2>
@@ -76,7 +86,7 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
           />
           <button type="submit">Log In</button>
         </form>
-        <p style={{color: "black"}}>
+        <p style={{ color: "black" }}>
           Don’t have an account?{" "}
           <button type="button" onClick={switchToJoinUs}>
             Join us here.

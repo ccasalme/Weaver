@@ -1,7 +1,7 @@
+// src/components/JoinUs.tsx
 import React, { useState } from "react";
-import "./Modal.css"; // Add relevant styling
+import "./Modal.css"; // Modal styles
 
-// Props interface to define the props passed into JoinUs
 interface JoinUsProps {
   onClose: () => void;
   switchToLogin: () => void;
@@ -13,26 +13,29 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [fullName, setFullName] = useState<string>("");
-
   const [error, setError] = useState<string | null>(null);
+  const [isClosing, setIsClosing] = useState<boolean>(false);
+
+  // Handle modal close with animation
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(onClose, 300);
+  };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Basic form validation
     if (!email || !username || !password || !confirmPassword || !fullName) {
       setError("Please fill in all fields.");
       return;
     }
 
-    // Check if passwords match
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
     try {
-      // Assign values to userData inside try block (correct placement)
       const userData = {
         fullName,
         username,
@@ -42,9 +45,7 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
 
       console.log("Saving user to the database:", userData);
       alert("Account created successfully! 🎉");
-
-      // Close modal after successful sign-up
-      onClose();
+      handleClose();
     } catch (error) {
       console.error("Error while creating account:", error);
       setError("Error while creating account. Please try again.");
@@ -52,10 +53,13 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
   };
 
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <button className="close-btn" onClick={onClose}>
-          ❎ 
+    <div className="modal-backdrop" onClick={handleClose}>
+      <div
+        className={`modal ${isClosing ? "modal-closing" : ""}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button className="close-btn" onClick={handleClose}>
+          ❎
         </button>
         <h2>Join Weaver</h2>
         {error && <p className="error">{error}</p>}
@@ -97,7 +101,7 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
           />
           <button type="submit">Sign Up</button>
         </form>
-        <p style={{color: "black"}}>
+        <p style={{ color: "black" }}>
           Already have an account?{" "}
           <button type="button" onClick={switchToLogin}>
             Log in here.
