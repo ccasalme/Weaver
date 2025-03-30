@@ -3,6 +3,15 @@ import React, { useState, useEffect } from "react";
 import "./Wireframe.css"; // Import the CSS for styling
 import Login from "../components/Login";
 import JoinUs from "../components/JoinUs";
+import dummyStories from "../data/dummyStories.json"; // ✅ Import dummy stories
+
+// ✅ Define Story Interface
+interface Story {
+  id: number;
+  title: string;
+  content: string;
+  author: string;
+}
 
 const Homepage: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -15,15 +24,6 @@ const Homepage: React.FC = () => {
     console.log("Token found:", !!token);
     setIsAuthenticated(!!token);
   }, []);
-
-  // ✅ Debug State Changes
-  useEffect(() => {
-    console.log("showLogin:", showLogin);
-  }, [showLogin]);
-
-  useEffect(() => {
-    console.log("showJoinUs:", showJoinUs);
-  }, [showJoinUs]);
 
   return (
     <div className="page-container">
@@ -61,7 +61,10 @@ const Homepage: React.FC = () => {
           {/* Main Content for Non-Logged-In Users */}
           <div className="main-content">
             <h2>Explore Stories</h2>
-            <p>Sign up or log in to explore, create, and engage with the Weaver community!</p>
+            <p>
+              Sign up or log in to explore, create, and engage with the Weaver
+              community!
+            </p>
           </div>
         </>
       ) : (
@@ -73,6 +76,24 @@ const Homepage: React.FC = () => {
           </div>
         </>
       )}
+
+      {/* ✅ Stories Section (Visible to ALL Users) */}
+      <div className="story-feed">
+        <h2>Recent Stories</h2>
+        {dummyStories.length > 0 ? (
+          dummyStories.map((story: Story) => (
+            <div key={story.id} className="story-card">
+              <h3>{story.title}</h3>
+              <p>{story.content}</p>
+              <p>
+                <strong>By:</strong> {story.author}
+              </p>
+            </div>
+          ))
+        ) : (
+          <p>No stories available at the moment.</p>
+        )}
+      </div>
 
       {/* ✅ Render modals for Login and JoinUs */}
       {showLogin && (
