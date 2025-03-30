@@ -14,10 +14,11 @@
     justify-content: flex-start;
     align-items: center;
     text-align: center;
-    z-index: -1;
+    z-index: 1; /* ✅ Changed to 1 */
     background-attachment: fixed;
     overflow-y: auto;
 }
+
 
 /* 🎯 Auth/Feed Container Styles */
 .auth-container,
@@ -49,12 +50,16 @@ button:hover {
 }
 
 /* 🎯 Button for Auth Actions */
+/* ✅ Button Styles */
+button,
 .login-btn,
 .join-btn {
-    background-color: #b0d5f5;
-    color: black;
-    margin-top: 12px;
+    position: relative;
+    z-index: 1000; /* ✅ High enough to ensure they are clickable */
+    cursor: pointer;
 }
+
+
 
 .login-btn:hover,
 .join-btn:hover {

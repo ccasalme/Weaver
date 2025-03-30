@@ -12,8 +12,18 @@ const Homepage: React.FC = () => {
   // ✅ Simulated login check
   useEffect(() => {
     const token = localStorage.getItem("token");
+    console.log("Token found:", !!token);
     setIsAuthenticated(!!token);
   }, []);
+
+  // ✅ Debug State Changes
+  useEffect(() => {
+    console.log("showLogin:", showLogin);
+  }, [showLogin]);
+
+  useEffect(() => {
+    console.log("showJoinUs:", showJoinUs);
+  }, [showJoinUs]);
 
   return (
     <div className="page-container">
@@ -24,10 +34,26 @@ const Homepage: React.FC = () => {
           <div className="auth-container">
             <h2>Welcome to Weaver!</h2>
             <p>Join us to explore, create, and engage with stories.</p>
-            <button onClick={() => setShowLogin(true)} className="login-btn">
+
+            {/* ✅ Login Button */}
+            <button
+              onClick={() => {
+                console.log("✅ Login button clicked!");
+                setShowLogin(true);
+              }}
+              className="login-btn"
+            >
               Login
             </button>
-            <button onClick={() => setShowJoinUs(true)} className="join-btn">
+
+            {/* ✅ Join Us Button */}
+            <button
+              onClick={() => {
+                console.log("✅ Join Us button clicked!");
+                setShowJoinUs(true);
+              }}
+              className="join-btn"
+            >
               Join Us
             </button>
           </div>
@@ -51,17 +77,26 @@ const Homepage: React.FC = () => {
       {/* ✅ Render modals for Login and JoinUs */}
       {showLogin && (
         <Login
-          onClose={() => setShowLogin(false)}
+          onClose={() => {
+            console.log("❎ Closing Login Modal");
+            setShowLogin(false);
+          }}
           switchToJoinUs={() => {
+            console.log("🔄 Switching to Join Us Modal");
             setShowLogin(false);
             setShowJoinUs(true);
           }}
         />
       )}
+
       {showJoinUs && (
         <JoinUs
-          onClose={() => setShowJoinUs(false)}
+          onClose={() => {
+            console.log("❎ Closing Join Us Modal");
+            setShowJoinUs(false);
+          }}
           switchToLogin={() => {
+            console.log("🔄 Switching to Login Modal");
             setShowJoinUs(false);
             setShowLogin(true);
           }}
