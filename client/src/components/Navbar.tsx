@@ -5,14 +5,25 @@ import "./Navbar.css";
 import Login from "./Login";
 import JoinUs from "./JoinUs";
 
-const isAuthenticated = false; // Placeholder for auth logic
-
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isFloating, setIsFloating] = useState<boolean>(false);
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const [showJoinUs, setShowJoinUs] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(!!token);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+    alert("Logged out successfully! ❎");
+  };
+
+  // ✅ Handle Scroll for Floating Navbar
   useEffect(() => {
     const handleScroll = (): void => {
       const shouldBeFloating = window.scrollY > 100;
@@ -25,7 +36,7 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
-  // Define menu based on login state
+  // ✅ Menu for Logged-In Users
   const loggedInMenu = (
     <>
       <Link to="/" onClick={() => setIsOpen(false)}>
@@ -43,12 +54,11 @@ const Navbar: React.FC = () => {
       <Link to="/architects" onClick={() => setIsOpen(false)}>
         About the Architects
       </Link>
-      <Link to="/logout" onClick={() => setIsOpen(false)}>
-        Log out
-      </Link>
+      <button onClick={handleLogout}>Log out</button>
     </>
   );
 
+  // ✅ Menu for Logged-Out Users
   const loggedOutMenu = (
     <>
       <Link to="/" onClick={() => setIsOpen(false)}>
@@ -91,7 +101,7 @@ const Navbar: React.FC = () => {
         </>
       )}
 
-      {/* Show modals if triggered */}
+      {/* ✅ Modals for Login and JoinUs */}
       {showLogin && (
         <Login
           onClose={() => setShowLogin(false)}

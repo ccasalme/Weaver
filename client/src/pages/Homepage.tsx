@@ -27,54 +27,34 @@ const Homepage: React.FC = () => {
 
   return (
     <div className="page-container">
-      {/* ✅ Show login and join us buttons if NOT logged in */}
-      {!isAuthenticated ? (
-        <>
-          {/* Auth Container for Login/Join Us */}
-          <div className="auth-container">
-            <h2>Welcome to Weaver!</h2>
-            <p>Join us to explore, create, and engage with stories.</p>
+      {/* ✅ Show login and join us buttons only if NOT logged in */}
+      {!isAuthenticated && (
+        <div className="auth-container">
+          <h2>Welcome to Weaver!</h2>
+          <p>Join us to explore, create, and engage with stories.</p>
 
-            {/* ✅ Login Button */}
-            <button
-              onClick={() => {
-                console.log("✅ Login button clicked!");
-                setShowLogin(true);
-              }}
-              className="login-btn"
-            >
-              Login
-            </button>
+          {/* ✅ Login Button */}
+          <button
+            onClick={() => {
+              console.log("✅ Login button clicked!");
+              setShowLogin(true);
+            }}
+            className="login-btn"
+          >
+            Login
+          </button>
 
-            {/* ✅ Join Us Button */}
-            <button
-              onClick={() => {
-                console.log("✅ Join Us button clicked!");
-                setShowJoinUs(true);
-              }}
-              className="join-btn"
-            >
-              Join Us
-            </button>
-          </div>
-
-          {/* Main Content for Non-Logged-In Users */}
-          <div className="main-content">
-            <h2>Explore Stories</h2>
-            <p>
-              Sign up or log in to explore, create, and engage with the Weaver
-              community!
-            </p>
-          </div>
-        </>
-      ) : (
-        <>
-          {/* ✅ Show feed if logged in */}
-          <div className="feed-container">
-            <h1>Welcome Back!</h1>
-            <p>Explore, write, and engage with your favorite stories.</p>
-          </div>
-        </>
+          {/* ✅ Join Us Button */}
+          <button
+            onClick={() => {
+              console.log("✅ Join Us button clicked!");
+              setShowJoinUs(true);
+            }}
+            className="join-btn"
+          >
+            Join Us
+          </button>
+        </div>
       )}
 
       {/* ✅ Stories Section (Visible to ALL Users) */}

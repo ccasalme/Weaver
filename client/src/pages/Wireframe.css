@@ -200,4 +200,20 @@ button,
       font-size: 0.9rem;
     }
   }
+  /* 🎉 Auth Container Hidden after Login */
+.auth-container.hidden {
+    display: none;
+  }
+  
+  /* ✅ Logout Button Style */
+  button.logout-btn {
+    background-color: #ff4d4d;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  button.logout-btn:hover {
+    background-color: #ff3333;
+  }
+  
   
