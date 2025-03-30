@@ -14,13 +14,6 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [fullName, setFullName] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const [isClosing, setIsClosing] = useState<boolean>(false);
-
-  // Handle modal close with animation
-  const handleClose = () => {
-    setIsClosing(true);
-    setTimeout(onClose, 300);
-  };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,20 +38,16 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
 
       console.log("Saving user to the database:", userData);
       alert("Account created successfully! 🎉");
-      handleClose();
-    } catch (error) {
-      console.error("Error while creating account:", error);
+      onClose();
+    } catch {
       setError("Error while creating account. Please try again.");
     }
   };
 
   return (
-    <div className="modal-backdrop" onClick={handleClose}>
-      <div
-        className={`modal ${isClosing ? "modal-closing" : ""}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button className="close-btn" onClick={handleClose}>
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <button className="close-btn" onClick={onClose}>
           ❎
         </button>
         <h2>Join Weaver</h2>

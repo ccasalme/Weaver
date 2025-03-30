@@ -11,6 +11,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 function App() {
+  console.log("App component rendered");
   return (
     <>
       {/* Fixed Navbar - No props passed here */}

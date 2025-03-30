@@ -11,9 +11,8 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [isClosing, setIsClosing] = useState<boolean>(false);
 
-  // Simulated login backend
+  // ✅ Simulated login backend
   const mockLogin = async (email: string, password: string) => {
     console.log("Logging in with:", email, password);
     return new Promise((resolve, reject) => {
@@ -27,22 +26,16 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
     });
   };
 
-  // Handle modal close with animation
-  const handleClose = () => {
-    setIsClosing(true); // Add closing animation
-    setTimeout(onClose, 300); // Delay to match animation duration
-  };
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Check if fields are empty
+    // ✅ Check for empty fields
     if (!email || !password) {
       setError("Both fields are required.");
       return;
     }
 
-    // Validate email format
+    // ✅ Validate email format
     if (!/^\S+@\S+\.\S+$/.test(email)) {
       setError("Please enter a valid email address.");
       return;
@@ -51,20 +44,16 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
     try {
       await mockLogin(email, password);
       alert("Logged in successfully! 🎉");
-      handleClose(); // Close modal after successful login
+      onClose();
     } catch {
-      console.error("Login failed: Invalid email or password.");
       setError("Invalid email or password.");
     }
   };
 
   return (
-    <div className="modal-backdrop" onClick={handleClose}>
-      <div
-        className={`modal ${isClosing ? "modal-closing" : ""}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button className="close-btn" onClick={handleClose}>
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <button className="close-btn" onClick={onClose}>
           ❎
         </button>
         <h2>Welcome Back</h2>

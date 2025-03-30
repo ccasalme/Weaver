@@ -217,3 +217,87 @@ button:hover {
         height: 100vh;
     }
 }
+
+/* ========================= */
+/* 🎨 Hero Banner Container  */
+/* ========================= */
+.hero-banner-container {
+	position: relative;
+	width: 100%;
+	max-width: 1200px;
+	margin-top: 0;
+	margin-bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+  }
+
+/* 📸 Banner Image */
+.hero-banner {
+    width: 50%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+}
+
+/* 🎯 Login Button Styling */
+.login-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background-color: #b0d5f5;
+    color: #000;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #9cc0e0;
+}
+
+/* ========================= */
+/* ✅ Feed Container Styles  */
+/* ========================= */
+.feed-container {
+    margin-top: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 900px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* ✅ Push content down when not logged in */
+.main-content {
+    margin-top: 20px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 📱 Mobile Styling */
+@media (max-width: 768px) {
+    .hero-banner-container {
+        max-height: 400px;
+    }
+
+    .hero-banner {
+        max-height: 400px;
+    }
+
+    .login-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .feed-container {
+        width: 95%;
+    }
+}
