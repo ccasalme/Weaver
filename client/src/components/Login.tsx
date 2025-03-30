@@ -1,6 +1,7 @@
 // src/components/Login.tsx
 import React, { useState } from "react";
 import "./Modal.css"; // Modal styles
+import dummyUser from "../data/dummyUser.json"; // ✅ Import dummy user data
 
 interface LoginProps {
   onClose: () => void;
@@ -8,19 +9,22 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
-  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>(""); // ✅ Changed to username
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  // ✅ Simulated login backend
-  const mockLogin = async (email: string, password: string) => {
-    console.log("Logging in with:", email, password);
+  // ✅ Simulated login backend using dummyUser.json
+  const mockLogin = async (username: string, password: string) => {
+    console.log("Logging in with:", username, password);
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        if (email === "test@weaver.com" && password === "password123") {
+        if (
+          username === dummyUser.username &&
+          password === dummyUser.password
+        ) {
           resolve("Login successful!");
         } else {
-          reject("Invalid email or password.");
+          reject("Invalid username or password.");
         }
       }, 1000);
     });
@@ -30,23 +34,17 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
     e.preventDefault();
 
     // ✅ Check for empty fields
-    if (!email || !password) {
+    if (!username || !password) {
       setError("Both fields are required.");
       return;
     }
 
-    // ✅ Validate email format
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
     try {
-      await mockLogin(email, password);
+      await mockLogin(username, password);
       alert("Logged in successfully! 🎉");
-      onClose();
+      onClose(); // ✅ Close modal after successful login
     } catch {
-      setError("Invalid email or password.");
+      setError("Invalid username or password.");
     }
   };
 
@@ -60,10 +58,10 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
         {error && <p className="error">{error}</p>}
         <form onSubmit={handleLogin}>
           <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text" // ✅ Changed to text for username
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
           <input
