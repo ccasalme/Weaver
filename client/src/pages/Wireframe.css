@@ -5,8 +5,8 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw; /* Full width always */
-    height: 100vh; /* Full height always */
+    width: 100vw;
+    height: 100vh;
     background: url('../assets/WireFrameBackground.png') center center / cover
         no-repeat;
     display: flex;
@@ -15,31 +15,11 @@
     align-items: center;
     text-align: center;
     z-index: -1;
-    background-attachment: fixed; /* Keep it fixed while scrolling */
-    overflow-y: auto; /* Allow scrolling for content */
+    background-attachment: fixed;
+    overflow-y: auto;
 }
 
-/* 🎯 Main Content Styling */
-h1,
-p {
-    z-index: 1;
-    padding: 0 20px;
-    color: #fff;
-}
-
-h1 {
-    margin-top: 20px;
-    margin-bottom: 0.5rem;
-    font-size: 2.5rem;
-}
-
-p {
-    font-size: 1.5rem;
-}
-
-/* ========================== */
-/* 📚 Auth/Feed Container Styles */
-/* ========================== */
+/* 🎯 Auth/Feed Container Styles */
 .auth-container,
 .feed-container {
     background: rgba(255, 255, 255, 0.9);
@@ -52,41 +32,7 @@ p {
     z-index: 10;
 }
 
-/* ✅ Story Feed Styles */
-.story-feed {
-    width: 90%;
-    max-width: 600px;
-    margin-top: 20px;
-}
-
-/* 🎉 Story Card Styles */
-.story-card {
-    background-color: #f9f9f9;
-    padding: 15px;
-    margin-bottom: 12px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    text-align: left;
-}
-
-/* 🌸 Form and Input Styles */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-input,
-textarea {
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 14px;
-    outline: none;
-    width: 100%;
-}
-
-/* ✅ Submit Button */
+/* ✅ Button Styles */
 button {
     background-color: #4caf50;
     color: white;
@@ -95,10 +41,44 @@ button {
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 10px;
 }
 
 button:hover {
     background-color: #45a049;
+}
+
+/* 🎯 Button for Auth Actions */
+.login-btn,
+.join-btn {
+    background-color: #b0d5f5;
+    color: black;
+    margin-top: 12px;
+}
+
+.login-btn:hover,
+.join-btn:hover {
+    background-color: #9cc0e0;
+}
+
+/* ✅ Feed Container Styles */
+.feed-container {
+    margin-top: 40px;
+    padding: 20px;
+    width: 100%;
+    max-width: 900px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* ✅ Push content down when not logged in */
+.main-content {
+    margin-top: 20px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* ========================== */
@@ -151,44 +131,13 @@ button:hover {
 /* ========================== */
 /* 🌸 Mobile & Responsive Styling */
 /* ========================== */
-
-/* iPads, Tablets, Foldables */
-@media (max-width: 1024px) {
-    h1 {
-        font-size: 2rem;
-    }
-
-    p {
-        font-size: 1.2rem;
-    }
-
-    .page-container {
-        background-size: cover;
-        height: 100vh;
-    }
-}
-
-/* 📱 Mobile Devices */
 @media (max-width: 768px) {
-    h1 {
-        font-size: 1.5rem;
-    }
-
-    p {
-        font-size: 1rem;
-    }
-
-    .page-container {
-        background-size: cover;
-    }
-
     .auth-container,
     .feed-container {
         width: 95%;
     }
 }
 
-/* 📱 Smaller Mobile Screens */
 @media (max-width: 430px) {
     h1 {
         font-size: 1.3rem;
@@ -196,108 +145,5 @@ button:hover {
 
     p {
         font-size: 0.9rem;
-    }
-
-    .page-container {
-        height: 100vh;
-    }
-}
-
-/* 📱 Very Small Devices */
-@media (max-width: 320px) {
-    h1 {
-        font-size: 1rem;
-    }
-
-    p {
-        font-size: 0.75rem;
-    }
-
-    .page-container {
-        height: 100vh;
-    }
-}
-
-/* ========================= */
-/* 🎨 Hero Banner Container  */
-/* ========================= */
-.hero-banner-container {
-	position: relative;
-	width: 100%;
-	max-width: 1200px;
-	margin-top: 0;
-	margin-bottom: 20px;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-  }
-
-/* 📸 Banner Image */
-.hero-banner {
-    width: 50%;
-    height: auto;
-    max-height: 500px;
-    object-fit: cover;
-}
-
-/* 🎯 Login Button Styling */
-.login-btn {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background-color: #b0d5f5;
-    color: #000;
-    padding: 12px 24px;
-    font-size: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.3s ease;
-}
-
-.login-btn:hover {
-    background-color: #9cc0e0;
-}
-
-/* ========================= */
-/* ✅ Feed Container Styles  */
-/* ========================= */
-.feed-container {
-    margin-top: 20px;
-    padding: 20px;
-    width: 100%;
-    max-width: 900px;
-    box-sizing: border-box;
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-
-/* ✅ Push content down when not logged in */
-.main-content {
-    margin-top: 20px;
-    padding: 20px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-/* 📱 Mobile Styling */
-@media (max-width: 768px) {
-    .hero-banner-container {
-        max-height: 400px;
-    }
-
-    .hero-banner {
-        max-height: 400px;
-    }
-
-    .login-btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-
-    .feed-container {
-        width: 95%;
     }
 }

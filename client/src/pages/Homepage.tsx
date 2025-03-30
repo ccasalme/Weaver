@@ -1,6 +1,6 @@
 // src/pages/Homepage.tsx
 import React, { useState, useEffect } from "react";
-import "./Wireframe.css"; // Import CSS for styling
+import "./Wireframe.css"; // Import the CSS for styling
 import Login from "../components/Login";
 import JoinUs from "../components/JoinUs";
 
@@ -12,41 +12,35 @@ const Homepage: React.FC = () => {
   // ✅ Simulated login check
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("Token found:", !!token); // Debug log
     setIsAuthenticated(!!token);
   }, []);
 
-  // ✅ Render the Home Page
   return (
     <div className="page-container">
-      {/* ✅ Show Log In & Join Us if NOT logged in */}
+      {/* ✅ Show login and join us buttons if NOT logged in */}
       {!isAuthenticated ? (
         <>
-          <div className="main-content">
-            <h1>Explore Stories</h1>
-            <button
-              onClick={() => {
-                console.log("Login button clicked!");
-                setShowLogin(true);
-              }}
-              className="btn-primary"
-            >
-              Log In
+          {/* Auth Container for Login/Join Us */}
+          <div className="auth-container">
+            <h2>Welcome to Weaver!</h2>
+            <p>Join us to explore, create, and engage with stories.</p>
+            <button onClick={() => setShowLogin(true)} className="login-btn">
+              Login
             </button>
-            <button
-              onClick={() => {
-                console.log("Join Us button clicked!");
-                setShowJoinUs(true);
-              }}
-              className="btn-secondary"
-            >
+            <button onClick={() => setShowJoinUs(true)} className="join-btn">
               Join Us
             </button>
+          </div>
+
+          {/* Main Content for Non-Logged-In Users */}
+          <div className="main-content">
+            <h2>Explore Stories</h2>
+            <p>Sign up or log in to explore, create, and engage with the Weaver community!</p>
           </div>
         </>
       ) : (
         <>
-          {/* ✅ Show user feed if logged in */}
+          {/* ✅ Show feed if logged in */}
           <div className="feed-container">
             <h1>Welcome Back!</h1>
             <p>Explore, write, and engage with your favorite stories.</p>
@@ -57,10 +51,7 @@ const Homepage: React.FC = () => {
       {/* ✅ Render modals for Login and JoinUs */}
       {showLogin && (
         <Login
-          onClose={() => {
-            console.log("Login modal closed");
-            setShowLogin(false);
-          }}
+          onClose={() => setShowLogin(false)}
           switchToJoinUs={() => {
             setShowLogin(false);
             setShowJoinUs(true);
@@ -69,10 +60,7 @@ const Homepage: React.FC = () => {
       )}
       {showJoinUs && (
         <JoinUs
-          onClose={() => {
-            console.log("Join Us modal closed");
-            setShowJoinUs(false);
-          }}
+          onClose={() => setShowJoinUs(false)}
           switchToLogin={() => {
             setShowJoinUs(false);
             setShowLogin(true);
