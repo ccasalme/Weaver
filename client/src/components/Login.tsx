@@ -1,6 +1,6 @@
 // src/components/Login.tsx
 import React, { useState } from "react";
-import "./AuthModal.css"; // Modal styles
+import "./Modal.css"; // Modal styles
 
 interface LoginProps {
   onClose: () => void;
@@ -76,7 +76,7 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
           />
           <button type="submit">Log In</button>
         </form>
-        <p>
+        <p style={{color: "black"}}>
           Don’t have an account?{" "}
           <button type="button" onClick={switchToJoinUs}>
             Join us here.

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./AuthModal.css"; // Add relevant styling
+import "./Modal.css"; // Add relevant styling
 
 // Props interface to define the props passed into JoinUs
 interface JoinUsProps {
@@ -55,7 +55,7 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
     <div className="modal">
       <div className="modal-content">
         <button className="close-btn" onClick={onClose}>
-          ❎
+          ❎ 
         </button>
         <h2>Join Weaver</h2>
         {error && <p className="error">{error}</p>}
@@ -97,7 +97,7 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
           />
           <button type="submit">Sign Up</button>
         </form>
-        <p>
+        <p style={{color: "black"}}>
           Already have an account?{" "}
           <button type="button" onClick={switchToLogin}>
             Log in here.
