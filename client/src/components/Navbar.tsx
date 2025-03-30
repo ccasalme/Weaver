@@ -1,47 +1,127 @@
-// // This is a React functional component for a responsive navigation bar.
-// // It includes a hamburger menu for mobile view and handles scroll events to change the navbar's style.
-// // The component uses TypeScript for type safety and React hooks for state management and lifecycle methods.
-
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './Navbar.css'; // Ensure you have this CSS file in your project
+// src/components/Navbar.tsx
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./Navbar.css";
+import Login from "./Login";
+import JoinUs from "./JoinUs";
 
 const Navbar: React.FC = () => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [isFloating, setIsFloating] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isFloating, setIsFloating] = useState<boolean>(false);
+  const [showLogin, setShowLogin] = useState<boolean>(false);
+  const [showJoinUs, setShowJoinUs] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-    useEffect(() => {
-        const handleScroll = (): void => {
-            const shouldBeFloating = window.scrollY > 100;
-            setIsFloating(shouldBeFloating);
-        };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(!!token);
+  }, []);
 
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+    alert("Logged out successfully! ❎");
+  };
 
-    return (
-        <nav className={`navbar ${isFloating ? 'floating' : ''}`}>
-            <div className="hamburger" onClick={() => setIsOpen(!isOpen)}>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            {isOpen && (
-                <div className="links">
-                    <button onClick={() => setIsOpen(false)} className="close-button" aria-label="Close Menu"></button>
-                    <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
-                    <Link to="/profile" onClick={() => setIsOpen(false)}>Profile</Link>
-                    <Link to="/architects" onClick={() => setIsOpen(false)}>Architects</Link>
-                    <Link to="/privacy" onClick={() => setIsOpen(false)}>Privacy</Link>
-                    <Link to="/rules" onClick={() => setIsOpen(false)}>Rules</Link>
-                    <Link to="/weaverinfo" onClick={() => setIsOpen(false)}>About Weaver</Link>
-                </div>
-            )}
-        </nav>
-    );
+  // ✅ Handle Scroll for Floating Navbar
+  useEffect(() => {
+    const handleScroll = (): void => {
+      const shouldBeFloating = window.scrollY > 100;
+      setIsFloating(shouldBeFloating);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // ✅ Menu for Logged-In Users
+  const loggedInMenu = (
+    <>
+      <Link to="/" onClick={() => setIsOpen(false)}>
+        Home
+      </Link>
+      <Link to="/profile" onClick={() => setIsOpen(false)}>
+        Profile
+      </Link>
+      <Link to="/weaverinfo" onClick={() => setIsOpen(false)}>
+        What is Weaver
+      </Link>
+      <Link to="/rules" onClick={() => setIsOpen(false)}>
+        Rules and Guidelines
+      </Link>
+      <Link to="/architects" onClick={() => setIsOpen(false)}>
+        About the Architects
+      </Link>
+      <button onClick={handleLogout}>Log out</button>
+    </>
+  );
+
+  // ✅ Menu for Logged-Out Users
+  const loggedOutMenu = (
+    <>
+      <Link to="/" onClick={() => setIsOpen(false)}>
+        Home
+      </Link>
+      <Link to="/weaverinfo" onClick={() => setIsOpen(false)}>
+        What is Weaver
+      </Link>
+      <Link to="/rules" onClick={() => setIsOpen(false)}>
+        Rules and Guidelines
+      </Link>
+      <Link to="/architects" onClick={() => setIsOpen(false)}>
+        About the Architects
+      </Link>
+      <div className="auth-buttons">
+        <button onClick={() => setShowLogin(true)}>Log In</button>
+        <button onClick={() => setShowJoinUs(true)}>Join Us</button>
+      </div>
+    </>
+  );
+
+  return (
+    <nav className={`navbar ${isFloating ? "floating" : ""}`}>
+      <div className="hamburger" onClick={() => setIsOpen(!isOpen)}>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      {isOpen && (
+        <>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="close-button"
+            aria-label="Close Menu"
+          />
+          <div className="links">
+            {isAuthenticated ? loggedInMenu : loggedOutMenu}
+          </div>
+        </>
+      )}
+
+      {/* ✅ Modals for Login and JoinUs */}
+      {showLogin && (
+        <Login
+          onClose={() => setShowLogin(false)}
+          switchToJoinUs={() => {
+            setShowLogin(false);
+            setShowJoinUs(true);
+          }}
+        />
+      )}
+      {showJoinUs && (
+        <JoinUs
+          onClose={() => setShowJoinUs(false)}
+          switchToLogin={() => {
+            setShowJoinUs(false);
+            setShowLogin(true);
+          }}
+        />
+      )}
+    </nav>
+  );
 };
 
 export default Navbar;

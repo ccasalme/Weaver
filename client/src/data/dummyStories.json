@@ -1,0 +1,21 @@
+[
+	{
+	  "id": 1,
+	  "title": "The Rise of AI",
+	  "content": "Exploring how artificial intelligence is reshaping our world.",
+	  "author": "Jane Doe"
+	},
+	{
+	  "id": 2,
+	  "title": "Quantum Realms",
+	  "content": "A journey through the mysteries of quantum physics.",
+	  "author": "John Smith"
+	},
+	{
+	  "id": 3,
+	  "title": "Tales of the Cosmos",
+	  "content": "Discovering the wonders of the universe.",
+	  "author": "Astro Nomad"
+	}
+  ]
+  

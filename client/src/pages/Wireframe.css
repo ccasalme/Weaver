@@ -1,76 +1,148 @@
-/* Wireframe Background Styles */
+/* ========================== */
+/* 🌟 Core Page Container Styles */
+/* ========================== */
 .page-container {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw; /* Full width always */
-    height: 100vh; /* Full height always */
-    background: url('../assets/WireFrameBackground.png') center center / cover no-repeat;
+    width: 100vw;
+    height: 100vh;
+    background: url('../assets/WireFrameBackground.png') center center / cover
+        no-repeat;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    color: white;
     text-align: center;
-    z-index: -1;
-    background-attachment: fixed; /* Keep it fixed while scrolling */
+    z-index: 1; /* ✅ Changed to 1 */
+    background-attachment: fixed;
+    overflow-y: auto;
 }
 
-/* Content Styling */
-h1, p {
-    z-index: 1;
-    padding: 0 20px;
-    color: #fff;
+
+/* 🎯 Auth/Feed Container Styles */
+.auth-container,
+.feed-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    margin-top: 20px;
+    z-index: 10;
 }
 
-h1 {
-    margin-bottom: 0.5rem;
-    font-size: 2.5rem; /* Large font size for desktops */
+/* ✅ Button Styles */
+button {
+    background-color: #4caf50;
+    color: white;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
 }
 
-p {
-    font-size: 1.5rem; /* Suitable font size for detailed readability on desktops */
+button:hover {
+    background-color: #45a049;
+}
+
+/* 🎯 Button for Auth Actions */
+/* ✅ Button Styles */
+button,
+.login-btn,
+.join-btn {
+    position: relative;
+    z-index: 1000; /* ✅ High enough to ensure they are clickable */
+    cursor: pointer;
+}
+
+
+
+.login-btn:hover,
+.join-btn:hover {
+    background-color: #9cc0e0;
+}
+
+/* ✅ Feed Container Styles */
+.feed-container {
+    margin-top: 40px;
+    padding: 20px;
+    width: 100%;
+    max-width: 900px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* ✅ Push content down when not logged in */
+.main-content {
+    margin-top: 20px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* ========================== */
-/* 🎯 Media Queries Section */
+/* ✨ Modal Styles for Login & JoinUs */
 /* ========================== */
-
-/* 📚 iPad Mini, iPad Air, iPad Pro */
-@media (max-width: 1024px) {
-    h1 {
-        font-size: 2rem;
-    }
-
-    p {
-        font-size: 1.2rem;
-    }
-
-    .page-container {
-        background-size: cover; /* Maintain aspect ratio */
-        height: 100vh; /* Ensure it covers the viewport */
-        width: 100vw; /* Full width for tablets */
-    }
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
 }
 
-/* 📱 Mobile Devices */
+/* 🌟 Centered Modal */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgb(240, 238, 227);
+    background: radial-gradient(circle, rgba(240, 238, 227, 1) 63%, rgba(173, 180, 182, 1) 100%);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    z-index: 3001;
+}
+
+/* ❎ Close Button */
+.modal .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.modal .close-btn:hover {
+    color: #888;
+    transform: scale(1.2);
+}
+
+/* ========================== */
+/* 🌸 Mobile & Responsive Styling */
+/* ========================== */
 @media (max-width: 768px) {
-    h1 {
-        font-size: 1.5rem; /* Smaller font size for mobile */
-    }
-
-    p {
-        font-size: 1rem;
-    }
-
-    .page-container {
-        background-size: cover; /* Maintain full cover */
-        height: 100vh; /* Full height for mobile */
-        width: 100vw; /* Full width for mobile */
+    .auth-container,
+    .feed-container {
+        width: 95%;
     }
 }
 
-/* 📱 iPhone 12 Pro, iPhone 14 Pro Max, Pixel 7 */
 @media (max-width: 430px) {
     h1 {
         font-size: 1.3rem;
@@ -79,95 +151,69 @@ p {
     p {
         font-size: 0.9rem;
     }
-
-    .page-container {
-        background-size: cover;
-        height: 100vh;
-        width: 100vw;
-    }
 }
 
-/* 📱 iPhone SE, iPhone XR */
-@media (max-width: 390px) {
-    h1 {
-        font-size: 1.2rem;
+/* ========================= */
+/* 🎉 Story Feed Styles */
+/* ========================= */
+.story-feed {
+    width: 90%;
+    max-width: 800px;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* 🎯 Individual Story Card */
+  .story-card {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+  }
+  
+  .story-card h3 {
+    margin-top: 0;
+    font-size: 1.4rem;
+  }
+  
+  .story-card p {
+    margin: 5px 0;
+    font-size: 1rem;
+  }
+  
+  /* 📱 Responsive Story Styling */
+  @media (max-width: 768px) {
+    .story-feed {
+      width: 95%;
     }
-
-    p {
-        font-size: 0.85rem;
+  
+    .story-card h3 {
+      font-size: 1.2rem;
     }
-
-    .page-container {
-        background-size: cover;
-        height: 100vh;
-        width: 100vw;
+  
+    .story-card p {
+      font-size: 0.9rem;
     }
-}
-
-/* 🎮 Galaxy Z Fold 5, Foldables */
-@media (max-width: 653px) {
-    h1 {
-        font-size: 1.4rem;
-    }
-
-    p {
-        font-size: 1rem;
-    }
-
-    .page-container {
-        background-size: cover;
-        height: 100vh;
-        width: 100vw;
-    }
-}
-
-/* 📱 Samsung Galaxy A51/71, Nest Hub */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 1.3rem;
-    }
-
-    p {
-        font-size: 1rem;
-    }
-
-    .page-container {
-        background-size: cover;
-        height: 100vh;
-        width: 100vw;
-    }
-}
-
-/* 📱 Surface Pro 7, Surface Duo, Zenbook Fold */
-@media (max-width: 912px) {
-    h1 {
-        font-size: 1.7rem;
-    }
-
-    p {
-        font-size: 1.1rem;
-    }
-
-    .page-container {
-        background-size: cover;
-        height: 100vh;
-        width: 100vw;
-    }
-}
-
-/* 📱 Very Small Devices */
-@media (max-width: 320px) {
-    h1 {
-        font-size: 1rem;
-    }
-
-    p {
-        font-size: 0.75rem;
-    }
-
-    .page-container {
-        background-size: cover;
-        height: 100vh;
-        width: 100vw;
-    }
-}
+  }
+  /* 🎉 Auth Container Hidden after Login */
+.auth-container.hidden {
+    display: none;
+  }
+  
+  /* ✅ Logout Button Style */
+  button.logout-btn {
+    background-color: #ff4d4d;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  button.logout-btn:hover {
+    background-color: #ff3333;
+  }
+  
+  
