@@ -157,6 +157,8 @@
     font-size: 14px;
 }
 
+
+
 /* Media Queries for Close Button */
 @media (max-width: 768px) {
     .close-button {
@@ -272,3 +274,6 @@
         padding: 5px;
     }
 }
+
+
+

@@ -2,18 +2,16 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import Login from "./Login";
+import JoinUs from "./JoinUs";
 
-// Define props for toggleLogin and toggleJoinUs
-interface NavbarProps {
-  toggleLogin: () => void;
-  toggleJoinUs: () => void;
-}
+const isAuthenticated = false; // Placeholder for auth logic
 
-const isAuthenticated = false; // Placeholder auth logic (replace with real auth state)
-
-const Navbar: React.FC<NavbarProps> = ({ toggleLogin, toggleJoinUs }) => {
+const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isFloating, setIsFloating] = useState<boolean>(false);
+  const [showLogin, setShowLogin] = useState<boolean>(false);
+  const [showJoinUs, setShowJoinUs] = useState<boolean>(false);
 
   useEffect(() => {
     const handleScroll = (): void => {
@@ -65,14 +63,12 @@ const Navbar: React.FC<NavbarProps> = ({ toggleLogin, toggleJoinUs }) => {
       <Link to="/architects" onClick={() => setIsOpen(false)}>
         About the Architects
       </Link>
-      {/* New Auth Buttons for Login & JoinUs */}
       <div className="auth-buttons">
-        <button onClick={toggleLogin}>Log In</button>
-        <button onClick={toggleJoinUs}>Join Us</button>
+        <button onClick={() => setShowLogin(true)}>Log In</button>
+        <button onClick={() => setShowJoinUs(true)}>Join Us</button>
       </div>
     </>
   );
-  
 
   return (
     <nav className={`navbar ${isFloating ? "floating" : ""}`}>
@@ -84,13 +80,35 @@ const Navbar: React.FC<NavbarProps> = ({ toggleLogin, toggleJoinUs }) => {
 
       {isOpen && (
         <>
-        <button onClick={() => setIsOpen(false)} className="close-button" aria-label="Close Menu"></button>
-        <div className="links">
-          {/* Show different menus based on login state */}
-          {isAuthenticated ? loggedInMenu : loggedOutMenu}
-        </div>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="close-button"
+            aria-label="Close Menu"
+          />
+          <div className="links">
+            {isAuthenticated ? loggedInMenu : loggedOutMenu}
+          </div>
         </>
+      )}
 
+      {/* Show modals if triggered */}
+      {showLogin && (
+        <Login
+          onClose={() => setShowLogin(false)}
+          switchToJoinUs={() => {
+            setShowLogin(false);
+            setShowJoinUs(true);
+          }}
+        />
+      )}
+      {showJoinUs && (
+        <JoinUs
+          onClose={() => setShowJoinUs(false)}
+          switchToLogin={() => {
+            setShowJoinUs(false);
+            setShowLogin(true);
+          }}
+        />
       )}
     </nav>
   );
