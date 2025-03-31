@@ -44,7 +44,8 @@ const Navbar: React.FC = () => {
   // ✅ Menu for Logged-In Users
   const loggedInMenu = (
     <>
-      <Link to="/" onClick={() => setIsOpen(false)}>
+      <Link to="/" 
+        onClick={() => setIsOpen(false)}>
         Home
       </Link>
       <Link to="/profile" onClick={() => setIsOpen(false)}>

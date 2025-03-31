@@ -54,10 +54,27 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <button className="close-btn" onClick={onClose}>
+        <button className="close-btn"
+          type="button"
+          aria-label="Close" 
+          onClick={onClose}
+          style={{
+            background: "none",
+            border: "none",
+            boxShadow: "none",
+            outline: "none",
+            padding: 0,
+            zIndex: 99999,
+          }}>
           ❎
         </button>
-        <h2>Welcome Back</h2>
+        <h2
+          style={{color: "white", 
+          textAlign: "center",
+          background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+          filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
+          padding: "10px",
+          borderRadius: "5px"}}>Welcome Back</h2>
         {error && <p className="error">{error}</p>}
         <form onSubmit={handleLogin}>
           <input
@@ -74,11 +91,31 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit">Log In</button>
+          <button 
+            type="submit"
+            style={{
+              background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+              filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "50px",
+              border: "none",
+              cursor: "pointer"
+            }}>Log In</button>
         </form>
-        <p style={{ color: "black" }}>
+        <p style={{ color: "white" }}>
           Don’t have an account?{" "}
-          <button type="button" onClick={switchToJoinUs}>
+          <button type="button" 
+            onClick={switchToJoinUs}
+            style={{
+              background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+              filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "50px",
+              border: "none",
+              cursor: "pointer"
+            }}>
             Join us here.
           </button>
         </p>
