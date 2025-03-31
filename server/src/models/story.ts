@@ -41,6 +41,7 @@ const storySchema = new Schema<StoryDocument>(
     branches: [{
       type: Schema.Types.ObjectId,
       ref: 'Story',
+      default: [],
     }],
   },
   { timestamps: true }
