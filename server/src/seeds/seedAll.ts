@@ -1,10 +1,5 @@
 import db from '../config/connection.js';
-import User from '../models/User.js';
-import Profile from '../models/Profile.js';
-import Story from '../models/Story.js';
-import Comment from '../models/Comment.js';
-import Prompt from '../models/Prompt.js';
-import Vote from '../models/Vote.js';
+import { User, Profile, Story, Comment, Prompt, Vote } from '../models/index.js';
 import cleanDB from './cleanDB.js';
 
 import userData from './userData.json' assert { type: 'json' };
