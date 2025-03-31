@@ -69,6 +69,17 @@ const resolvers = {
           const token = signToken(user.username, user.email, user._id);
           return { token, user };
         },
+
+        createStory: async (_: any, { title, content }: { title: string; content: string }, context: any) => {
+          if (!context.user) throw new Error("You need to be logged in!");
+          
+          const story = await Story.create({ title, content, author: context.user._id });
+          await Profile.findOneAndUpdate(
+            { user: context.user._id },
+            { $push: { sharedStories: story._id } }
+          );
+          return story;
+        },
     },
 };
 
