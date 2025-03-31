@@ -10,7 +10,11 @@ const cleanDB = async (): Promise<void> => {
         await Comment.deleteMany({});
         await Prompt.deleteMany({});
         await Vote.deleteMany({});
-        console.log('Database cleared!');
-        process.exit(0);
+        console.log('Database cleaned!');
+    } catch (err) {
+       console.error('Error cleaning collections:', err);
+       process.exit(1);
     }
-}
+};
+
+export default cleanDB;
