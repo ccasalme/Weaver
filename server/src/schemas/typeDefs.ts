@@ -1,11 +1,11 @@
 const typeDefs = `
-type User {
-_id: ID!
-username: String!
-email: String!
-}
+  type User {
+    _id: ID!
+    username: String!
+    email: String!
+  }
 
-type Profile {
+  type Profile {
     _id: ID!
     user: User!
     bio: String
@@ -16,16 +16,27 @@ type Profile {
     likedStories: [Story]
   }
 
-type Auth {
+  type Story {
+    _id: ID!
+    title: String!
+    content: String!
+    author: User!
+    likes: Int
+    comments: [Comment]
+    parentStory: Story
+    branches: [Story]
+  }
+
+  type Auth {
     token: String!
     user: User!
   }
 
-type Query {
+  type Query {
     me: User
-}
+  }
 
-type Mutation {
+  type Mutation {
     login(email: String!, password: String!): Auth!
     addUser(username: String!, email: String!, password: String!): Auth!
   }
