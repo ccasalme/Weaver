@@ -16,6 +16,26 @@ const resolvers = {
       }
       return foundUser;
     },
+
+    myProfile: async (_: any, _args: any, context: any) => {
+      if (!context.user) {
+        throw new Error("You need to be logged in!");
+      }
+      const profile = await Profile.findOne({ user: context.user._id })
+        .populate('followers')
+        .populate('sharedStories')
+        .populate('branchedStories')
+        .populate('likedStories');
+      return profile;
+    },
+
+    getPrompts: async () => {
+      return await Prompt.find();
+    },
+
+    getStories: async () => {
+      return await Story.find().populate('author').populate('comments');
+    },
   },
 
 
