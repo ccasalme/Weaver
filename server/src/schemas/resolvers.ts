@@ -1,7 +1,4 @@
-import User from "../models/user.js";
-import Profile from "../models/profile.js";
-import Prompt from "../models/prompt.js";
-import Story from "../models/story.js";
+import { User, Profile, Prompt, Story } from "../models/index.js";
 import { signToken } from "../utils/auth.js";
 
 const resolvers = {
