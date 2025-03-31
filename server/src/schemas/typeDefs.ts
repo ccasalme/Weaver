@@ -27,6 +27,21 @@ const typeDefs = `
     branches: [Story]
   }
 
+  type Comment {
+    _id: ID!
+    content: String!
+    author: User!
+    story: Story!
+  }
+
+  type Prompt {
+    _id: ID!
+    category: String!
+    theme: String!
+    tone: String!
+    text: String!
+  }
+
   type Auth {
     token: String!
     user: User!
