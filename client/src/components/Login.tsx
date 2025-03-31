@@ -1,8 +1,9 @@
 // src/components/Login.tsx
 import React, { useState } from "react";
-import "./Modal.css"; // Modal styles
+import "./Modal.css";
 import dummyUser from "../data/dummyUser.json"; // ✅ Import dummy user data
 
+// ✅ Define props for Login component
 interface LoginProps {
   onClose: () => void;
   switchToJoinUs: () => void;
@@ -42,7 +43,9 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
     try {
       await mockLogin(username, password);
       alert("Logged in successfully! 🎉");
-      onClose(); // ✅ Close modal after successful login
+      localStorage.setItem("token", "dummy-auth-token"); // ✅ Save token
+      window.location.reload(); // ✅ Refresh to update navbar
+      onClose();
     } catch {
       setError("Invalid username or password.");
     }
