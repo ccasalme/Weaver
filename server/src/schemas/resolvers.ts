@@ -149,6 +149,27 @@ const resolvers = {
 
       return story;
     },
+
+    // Add a comment to a story
+    addComment: async (
+      _: any,
+      { storyId, content }: { storyId: string; content: string },
+      context: any
+    ) => {
+      if (!context.user) throw new Error("You need to be logged in!");
+
+      const comment = await Comment.create({
+        content,
+        story: storyId,
+        author: context.user._id,
+      });
+
+      await Story.findByIdAndUpdate(storyId, {
+        $push: { comments: comment._id },
+      });
+
+      return comment;
+    },
   },
 };
 
