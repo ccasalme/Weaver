@@ -49,6 +49,9 @@ const typeDefs = `
 
   type Query {
     me: User
+    myProfile: Profile
+    getPrompts: [Prompt]
+    getStories: [Story]
   }
 
   type Mutation {
