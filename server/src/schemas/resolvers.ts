@@ -1,4 +1,7 @@
 import User from '../models/user.js';
+import Profile from '../models/profile.js';
+import Prompt from '../models/prompt.js';
+import Story from '../models/story.js';
 import { signToken } from '../utils/auth.js';
 
 const resolvers = {
@@ -107,7 +110,7 @@ const resolvers = {
 
         likeStory: async (_: any, { storyId }: { storyId: string }, context: any) => {
           if (!context.user) throw new Error("You need to be logged in!");
-          
+
           const story = await Story.findById(storyId);
           if (!story) throw new Error("Story not found");
     
