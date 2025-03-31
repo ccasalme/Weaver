@@ -199,6 +199,26 @@ button.close-button,
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     text-align: left;
+    background: linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1);
+    color: white;
+    padding: 10px 20px;
+    border-radius: "50px";
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: none;
+  }
+  p {
+    color: white;
+    height: 100%;
+    width: 100%;
+    font-size: 1.5rem;
+    text-align: center, space-between;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: white;
+    font-size: 2rem;
+    text-align: center;
   }
   
   .story-card h3 {
