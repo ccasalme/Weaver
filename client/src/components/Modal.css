@@ -144,3 +144,34 @@
         padding: 10px 12px;
     }
 }
+
+/* ✅ Fix Button and Text Alignment */
+.modal p {
+    text-align: center; /* Centers inline content */
+    margin-top: 12px;
+    margin-bottom: 0; /* Ensure no extra margin */
+}
+
+.modal p button {
+    display: inline-block; /* Ensures button behaves properly */
+    margin-left: 8px;
+    vertical-align: middle; /* Keeps button aligned with text */
+}
+
+
+/* ✅ Center and space the bottom section */
+.modal .bottom-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Add space between the text and button */
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.modal p,
+.modal p button {
+    display: inline-block;
+    vertical-align: middle;
+}
+

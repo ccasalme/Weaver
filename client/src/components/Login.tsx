@@ -103,7 +103,16 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
               cursor: "pointer"
             }}>Log In</button>
         </form>
-        <p style={{ color: "white" }}>
+        <p 
+        className="bottom-section"
+        style={{ 
+          color: "white",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "8px",
+          marginTop: "10px",
+          }}>
           Don’t have an account?{" "}
           <button type="button" 
             onClick={switchToJoinUs}
