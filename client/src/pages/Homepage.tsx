@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import "./Wireframe.css"; // Import the CSS for styling
 import Login from "../components/Login";
 import JoinUs from "../components/JoinUs";
+import HeroBanner from "../assets/weaverBanner.png"; // ✅ Import HeroBanner
+import SecondBanner from "../assets/weaverBanner2.png"; // ✅ Import HeroBanner2
 import dummyStories from "../data/dummyStories.json"; // ✅ Import dummy stories
 
 // ✅ Define Story Interface
@@ -27,30 +29,60 @@ const Homepage: React.FC = () => {
 
   return (
     <div className="page-container">
+      {/* ✅ Hero Banner Section */}
+      <div className="banner-container">
+        <img src={HeroBanner} alt="Weaver Banner" className="hero-banner" />
+        <img src={SecondBanner} alt="Weaver Banner 2" className="hero-banner-2" />
+      </div>
+
+
       {/* ✅ Show login and join us buttons only if NOT logged in */}
       {!isAuthenticated && (
         <div className="auth-container">
-          <h2>Welcome to Weaver!</h2>
-          <p>Join us to explore, create, and engage with stories.</p>
+          <h2
+          style={{color: "white", 
+          textAlign: "center",
+          background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+          filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
+          padding: "10px",
+          borderRadius: "5px"}}>
+            Welcome to Weaver!
+          </h2>
+          <p
+          style={{color: "white", textAlign: "center"}}>
+            Join us to explore, create, and engage with stories.
+          </p>
 
           {/* ✅ Login Button */}
           <button
-            onClick={() => {
-              console.log("✅ Login button clicked!");
-              setShowLogin(true);
-            }}
+            onClick={() => setShowLogin(true)}
             className="login-btn"
+            style={{
+              background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+              filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "50px",
+              border: "none",
+              cursor: "pointer"
+            }}
           >
             Login
           </button>
 
           {/* ✅ Join Us Button */}
           <button
-            onClick={() => {
-              console.log("✅ Join Us button clicked!");
-              setShowJoinUs(true);
-            }}
+            onClick={() => setShowJoinUs(true)}
             className="join-btn"
+            style={{
+              background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+              filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "50px",
+              border: "none",
+              cursor: "pointer"
+            }}
           >
             Join Us
           </button>
@@ -58,11 +90,54 @@ const Homepage: React.FC = () => {
       )}
 
       {/* ✅ Stories Section (Visible to ALL Users) */}
-      <div className="story-feed">
-        <h2>Recent Stories</h2>
+      <div className="story-feed"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          maxWidth: "1200px",
+          height: "auto",
+          margin: "10px",
+          marginBottom: "50px",
+          padding: "10px",
+          border: "1px solid #ccc",
+          borderRadius: "5px",
+          paddingBottom: "50px"
+        }}>
+        <h2
+          style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "white", 
+          textAlign: "center",
+          background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+          filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
+          padding: "10px",
+          borderRadius: "5px"
+        }}
+        >Recent Stories</h2>
         {dummyStories.length > 0 ? (
           dummyStories.map((story: Story) => (
-            <div key={story.id} className="story-card">
+            <div key={story.id} 
+              className="story-card"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
+                maxWidth: "700px",
+                margin: "10px",
+                marginBottom: "20px",
+                padding: "10px",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+
+              }}>
               <h3>{story.title}</h3>
               <p>{story.content}</p>
               <p>
@@ -78,12 +153,8 @@ const Homepage: React.FC = () => {
       {/* ✅ Render modals for Login and JoinUs */}
       {showLogin && (
         <Login
-          onClose={() => {
-            console.log("❎ Closing Login Modal");
-            setShowLogin(false);
-          }}
+          onClose={() => setShowLogin(false)}
           switchToJoinUs={() => {
-            console.log("🔄 Switching to Join Us Modal");
             setShowLogin(false);
             setShowJoinUs(true);
           }}
@@ -92,12 +163,8 @@ const Homepage: React.FC = () => {
 
       {showJoinUs && (
         <JoinUs
-          onClose={() => {
-            console.log("❎ Closing Join Us Modal");
-            setShowJoinUs(false);
-          }}
+          onClose={() => setShowJoinUs(false)}
           switchToLogin={() => {
-            console.log("🔄 Switching to Login Modal");
             setShowJoinUs(false);
             setShowLogin(true);
           }}

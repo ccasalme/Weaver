@@ -1,6 +1,6 @@
 // src/components/Navbar.tsx
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import Login from "./Login";
 import JoinUs from "./JoinUs";
@@ -12,15 +12,20 @@ const Navbar: React.FC = () => {
   const [showJoinUs, setShowJoinUs] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+
+  // ✅ Check Auth Status on Initial Load
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
   }, []);
 
+  // ✅ Handle Logout Logic
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsAuthenticated(false);
     alert("Logged out successfully! ❎");
+    navigate("/"); // Redirect to homepage
   };
 
   // ✅ Handle Scroll for Floating Navbar
@@ -39,7 +44,8 @@ const Navbar: React.FC = () => {
   // ✅ Menu for Logged-In Users
   const loggedInMenu = (
     <>
-      <Link to="/" onClick={() => setIsOpen(false)}>
+      <Link to="/" 
+        onClick={() => setIsOpen(false)}>
         Home
       </Link>
       <Link to="/profile" onClick={() => setIsOpen(false)}>

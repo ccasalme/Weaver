@@ -33,38 +33,34 @@
     z-index: 10;
 }
 
-/* ✅ Button Styles */
-button {
-    background-color: #4caf50;
-    color: white;
-    padding: 12px 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../assets/PopUpBackground.png');
 }
 
-button:hover {
-    background-color: #45a049;
-}
 
 /* 🎯 Button for Auth Actions */
 /* ✅ Button Styles */
-button,
-.login-btn,
-.join-btn {
-    position: relative;
-    z-index: 1000; /* ✅ High enough to ensure they are clickable */
-    cursor: pointer;
+button {
+  padding: 8px 8px;
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+  border-radius: 12px;
+  background: rgb(207, 200, 200);
+  background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
+  box-shadow: 10px 10px 10px #3F403E;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 8px;
+  margin-top: 10px;
 }
 
-
-
-.login-btn:hover,
-.join-btn:hover {
-    background-color: #9cc0e0;
-}
 
 /* ✅ Feed Container Styles */
 .feed-container {
@@ -115,23 +111,16 @@ button,
     z-index: 3001;
 }
 
-/* ❎ Close Button */
-.modal .close-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background: none;
-    border: none;
-    color: #333;
-    font-size: 18px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
+button.close-button, 
+.modal .close-button {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0 !important;
+    z-index: 99999 !important;
 }
 
-.modal .close-btn:hover {
-    color: #888;
-    transform: scale(1.2);
-}
 
 /* ========================== */
 /* 🌸 Mobile & Responsive Styling */
@@ -157,13 +146,17 @@ button,
 /* 🎉 Story Feed Styles */
 /* ========================= */
 .story-feed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 90%;
     max-width: 800px;
     margin-top: 20px;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-image: url('../assets/storycardBackground.png');
   }
   
   /* 🎯 Individual Story Card */
@@ -174,8 +167,28 @@ button,
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     text-align: left;
+    background: linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1);
+    color: white;
+    padding: 10px 20px;
+    border-radius: "50px";
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: none;
   }
-  
+  p {
+    color: white;
+    height: 100%;
+    width: 100%;
+    font-size: 1.5rem;
+    text-align: center, space-between;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+  }
+
   .story-card h3 {
     margin-top: 0;
     font-size: 1.4rem;
@@ -216,4 +229,66 @@ button,
     background-color: #ff3333;
   }
   
-  
+/* ✅ Hero Banner Style */
+/* ✅ Hero Banner Style */
+.hero-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 60vh;
+  background-size: cover;
+  background-position: center;
+  max-height: 400px; /* Optional - Adjust for preferred height */
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 0; /* 🚨 Remove margin to eliminate the space */
+}
+
+/* ✅ Second Banner Style */
+.hero-banner-2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: auto;
+  background-size: cover;
+  background-position: center;
+  max-height: 500px; /* Optional - Adjust for preferred height */
+  object-fit: cover;
+  border-radius: 12px;
+  margin-top: -5px; /* 🚨 Eliminate space between the two */
+}
+
+/* ✅ Optional: Add gap between banners if necessary */
+.banner-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* 🚨 No gap between banners */
+  width: 100%;
+  height: auto;
+  background-size: cover;
+  background-position: center;
+}
+
+@media (max-width: 768px) {
+  .hero-banner,
+  .hero-banner-2 {
+    height: 40vh;
+    border-radius: 25px;
+    padding: 0; /* 🚨 Reset padding for mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-banner,
+  .hero-banner-2 {
+    height: 30vh;
+    border-radius: 15px;
+    padding: 0; /* 🚨 Reset padding for smaller screens */
+  }
+}

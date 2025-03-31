@@ -85,6 +85,7 @@
     z-index: 2000;
     overflow-y: auto;
     max-height: 80vh;
+    background-image: url('../assets/PopUpBackground.png');
 }
 
 /* Smaller Menu Link Styles */
@@ -95,10 +96,16 @@
     font-size: 14px;
     border-bottom: 1px solid #eee;
     transition: background-color 0.3s ease;
+    background: rgb(207, 200, 200);
+    background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
+    cursor: pointer;
 }
 
 .links a:hover {
     background-color: #f7f7f7;
+    background: linear-gradient(180deg, rgba(254, 254, 254, 1) 0%, rgba(197, 203, 217, 1) 94%);
+    transform: translateY(-2px);
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .links a:last-child {
@@ -127,7 +134,7 @@
     transform: translateY(-2px);
 }
 
-/* General Close Button - to stop it from dancing around */
+/* ✖️ Clean Navbar Close Button */
 .close-button {
     position: absolute;
     top: 5px;
@@ -137,18 +144,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 10%;
+    background: none !important; /* ✅ FINAL: No background */
+    border: none !important;
+    box-shadow: none !important;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 0;
-    z-index: 1500; /* Ensure it's above everything */
+    z-index: 1500; /* ✅ Highest z-index */
 }
 
-/* Close Button Hover Effect */
+/* ✖️ Ensure Nothing Else Interferes */
+.close-button::before {
+    content: "❎"; /* Consistent X icon */
+    font-size: 18px;
+    background: none !important;
+    padding: 0;
+}
+
+/* ✨ Hover Effect */
 .close-button:hover {
-    background-color: #ccc;
+    color: #888;
+    transform: scale(1.1);
+    background: none !important;
 }
 
 /* Icon Styling for X */
@@ -156,7 +172,6 @@
     content: "❎"; /* Replaced with a classic X */
     font-size: 14px;
 }
-
 
 
 /* Media Queries for Close Button */
