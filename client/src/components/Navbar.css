@@ -127,7 +127,7 @@
     transform: translateY(-2px);
 }
 
-/* General Close Button - to stop it from dancing around */
+/* ✖️ Clean Navbar Close Button */
 .close-button {
     position: absolute;
     top: 5px;
@@ -137,18 +137,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 10%;
+    background: none !important; /* ✅ FINAL: No background */
+    border: none !important;
+    box-shadow: none !important;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 0;
-    z-index: 1500; /* Ensure it's above everything */
+    z-index: 1500; /* ✅ Highest z-index */
 }
 
-/* Close Button Hover Effect */
+/* ✖️ Ensure Nothing Else Interferes */
+.close-button::before {
+    content: "❎"; /* Consistent X icon */
+    font-size: 18px;
+    background: none !important;
+    padding: 0;
+}
+
+/* ✨ Hover Effect */
 .close-button:hover {
-    background-color: #ccc;
+    color: #888;
+    transform: scale(1.1);
+    background: none !important;
 }
 
 /* Icon Styling for X */

@@ -96,6 +96,17 @@ div.card-body, .home-intro, .container1, .container3 {
   padding: 48px 92px;
 }
 
+
+button.close-button, 
+.modal .close-button {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0 !important;
+    z-index: 99999 !important;
+}
+
 /* ============================== */
 /* 🎯 Media Queries for All Devices */
 /* ============================== */

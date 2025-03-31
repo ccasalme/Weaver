@@ -30,24 +30,40 @@
     animation: fadeIn 0.3s ease-out;
 }
 
-/* ✖️ Close Button */
+/* ✖️ Clean Modal Close Button */
 .modal .close-button {
     position: absolute;
-    padding: 0px;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    color: #333;
-    font-size: 18px;
+    top: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    background: none !important; /* ✅ FINAL: No background */
+    border: none !important; /* ✅ FINAL: No borders */
+    box-shadow: none !important; /* ✅ Clean up any shadows */
+    outline: none; /* ✅ No focus outline */
     cursor: pointer;
-    transition: transform 0.2s ease;
+    z-index: 9999; /* ✅ Max z-index to be on top */
 }
 
+/* 🎯 Optional: Add slight spacing to the right for better UX */
+.modal .close-button::before {
+    content: "❌"; /* Clean X icon */
+    font-size: 18px;
+    color: #333;
+    background: none !important; /* ✅ Removes background for ::before */
+    padding: 0;
+}
+
+/* ✨ Hover Effect */
 .modal .close-button:hover {
     color: #888;
     transform: scale(1.2);
+    background: none !important;
+    border: none !important;
 }
+
+
+
 
 /* =============================== */
 /* 🌸 Modal Content & Form Styles */
