@@ -33,6 +33,7 @@
 /* ✖️ Close Button */
 .modal .close-button {
     position: absolute;
+    padding: 0px;
     top: 10px;
     right: 10px;
     background: none;

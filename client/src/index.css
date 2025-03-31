@@ -56,6 +56,8 @@ a {
   color: inherit; /* Link color matches text */
   text-decoration: none; /* Removes underline */
   font-size: 2.5rem;
+  transform: translateY(-2px);
+  
 }
 
 a:hover {
@@ -73,12 +75,15 @@ ul.nav.nav-tabs {
   list-style-type: none;
   padding: 1rem;
   font-size: 2.5rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  transform: translateY(-2px);
 }
 
 li {
   margin: 1rem;
   padding: 1rem;
   font-size: 2.5rem;
+  transition: background-color 0.3s ease, transform 0.2s ease
 }
 
 /* Container Styles */
