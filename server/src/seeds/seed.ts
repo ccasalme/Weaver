@@ -42,7 +42,7 @@ const seedDatabase = async (): Promise<void> => {
       }))
     );
 
-    console.log('Seeding completed successfully!');
+    console.log('🌱 Seeding completed successfully!');
     process.exit(0);
   } catch (error) {
     console.error('Error seeding database:', error);
