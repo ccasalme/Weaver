@@ -83,7 +83,7 @@ const resolvers = {
 
         branchStory: async (_: any, { storyId, title, content }: { storyId: string; title: string; content: string }, context: any) => {
           if (!context.user) throw new Error("You need to be logged in!");
-          
+
           const originalStory = await Story.findById(storyId);
           if (!originalStory) throw new Error("Original story not found");
     
@@ -103,6 +103,23 @@ const resolvers = {
           );
     
           return branchedStory;
+        },
+
+        likeStory: async (_: any, { storyId }: { storyId: string }, context: any) => {
+          if (!context.user) throw new Error("You need to be logged in!");
+          
+          const story = await Story.findById(storyId);
+          if (!story) throw new Error("Story not found");
+    
+          story.likes++;
+          await story.save();
+    
+          await Profile.findOneAndUpdate(
+            { user: context.user._id },
+            { $addToSet: { likedStories: story._id } }
+          );
+    
+          return story;
         },
     
     },
