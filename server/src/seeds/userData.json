@@ -1,0 +1,17 @@
+[
+    {
+        "username": "storyweaver",
+        "email": "weaver1@example.com",
+        "password": "password123"
+      },
+      {
+        "username": "inksmith",
+        "email": "inksmith@example.com",
+        "password": "writeon456"
+      },
+      {
+        "username": "fablecrafter",
+        "email": "fable@example.com",
+        "password": "legend789"
+      }
+]
