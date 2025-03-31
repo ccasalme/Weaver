@@ -60,6 +60,9 @@ const Navbar: React.FC = () => {
       <Link to="/architects" onClick={() => setIsOpen(false)}>
         About the Architects
       </Link>
+      <Link to="/privacy" onClick={() => setIsOpen(false)}>
+        Privacy Policy
+      </Link>
       <button onClick={handleLogout}>Log out</button>
     </>
   );
@@ -78,6 +81,9 @@ const Navbar: React.FC = () => {
       </Link>
       <Link to="/architects" onClick={() => setIsOpen(false)}>
         About the Architects
+      </Link>
+      <Link to="/privacy" onClick={() => setIsOpen(false)}>
+        Privacy Policy
       </Link>
       <div className="auth-buttons">
         <button onClick={() => setShowLogin(true)}>Log In</button>
