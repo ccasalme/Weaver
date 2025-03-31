@@ -12,7 +12,7 @@ const cleanDB = async (): Promise<void> => {
         await Vote.deleteMany({});
         console.log('Database cleaned!');
     } catch (err) {
-       console.error('Error cleaning collections:', err);
+       console.error('Error cleaning database:', err);
        process.exit(1);
     }
 };
