@@ -41,27 +41,10 @@
     background-image: url('../assets/PopUpBackground.png');
 }
 
-/* ✅ Button Styles */
-button {
-    background-color: #4caf50;
-    color: white;
-    padding: 12px 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-}
-
-button:hover {
-    background-color: #45a049;
-}
 
 /* 🎯 Button for Auth Actions */
 /* ✅ Button Styles */
-button,
-.login-btn,
-.join-btn {
+button {
   padding: 8px 8px;
   text-decoration: none;
   color: black;
@@ -75,16 +58,9 @@ button,
   cursor: pointer;
   width: 100%;
   margin-bottom: 8px;
+  margin-top: 10px;
 }
 
-
-
-.login-btn:hover,
-.join-btn:hover {
-  background-color: #f7f7f7;
-  background: linear-gradient(180deg, rgba(254, 254, 254, 1) 0%, rgba(197, 203, 217, 1) 94%);
-  transform: translateY(-2px);
-}
 
 /* ✅ Feed Container Styles */
 .feed-container {
@@ -144,15 +120,7 @@ button.close-button,
     padding: 0 !important;
     z-index: 99999 !important;
 }
-.join-btn:hover {
-  background: linear-gradient(180deg, rgba(254, 254, 254, 1) 0%, rgba(197, 203, 217, 1) 94%);
-  transform: translateY(-2px);
-}
 
-.login-btn:hover {
-  background: linear-gradient(180deg, rgba(254, 254, 254, 1) 0%, rgba(197, 203, 217, 1) 94%);
-  transform: translateY(-2px);
-}
 
 /* ========================== */
 /* 🌸 Mobile & Responsive Styling */
@@ -220,7 +188,7 @@ button.close-button,
     font-size: 2rem;
     text-align: center;
   }
-  
+
   .story-card h3 {
     margin-top: 0;
     font-size: 1.4rem;
