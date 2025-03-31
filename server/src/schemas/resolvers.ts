@@ -72,7 +72,7 @@ const resolvers = {
 
         createStory: async (_: any, { title, content }: { title: string; content: string }, context: any) => {
           if (!context.user) throw new Error("You need to be logged in!");
-          
+
           const story = await Story.create({ title, content, author: context.user._id });
           await Profile.findOneAndUpdate(
             { user: context.user._id },
@@ -80,6 +80,31 @@ const resolvers = {
           );
           return story;
         },
+
+        branchStory: async (_: any, { storyId, title, content }: { storyId: string; title: string; content: string }, context: any) => {
+          if (!context.user) throw new Error("You need to be logged in!");
+          
+          const originalStory = await Story.findById(storyId);
+          if (!originalStory) throw new Error("Original story not found");
+    
+          const branchedStory = await Story.create({
+            title,
+            content,
+            author: context.user._id,
+            parentStory: originalStory._id,
+          });
+    
+          originalStory.branches.push(branchedStory._id);
+          await originalStory.save();
+    
+          await Profile.findOneAndUpdate(
+            { user: context.user._id },
+            { $push: { branchedStories: branchedStory._id } }
+          );
+    
+          return branchedStory;
+        },
+    
     },
 };
 
