@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import "./Wireframe.css"; // Import the CSS for styling
 import Login from "../components/Login";
 import JoinUs from "../components/JoinUs";
+import HeroBanner from "../assets/weaverBanner.png"; // ✅ Import HeroBanner
+import SecondBanner from "../assets/weaverBanner2.png"; // ✅ Import HeroBanner2
 import dummyStories from "../data/dummyStories.json"; // ✅ Import dummy stories
 
 // ✅ Define Story Interface
@@ -27,6 +29,13 @@ const Homepage: React.FC = () => {
 
   return (
     <div className="page-container">
+      {/* ✅ Hero Banner Section */}
+      <div className="banner-container">
+        <img src={HeroBanner} alt="Weaver Banner" className="hero-banner" />
+        <img src={SecondBanner} alt="Weaver Banner 2" className="hero-banner-2" />
+      </div>
+
+
       {/* ✅ Show login and join us buttons only if NOT logged in */}
       {!isAuthenticated && (
         <div className="auth-container">
@@ -35,10 +44,7 @@ const Homepage: React.FC = () => {
 
           {/* ✅ Login Button */}
           <button
-            onClick={() => {
-              console.log("✅ Login button clicked!");
-              setShowLogin(true);
-            }}
+            onClick={() => setShowLogin(true)}
             className="login-btn"
           >
             Login
@@ -46,10 +52,7 @@ const Homepage: React.FC = () => {
 
           {/* ✅ Join Us Button */}
           <button
-            onClick={() => {
-              console.log("✅ Join Us button clicked!");
-              setShowJoinUs(true);
-            }}
+            onClick={() => setShowJoinUs(true)}
             className="join-btn"
           >
             Join Us
@@ -78,12 +81,8 @@ const Homepage: React.FC = () => {
       {/* ✅ Render modals for Login and JoinUs */}
       {showLogin && (
         <Login
-          onClose={() => {
-            console.log("❎ Closing Login Modal");
-            setShowLogin(false);
-          }}
+          onClose={() => setShowLogin(false)}
           switchToJoinUs={() => {
-            console.log("🔄 Switching to Join Us Modal");
             setShowLogin(false);
             setShowJoinUs(true);
           }}
@@ -92,12 +91,8 @@ const Homepage: React.FC = () => {
 
       {showJoinUs && (
         <JoinUs
-          onClose={() => {
-            console.log("❎ Closing Join Us Modal");
-            setShowJoinUs(false);
-          }}
+          onClose={() => setShowJoinUs(false)}
           switchToLogin={() => {
-            console.log("🔄 Switching to Login Modal");
             setShowJoinUs(false);
             setShowLogin(true);
           }}

@@ -221,4 +221,66 @@ button.close-button,
     background-color: #ff3333;
   }
   
-  
+/* ✅ Hero Banner Style */
+/* ✅ Hero Banner Style */
+.hero-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 60vh;
+  background-size: cover;
+  background-position: center;
+  max-height: 400px; /* Optional - Adjust for preferred height */
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 0; /* 🚨 Remove margin to eliminate the space */
+}
+
+/* ✅ Second Banner Style */
+.hero-banner-2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: auto;
+  background-size: cover;
+  background-position: center;
+  max-height: 500px; /* Optional - Adjust for preferred height */
+  object-fit: cover;
+  border-radius: 12px;
+  margin-top: -5px; /* 🚨 Eliminate space between the two */
+}
+
+/* ✅ Optional: Add gap between banners if necessary */
+.banner-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* 🚨 No gap between banners */
+  width: 100%;
+  height: auto;
+  background-size: cover;
+  background-position: center;
+}
+
+@media (max-width: 768px) {
+  .hero-banner,
+  .hero-banner-2 {
+    height: 40vh;
+    border-radius: 25px;
+    padding: 0; /* 🚨 Reset padding for mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-banner,
+  .hero-banner-2 {
+    height: 30vh;
+    border-radius: 15px;
+    padding: 0; /* 🚨 Reset padding for smaller screens */
+  }
+}
