@@ -39,13 +39,33 @@ const Homepage: React.FC = () => {
       {/* ✅ Show login and join us buttons only if NOT logged in */}
       {!isAuthenticated && (
         <div className="auth-container">
-          <h2>Welcome to Weaver!</h2>
-          <p>Join us to explore, create, and engage with stories.</p>
+          <h2
+          style={{color: "white", 
+          textAlign: "center",
+          background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+          filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
+          padding: "10px",
+          borderRadius: "5px"}}>
+            Welcome to Weaver!
+          </h2>
+          <p
+          style={{color: "white", textAlign: "center"}}>
+            Join us to explore, create, and engage with stories.
+          </p>
 
           {/* ✅ Login Button */}
           <button
             onClick={() => setShowLogin(true)}
             className="login-btn"
+            style={{
+              background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+              filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "50px",
+              border: "none",
+              cursor: "pointer"
+            }}
           >
             Login
           </button>
@@ -54,6 +74,15 @@ const Homepage: React.FC = () => {
           <button
             onClick={() => setShowJoinUs(true)}
             className="join-btn"
+            style={{
+              background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+              filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "50px",
+              border: "none",
+              cursor: "pointer"
+            }}
           >
             Join Us
           </button>
