@@ -60,6 +60,7 @@ const typeDefs = `
     createStory(title: String!, content: String!): Story!
     branchStory(storyId: ID!, title: String!, content: String!): Story!
     likeStory(storyId: ID!): Story!
+    addComment(storyId: ID!, content: String!): Comment!
   }
 `;
 
