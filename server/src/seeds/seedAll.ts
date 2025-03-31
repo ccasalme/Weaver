@@ -2,12 +2,12 @@ import db from '../config/connection.js';
 import { User, Profile, Story, Comment, Prompt, Vote } from '../models/index.js';
 import cleanDB from './cleanDB.js';
 
-import userData from './userData.json' assert { type: 'json' };
-import profileData from './profileData.json' assert { type: 'json' };
-import storyData from './storyData.json' assert { type: 'json' };
-import commentData from './commentData.json' assert { type: 'json' };
-import promptData from './promptData.json' assert { type: 'json' };
-import voteData from './voteData.json' assert { type: 'json' };
+import userData from './userData.json' with { type: 'json' };
+import profileData from './profileData.json' with { type: 'json' };
+import storyData from './storyData.json' with { type: 'json' };
+import commentData from './commentData.json' with { type: 'json' };
+import promptData from './promptData.json' with { type: 'json' };
+import voteData from './voteData.json' with { type: 'json' };
 
 const seedDatabase = async (): Promise<void> => {
   try {
