@@ -1,7 +1,4 @@
-import User from "../models/user.js";
-import Profile from "../models/profile.js";
-import Prompt from "../models/prompt.js";
-import Story from "../models/story.js";
+import { User, Profile, Prompt, Story, Comment } from "../models/index.js";
 import { signToken } from "../utils/auth.js";
 
 const resolvers = {
@@ -151,6 +148,27 @@ const resolvers = {
       );
 
       return story;
+    },
+
+    // Add a comment to a story
+    addComment: async (
+      _: any,
+      { storyId, content }: { storyId: string; content: string },
+      context: any
+    ) => {
+      if (!context.user) throw new Error("You need to be logged in!");
+
+      const comment = await Comment.create({
+        content,
+        story: storyId,
+        author: context.user._id,
+      });
+
+      await Story.findByIdAndUpdate(storyId, {
+        $push: { comments: comment._id },
+      });
+
+      return comment;
     },
   },
 };

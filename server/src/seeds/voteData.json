@@ -1,0 +1,18 @@
+[
+    {
+      "story": "story_id_1",
+      "user": "user_id_2",
+      "voteType": "upvote"
+    },
+    {
+      "story": "story_id_2",
+      "user": "user_id_3",
+      "voteType": "upvote"
+    },
+    {
+      "story": "story_id_3",
+      "user": "user_id_1",
+      "voteType": "downvote"
+    }
+  ]
+  

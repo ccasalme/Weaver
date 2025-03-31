@@ -1,0 +1,33 @@
+[
+    {
+      "category": "Sci-Fi",
+      "theme": "Discovery",
+      "tone": "Suspenseful",
+      "text": "You awaken aboard a ship drifting in deep space with no memory and a note in your pocket that reads: Don't trust the captain."
+    },
+    {
+      "category": "Fantasy",
+      "theme": "Redemption",
+      "tone": "Epic",
+      "text": "Once the kingdom's most feared warlock, you return after a century of exile to protect the people who once banished you."
+    },
+    {
+      "category": "Mystery",
+      "theme": "Betrayal",
+      "tone": "Dark",
+      "text": "Every clue leads you closer to the killer—until you realize they’ve been altering your memory to erase themselves."
+    },
+    {
+      "category": "Romance",
+      "theme": "Second Chances",
+      "tone": "Bittersweet",
+      "text": "Ten years after breaking up, you receive a letter from your first love, inviting you to rewrite your ending."
+    },
+    {
+      "category": "Adventure",
+      "theme": "Survival",
+      "tone": "Gripping",
+      "text": "You’re the only survivor of a failed expedition to an uncharted island that isn’t on any map—and the island wants you to stay."
+    }
+  ]
+  
