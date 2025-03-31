@@ -144,7 +144,15 @@ button.close-button,
     padding: 0 !important;
     z-index: 99999 !important;
 }
+.join-btn:hover {
+  background: linear-gradient(180deg, rgba(254, 254, 254, 1) 0%, rgba(197, 203, 217, 1) 94%);
+  transform: translateY(-2px);
+}
 
+.login-btn:hover {
+  background: linear-gradient(180deg, rgba(254, 254, 254, 1) 0%, rgba(197, 203, 217, 1) 94%);
+  transform: translateY(-2px);
+}
 
 /* ========================== */
 /* 🌸 Mobile & Responsive Styling */
@@ -177,6 +185,7 @@ button.close-button,
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-image: url('../assets/PopUpBackground.png');
   }
   
   /* 🎯 Individual Story Card */

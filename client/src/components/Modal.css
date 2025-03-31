@@ -63,7 +63,15 @@
     border: none !important;
 }
 
+.join-btn:hover {
+    background: linear-gradient(180deg, rgba(254, 254, 254, 1) 0%, rgba(197, 203, 217, 1) 94%);
+    transform: translateY(-2px);
+}
 
+.login-btn:hover {
+    background: linear-gradient(180deg, rgba(254, 254, 254, 1) 0%, rgba(197, 203, 217, 1) 94%);
+    transform: translateY(-2px);
+}
 
 
 /* =============================== */

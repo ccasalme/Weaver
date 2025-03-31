@@ -90,11 +90,54 @@ const Homepage: React.FC = () => {
       )}
 
       {/* ✅ Stories Section (Visible to ALL Users) */}
-      <div className="story-feed">
-        <h2>Recent Stories</h2>
+      <div className="story-feed"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          maxWidth: "1200px",
+          height: "auto",
+          margin: "10px",
+          marginBottom: "50px",
+          padding: "10px",
+          border: "1px solid #ccc",
+          borderRadius: "5px",
+          paddingBottom: "50px"
+        }}>
+        <h2
+          style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "white", 
+          textAlign: "center",
+          background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+          filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
+          padding: "10px",
+          borderRadius: "5px"
+        }}
+        >Recent Stories</h2>
         {dummyStories.length > 0 ? (
           dummyStories.map((story: Story) => (
-            <div key={story.id} className="story-card">
+            <div key={story.id} 
+              className="story-card"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
+                maxWidth: "700px",
+                margin: "10px",
+                marginBottom: "20px",
+                padding: "10px",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+
+              }}>
               <h3>{story.title}</h3>
               <p>{story.content}</p>
               <p>

@@ -93,6 +93,7 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
           />
           <button 
             type="submit"
+            className="login-btn"
             style={{
               background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
               filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
@@ -107,6 +108,7 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
           Don’t have an account?{" "}
           <button type="button" 
             onClick={switchToJoinUs}
+            className="join-btn"
             style={{
               background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
               filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
