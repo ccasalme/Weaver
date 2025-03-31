@@ -8,7 +8,6 @@ const resolvers = {
   Query: {
     // This resolver returns the currently logged-in user's info.
     me: async (_: any, _args: any, context: any) => {
-      
       if (!context.user) {
         throw new Error("You need to be logged in!");
       }
@@ -20,6 +19,7 @@ const resolvers = {
       return foundUser;
     },
 
+    // Get the profile of the currently logged-in user, with relationships populated
     myProfile: async (_: any, _args: any, context: any) => {
       if (!context.user) {
         throw new Error("You need to be logged in!");
@@ -32,10 +32,12 @@ const resolvers = {
       return profile;
     },
 
+    // Retrieve all writing prompts
     getPrompts: async () => {
       return await Prompt.find();
     },
 
+    // Retrieve all stories, including author and comments
     getStories: async () => {
       return await Story.find().populate('author').populate('comments');
     },
@@ -43,6 +45,7 @@ const resolvers = {
 
 
     Mutation: {
+        // Login an existing user and return a JWT token
         login: async (_parent: any, { email, password }: { email: string; password: string }) => {
          
           const user = await User.findOne({ email });
@@ -73,6 +76,7 @@ const resolvers = {
           return { token, user };
         },
 
+        // Create a new story and associate it with the user's profile
         createStory: async (_: any, { title, content }: { title: string; content: string }, context: any) => {
           if (!context.user) throw new Error("You need to be logged in!");
 
@@ -84,6 +88,7 @@ const resolvers = {
           return story;
         },
 
+        // Branch an existing story into a new one and link them
         branchStory: async (_: any, { storyId, title, content }: { storyId: string; title: string; content: string }, context: any) => {
           if (!context.user) throw new Error("You need to be logged in!");
 
@@ -108,6 +113,7 @@ const resolvers = {
           return branchedStory;
         },
 
+        // Like a story and add it to the user's liked stories
         likeStory: async (_: any, { storyId }: { storyId: string }, context: any) => {
           if (!context.user) throw new Error("You need to be logged in!");
 
