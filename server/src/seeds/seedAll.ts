@@ -15,7 +15,8 @@ const seedDatabase = async (): Promise<void> => {
     await cleanDB();
 
     const users = await User.create(userData);
-    const profiles = await Profile.insertMany(
+    
+    await Profile.insertMany(
       profileData.map((profile, i) => ({ ...profile, user: users[i]._id }))
     );
 
