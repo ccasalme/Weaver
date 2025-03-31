@@ -5,6 +5,17 @@ username: String!
 email: String!
 }
 
+type Profile {
+    _id: ID!
+    user: User!
+    bio: String
+    avatar: String
+    followers: [User]
+    sharedStories: [Story]
+    branchedStories: [Story]
+    likedStories: [Story]
+  }
+
 type Auth {
     token: String!
     user: User!
