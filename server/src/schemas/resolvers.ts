@@ -120,7 +120,7 @@ const resolvers = {
         parentStory: originalStory._id,
       });
 
-      originalStory.branches.push(branchedStory._id);
+      originalStory.branches.push(branchedStory._id as typeof originalStory.branches[0]);
       await originalStory.save();
 
       await Profile.findOneAndUpdate(
