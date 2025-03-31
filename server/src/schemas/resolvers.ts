@@ -5,7 +5,7 @@ const resolvers = {
   Query: {
     // This resolver returns the currently logged-in user's info.
     me: async (_: any, _args: any, context: any) => {
-      console.log(context)
+      
       if (!context.user) {
         throw new Error("You need to be logged in!");
       }
@@ -43,7 +43,7 @@ const resolvers = {
           if (!user) {
             throw new Error("Something is wrong!");
           }
-          
+
           console.log('addedUser')
 
           const token = signToken(user.username, user.email, user._id);
