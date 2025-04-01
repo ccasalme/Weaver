@@ -64,12 +64,13 @@ const resolvers = {
     addUser: async (
       _: any,
       {
+        fullName,
         username,
         email,
         password,
-      }: { username: string; email: string; password: string }
+      }: { fullName: string; username: string; email: string; password: string }
     ) => {
-      const user = await User.create({ username, email, password });
+      const user = await User.create({ fullName, username, email, password });
       await Profile.create({ user: user._id });
       const token = signToken(user.username, user.email, user._id);
       return { token, user };
