@@ -28,6 +28,9 @@ interface ProfileData {
   };
 }
 
+//Fallback data for when the server is offline
+// This is a temporary solution to ensure the UI remains functional
+// while the server is down. Ideally, you would want to handle this more gracefully.
 const dummyProfile: ProfileData["myProfile"] = {
   bio: "Just your friendly neighbourhood thread weaver. 🕸️",
   avatar: fallbackAvatar || "../assets/fallbackAvatar.png",
@@ -70,6 +73,7 @@ const dummyProfile: ProfileData["myProfile"] = {
   ],
 };
 
+// None-dummy data
 const Profile: React.FC = () => {
   const { error, data } = useQuery<ProfileData>(GET_MY_PROFILE);
   const [activeTab, setActiveTab] = useState<"stories" | "branches" | "likes">("stories");
@@ -110,10 +114,10 @@ const Profile: React.FC = () => {
 
   return (
     <div className="profile-container">
+      <h2 style={{color: "white"}}>My Profile</h2>
       <img src={profile.avatar} alt="Profile Avatar" className="profile-avatar" />
-      <h2>My Profile</h2>
-      <p>{profile.bio}</p>
-      <p>👥 Followers: {profile.followers.length}</p>
+      <p style={{color: "white"}}>{profile.bio}</p>
+      <p style={{color: "white"}}>👥 Followers: {profile.followers.length}</p>
 
       {/* Tabs */}
       <div className="tab-group">
