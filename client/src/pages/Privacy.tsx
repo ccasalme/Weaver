@@ -56,6 +56,18 @@ const PrivacyPolicy: React.FC = () => {
           behaves exactly like visiting those external sites.
         </p>
       </div>
+      {/* User Data Rights */}
+      <div className="section">
+        <h2 className="section-title">Your Data & Rights</h2>
+        <p>
+          If you create an account or leave comments, you may request to receive
+          a copy of the personal data we hold about you, or ask us to delete it.
+        </p>
+        <p>
+          This does not include data we are required to keep for security,
+          legal, or administrative reasons.
+        </p>
+      </div>
       <div className="section">
         <h2 className="section-title" style={{ color: "white" }}>
           Terms and Conditions
