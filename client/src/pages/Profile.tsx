@@ -61,14 +61,13 @@ const dummyProfile: ProfileData["myProfile"] = {
 const Profile: React.FC = () => {
   const { error, data } = useQuery<ProfileData>(GET_MY_PROFILE);
   const [updateProfile] = useMutation(UPDATE_PROFILE);
-
   const [activeTab, setActiveTab] = useState<"stories" | "branches" | "likes">("stories");
   const [expandedThreads, setExpandedThreads] = useState<{ [storyId: string]: boolean }>({});
   const [editing, setEditing] = useState(false);
   const [showFollowers, setShowFollowers] = useState(false);
   const [showFollowing, setShowFollowing] = useState(false);
   const [newBio, setNewBio] = useState("");
-  const [newAvatar, setNewAvatar] = useState("");
+  const [newAvatarFile, setNewAvatarFile] = useState<File | null>(null);
 
   const profile = data?.myProfile ?? dummyProfile;
 
@@ -81,7 +80,11 @@ const Profile: React.FC = () => {
 
   const handleProfileUpdate = async () => {
     try {
-      await updateProfile({ variables: { bio: newBio, avatar: newAvatar } });
+      let avatar = profile.avatar;
+      if (newAvatarFile) {
+        avatar = URL.createObjectURL(newAvatarFile);
+      }
+      await updateProfile({ variables: { bio: newBio || profile.bio, avatar } });
       window.location.reload();
     } catch (err) {
       console.error("Profile update failed", err);
@@ -94,13 +97,11 @@ const Profile: React.FC = () => {
         <div key={story._id} className="story-card">
           <h3>{story.title}</h3>
           <p>{story.content}</p>
-
           {story.comments.length > 0 && (
             <button onClick={() => handleToggleThreads(story._id)} className="see-threads-btn">
               {expandedThreads[story._id] ? "🔽 Hide Threads" : "🧵 See Threads"}
             </button>
           )}
-
           {expandedThreads[story._id] && (
             <ul className="comment-thread">
               {story.comments.map((comment) => (
@@ -120,20 +121,37 @@ const Profile: React.FC = () => {
       <div className="profile-header">
         <img src={profile.avatar} alt="Profile" className="profile-pic" />
         <div>
-          <h2 className="username-heading">@{profile.username ?? "weaver"}</h2>
+          <h2 className="username-heading"
+          style={{
+          color: "white",
+          padding: "10px",
+          borderRadius: "5px",
+          backgroundColor: "#2c3e50",
+          display: "inline-block",
+          margin: 0,
+          textAlign: "center",
+          width: "100%",
+          fontSize: "2.5em",
+          fontWeight: "bold",
+          lineHeight: "1.5em",
+          textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+          textTransform: "uppercase",
+          letterSpacing: "0.05em",
+          marginBottom: "10px",
+          textOverflow: "ellipsis",
+          overflow: "hidden"
+          }}>@{profile.username ?? "weaver"}</h2>
           {editing ? (
             <>
-              <input
-                type="text"
+              <textarea
                 placeholder="New bio"
                 value={newBio}
                 onChange={(e) => setNewBio(e.target.value)}
               />
               <input
-                type="text"
-                placeholder="New avatar URL"
-                value={newAvatar}
-                onChange={(e) => setNewAvatar(e.target.value)}
+                type="file"
+                accept="image/*"
+                onChange={(e) => setNewAvatarFile(e.target.files?.[0] || null)}
               />
               <button onClick={handleProfileUpdate}>Save</button>
               <button onClick={() => setEditing(false)}>Cancel</button>
@@ -153,10 +171,29 @@ const Profile: React.FC = () => {
               <button onClick={() => setEditing(true)}>Edit Profile</button>
             </>
           )}
-
           {showFollowers && (
             <div className="follower-modal">
-              <h4>Followers</h4>
+              <h4
+              style={{
+              color: "white",
+              padding: "10px",
+              borderRadius: "5px",
+              backgroundColor: "#2c3e50",
+              display: "inline-block",
+              margin: 0,
+              textAlign: "center",
+              width: "100%",
+              fontSize: "2.5em",
+              fontWeight: "bold",
+              lineHeight: "1.5em",
+              textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              marginBottom: "10px",
+              textOverflow: "ellipsis",
+              overflow: "hidden"
+              }}
+              >Followers</h4>
               <ul>
                 {profile.followers.map((f, i) => (
                   <li key={i}>@{f.username}</li>
@@ -164,10 +201,29 @@ const Profile: React.FC = () => {
               </ul>
             </div>
           )}
-
           {showFollowing && (
             <div className="following-modal">
-              <h4>Following</h4>
+              <h4
+                    style={{
+                      color: "white",
+                      padding: "10px",
+                      borderRadius: "5px",
+                      backgroundColor: "#2c3e50",
+                      display: "inline-block",
+                      margin: 0,
+                      textAlign: "center",
+                      width: "100%",
+                      fontSize: "2.5em",
+                      fontWeight: "bold",
+                      lineHeight: "1.5em",
+                      textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                      marginBottom: "10px",
+                      textOverflow: "ellipsis",
+                      overflow: "hidden"
+                    }}
+              >Following</h4>
               <ul>
                 {profile.following.map((f, i) => (
                   <li key={i}>@{f.username}</li>
@@ -177,7 +233,6 @@ const Profile: React.FC = () => {
           )}
         </div>
       </div>
-
       <div className="tab-group">
         <button
           onClick={() => setActiveTab("stories")}
@@ -198,11 +253,9 @@ const Profile: React.FC = () => {
           ❤️ Likes
         </button>
       </div>
-
       {activeTab === "stories" && renderStoryList(profile.sharedStories)}
       {activeTab === "branches" && renderStoryList(profile.branchedStories)}
       {activeTab === "likes" && renderStoryList(profile.likedStories)}
-
       {error && (
         <p className="dummy-warning">
           ⚠️ You’re viewing a <strong>dummy profile</strong> while the server is offline.
