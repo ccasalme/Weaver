@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 
 export interface UserDocument extends Document {
   id: string;
+  fullName: string;
   username: string;
   email: string;
   password: string;
@@ -11,6 +12,10 @@ export interface UserDocument extends Document {
 
 const userSchema = new Schema<UserDocument>(
   {
+    fullName: {
+      type: String,
+      required: true,
+    },
     username: {
       type: String,
       required: true,

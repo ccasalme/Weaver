@@ -22,6 +22,7 @@ const resolvers = {
         throw new Error("You need to be logged in!");
       }
       const profile = await Profile.findOne({ user: context.user._id })
+        .populate("user")
         .populate("followers")
         .populate("sharedStories")
         .populate("branchedStories")
