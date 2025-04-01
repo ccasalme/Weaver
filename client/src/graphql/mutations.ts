@@ -31,12 +31,25 @@ export const BRANCH_STORY = gql`
   }
 `;
 
-// ✅ Like or Save a story
+// ✅ Like or Save a story or Vote
 export const LIKE_STORY = gql`
   mutation likeStory($storyId: ID!) {
     likeStory(storyId: $storyId) {
       _id
       likes
+    }
+  }
+`;
+
+// ✅ Comment/Thread on a story
+export const ADD_COMMENT = gql`
+  mutation addComment($storyId: ID!, $content: String!) {
+    addComment(storyId: $storyId, content: $content) {
+      _id
+      content
+      author {
+        username
+      }
     }
   }
 `;
