@@ -1,10 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 // Core Imports
 import express, { type Request, type Response } from 'express';
 import path from 'node:path';
-import dotenv from 'dotenv';
-
-// Environment Setup
-dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 // Project Imports
 import db from './config/connection.js';

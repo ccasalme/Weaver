@@ -1,11 +1,23 @@
 import dotenv from 'dotenv';
-import path from 'node:path'; // yes, explicitly 'node:path'
+import path from 'node:path';
+import { fileURLToPath } from 'url';
+
+// Always resolve to the *real* server directory (not dist/)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const rootEnvPath = path.resolve(__dirname, '../../.env'); // go 2 levels up
+
+dotenv.config({ path: rootEnvPath });
+console.log("✅ JWT_SECRET_KEY loaded:", process.env.JWT_SECRET_KEY);
+
 
 dotenv.config({
   path: path.resolve(process.cwd(), '.env')
 });
 
+
 console.log("JWT_SECRET_KEY loaded:", process.env.JWT_SECRET_KEY);
+console.log("✅ MONGODB_URI:", process.env.MONGODB_URI);
 
 import jwt from 'jsonwebtoken';
 import { GraphQLError } from 'graphql';
