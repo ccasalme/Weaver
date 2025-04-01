@@ -16,6 +16,11 @@ const resolvers = {
       return foundUser;
     },
 
+    // Get all users in the database
+    getUsers: async () => {
+      return await User.find();
+    },
+
     // Get the profile of the currently logged-in user, with relationships populated
     myProfile: async (_: any, _args: any, context: any) => {
       if (!context.user) {
