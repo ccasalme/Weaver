@@ -116,6 +116,14 @@ const PrivacyPolicy: React.FC = () => {
           use of the platform or violation of these terms.
         </p>
       </div>
+      {/* Applicable Law */}
+      <div className="section">
+        <h2 className="section-title">Applicable Law</h2>
+        <p>
+          These terms are governed by the laws of the Province of Ontario,
+          Canada, and the jurisdictions where the creators reside.
+        </p>
+      </div>
     </div>
   );
 };
