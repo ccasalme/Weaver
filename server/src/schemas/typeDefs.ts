@@ -77,8 +77,8 @@ const typeDefs = `
     addComment(storyId: ID!, content: String!): Comment!
     deleteStory(storyId: ID!): Story!
     voteStory(storyId: ID!, voteType: VoteType): Vote!
-    followUser(userId: ID!): Profile!
-    unfollowUser(userId: ID!): Profile!
+    followUser(profileId: ID!): Profile!
+    unfollowUser(profileId: ID!): Profile!
   }
 `;
 
