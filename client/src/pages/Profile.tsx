@@ -1,79 +1,107 @@
+// src/pages/Profile.tsx
 import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_MY_PROFILE } from "../graphql/queries";
-import "./Wireframe.css"; // Import the CSS for styling
+import "./Wireframe.css";
+
+interface Story {
+  _id: string;
+  title: string;
+  content: string;
+  comments: {
+    _id: string;
+    content: string;
+    author: {
+      username: string;
+    };
+  }[];
+}
+
+interface ProfileData {
+  myProfile: {
+    bio: string;
+    avatar: string;
+    followers: { username: string }[];
+    sharedStories: Story[];
+    likedStories: Story[];
+    branchedStories: Story[];
+  };
+}
 
 const Profile: React.FC = () => {
-  const { loading, error, data } = useQuery(GET_MY_PROFILE);
-  const [expandedStoryIds, setExpandedStoryIds] = useState<string[]>([]);
+  const { loading, error, data } = useQuery<ProfileData>(GET_MY_PROFILE);
+  const [activeTab, setActiveTab] = useState<"stories" | "branches" | "likes">("stories");
+  const [expandedThreads, setExpandedThreads] = useState<{ [storyId: string]: boolean }>({});
 
-  if (loading) return <p>Loading profile...</p>;
-  if (error || !data || !data.myProfile) return <p>Error loading profile!</p>;
+  if (loading) return <p>Loading profile... ⌛</p>;
+  if (error) return <p>Error loading profile! ❌</p>;
 
-  const {
-    bio,
-    avatar,
-    followers,
-    sharedStories = [],
-    likedStories = [],
-  } = data.myProfile;
+  const { bio, avatar, followers, sharedStories, likedStories, branchedStories } = data!.myProfile;
 
-  const toggleExpand = (storyId: string) => {
-    setExpandedStoryIds((prev) =>
-      prev.includes(storyId)
-        ? prev.filter((id) => id !== storyId)
-        : [...prev, storyId]
-    );
+  const handleToggleThreads = (storyId: string) => {
+    setExpandedThreads((prev) => ({
+      ...prev,
+      [storyId]: !prev[storyId],
+    }));
   };
+
+  const renderStoryList = (stories: Story[]) => (
+    <ul className="story-list">
+      {stories.map((story) => (
+        <li key={story._id} className="story-item">
+          <strong>{story.title}</strong>
+          {story.comments.length > 0 && (
+            <button onClick={() => handleToggleThreads(story._id)} className="see-threads-btn">
+              {expandedThreads[story._id] ? "🔽 Hide Threads" : "🧵 See All Threads"}
+            </button>
+          )}
+          {expandedThreads[story._id] && (
+            <ul className="comment-thread">
+              {story.comments.map((comment) => (
+                <li key={comment._id}>
+                  <strong>{comment.author.username}:</strong> {comment.content}
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
 
   return (
     <div className="profile-container">
       <img src={avatar} alt="Profile Avatar" className="profile-avatar" />
       <h2>My Profile</h2>
       <p>{bio}</p>
+      <p>👥 Followers: {followers.length}</p>
 
-      <h3>Followers: {followers.length}</h3>
+      {/* Tabs */}
+      <div className="tab-group">
+        <button
+          onClick={() => setActiveTab("stories")}
+          className={activeTab === "stories" ? "active-tab" : ""}
+        >
+          📚 My Stories
+        </button>
+        <button
+          onClick={() => setActiveTab("branches")}
+          className={activeTab === "branches" ? "active-tab" : ""}
+        >
+          🌱 My Branches
+        </button>
+        <button
+          onClick={() => setActiveTab("likes")}
+          className={activeTab === "likes" ? "active-tab" : ""}
+        >
+          ❤️ Liked Stories
+        </button>
+      </div>
 
-      <h3>My Stories and Branches:</h3>
-      {sharedStories.length === 0 ? (
-        <p>You haven't created any stories yet!</p>
-      ) : (
-        sharedStories.map((story: any) => (
-          <div key={story._id} className="story-card">
-            <h4>{story.title}</h4>
-            <p><strong>Story ID:</strong> {story._id}</p>
-            {story.comments && story.comments.length > 0 && (
-              <>
-                {!expandedStoryIds.includes(story._id) ? (
-                  <button onClick={() => toggleExpand(story._id)} className="comment-btn">
-                    🧵 See all threads
-                  </button>
-                ) : (
-                  <>
-                    <div className="comments-section">
-                      {story.comments.map((comment: any) => (
-                        <div key={comment._id} className="comment-card">
-                          <p><strong>{comment.author.username}:</strong> {comment.content}</p>
-                        </div>
-                      ))}
-                    </div>
-                    <button onClick={() => toggleExpand(story._id)} className="comment-btn">
-                      🔽 Collapse threads
-                    </button>
-                  </>
-                )}
-              </>
-            )}
-          </div>
-        ))
-      )}
-
-      <h3>Stories I Liked:</h3>
-      <ul>
-        {likedStories.map((story: { _id: string; title: string }) => (
-          <li key={story._id}>{story.title}</li>
-        ))}
-      </ul>
+      {/* Story Content */}
+      {activeTab === "stories" && renderStoryList(sharedStories)}
+      {activeTab === "branches" && renderStoryList(branchedStories)}
+      {activeTab === "likes" && renderStoryList(likedStories)}
     </div>
   );
 };
