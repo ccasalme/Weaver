@@ -4,7 +4,13 @@ const WeaverInfo: React.FC = () => {
   return (
     <div className="page-container">
       <h1>What is Weaver?</h1>
-
+      <p className="metaphor-intro">
+        <em>
+          Imagine a loom. Not for fabric — but for stories. Every idea is a
+          thread. Every branch, a path. And every Weaver brings their
+          imagination to the loom to create something entirely new, together.
+        </em>
+      </p>
       <p>
         <strong>Weaver</strong> is a collaborative short story platform where
         imagination takes the lead. It's designed for creators of all kinds to
