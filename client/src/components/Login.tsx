@@ -10,7 +10,7 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
-  const [email, setEmail] = useState<string>("");
+  const [username, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -20,14 +20,14 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!username || !password) {
       setError("Both fields are required.");
       return;
     }
 
     try {
       const { data } = await loginUser({
-        variables: { email, password },
+        variables: { username, password },
       });
 
       const token = data?.login?.token;
@@ -40,18 +40,16 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
       } else {
         setError("Login failed. Please try again.");
       }
-    } catch (err) {
+    } catch {
+      
       // fallback to dummy user login
-      if (email === dummyUser.email && password === dummyUser.password) {
+      if (username === dummyUser.username && password === dummyUser.password) {
         alert("Dummy login successful! 🎭");
         localStorage.setItem("token", "dummy-auth-token");
         window.location.reload();
         onClose();
-      } else {
-        setError("Invalid credentials. Please try again.");
-        console.error("Login error:", err);
       }
-    }
+    }      
   };
 
   return (
@@ -91,10 +89,10 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
 
         <form onSubmit={handleLogin}>
           <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="username"
+            placeholder="username"
+            value={username}
+            onChange={(e) => setUserName(e.target.value)}
             required
           />
 
