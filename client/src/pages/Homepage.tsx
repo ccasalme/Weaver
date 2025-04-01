@@ -7,6 +7,7 @@ import JoinUs from "../components/JoinUs";
 import OOPSModal from "../components/OOPSModal";
 import AddComment from "../components/AddComment";
 import BranchStory from "../components/BranchStory";
+import CreateStory from "../components/CreateStory";
 import HeroBanner from "../assets/weaverBanner.png";
 import SecondBanner from "../assets/weaverBanner2.png";
 import { GET_STORIES } from "../graphql/queries";
@@ -38,6 +39,7 @@ const Homepage: React.FC = () => {
   const [showOopsModal, setShowOopsModal] = useState<boolean>(false);
   const [activeStoryId, setActiveStoryId] = useState<string | null>(null);
   const [branchStoryId, setBranchStoryId] = useState<string | null>(null);
+  const [showCreateStory, setShowCreateStory] = useState<boolean>(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -190,6 +192,16 @@ const Homepage: React.FC = () => {
         )}
       </div>
 
+      {/* ✅ Floating Create Story Button */}
+      {isAuthenticated && (
+        <button
+          className="floating-create-btn"
+          onClick={() => setShowCreateStory(true)}
+        >
+          ➕ Create New Origin
+        </button>
+      )}
+
       {/* ✅ Modals */}
       {showLogin && (
         <Login
@@ -237,6 +249,14 @@ const Homepage: React.FC = () => {
           parentStoryId={branchStoryId}
           onClose={() => setBranchStoryId(null)}
         />
+      )}
+
+      {showCreateStory && (
+        <div className="modal-backdrop" onClick={() => setShowCreateStory(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <CreateStory onClose={() => setShowCreateStory(false)} />
+          </div>
+        </div>
       )}
     </div>
   );

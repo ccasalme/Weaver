@@ -7,6 +7,7 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
+  overflow: auto;
   overflow-x: hidden;
   font-family: Arial, sans-serif;
 }
@@ -257,6 +258,9 @@ button:hover {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-backdrop h2 {
@@ -304,20 +308,26 @@ button:hover {
 
 
 .modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
+  position: relative; /* not fixed */
   max-width: 600px;
+  width: 90%;
   max-height: 90vh;
   background: radial-gradient(circle, #f0eee3 63%, #adb4b6 100%);
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
-  z-index: 3001;
+  z-index: 3001; /* ✅ Higher z-index */
 }
+
+.modal::-webkit-scrollbar {
+  width: 8px;
+}
+.modal::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
 
 .modal-input,
 .modal-textarea {
@@ -407,6 +417,28 @@ button:hover {
   cursor: pointer;
   text-decoration: underline;
 }
+
+.floating-create-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 3000;
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 30px;
+  background: linear-gradient(180deg, rgba(207,200,200,1) 0%, rgba(197,203,217,1) 94%);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.floating-create-btn:hover {
+  background-color: #ccc;
+  transform: scale(1.05);
+}
+
+
 
 
 /* ========================== */

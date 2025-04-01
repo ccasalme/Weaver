@@ -18,8 +18,8 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!title || !content) {
-      alert("Please enter a title and content.");
+    if (!title.trim() || !content.trim()) {
+      alert("Please enter a title and story content.");
       return;
     }
 
@@ -50,6 +50,11 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose }) => {
             background: "linear-gradient(to right, rgb(159, 171, 174), rgb(59, 77, 77))",
             padding: "2rem",
             borderRadius: "8px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            maxHeight: "70vh",
+            overflowY: "auto",
           }}
         >
           <h2
@@ -57,43 +62,38 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose }) => {
             style={{
               fontSize: "1.5rem",
               fontWeight: "bold",
-              marginBottom: "1rem",
               color: "white",
               textAlign: "center",
               textTransform: "uppercase",
               letterSpacing: "1px",
             }}
           >
-            Create a New Story 📚
+            Create a New Origin 📚
           </h2>
-
           <input
             type="text"
-            placeholder="Story Title"
+            placeholder="Origin Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
             className="modal-input"
           />
-
           <textarea
-            placeholder="Once upon a time... (max 3000 chars)"
+            placeholder="Once upon a time in the multiverse... ✨"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
             maxLength={3000}
             className="modal-textarea"
           />
-
-          <div className="modal-btn-group">
+          <div className="modal-btn-group" style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
             <button type="submit" className="modal-submit-btn">
-              Post Story ✨
+              Post Origin
             </button>
             <button type="button" onClick={onClose} className="modal-close-btn">
               ❎ Cancel
             </button>
           </div>
-
           {error && <p className="modal-error">Error: {error.message}</p>}
         </form>
       </div>
