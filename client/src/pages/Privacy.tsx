@@ -90,15 +90,13 @@ const PrivacyPolicy: React.FC = () => {
           anything else related to the platform.
         </p>
       </div>
-
+      {/* Third-Party Services */}
       <div className="section">
-        <h2 className="section-title" style={{ color: "white" }}>
-          Third Party Goods and Services
-        </h2>
+        <h2 className="section-title">Third-Party Goods & Services</h2>
         <p>
-          Our site may offer goods and services from third parties. We cannot
-          guarantee the quality or accuracy of goods and services made available
-          by third parties on our site.
+          Our site may include content or services from third parties. We cannot
+          guarantee the quality or accuracy of any external content or
+          offerings.
         </p>
       </div>
     </div>
