@@ -295,3 +295,46 @@ button.close-button,
     margin-bottom: 5px;
   }
 }
+
+
+.comment-input-section {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.comment-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+}
+
+.comment-btn {
+  padding: 8px 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.comment-btn:hover {
+  background-color: #45a049;
+}
+
+.comments-section {
+  margin-top: 15px;
+}
+
+.comment-card {
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin-top: 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
