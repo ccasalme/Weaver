@@ -1,15 +1,40 @@
-/* ✅ Footer Fix */
-.footer-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-    width: 100%;
-    position: relative; /* Fixed from sticking */
-    bottom: 0;
-    height: auto;
-    margin-top: 30px; /* ✅ Give breathing room from content */
+/* ✅ Footer Styles */
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  width: 100%;
+  height: auto; /* ✅ Auto height to avoid squishing */
+  margin-top: 30px; /* ✅ Space between content and footer */
+  flex-shrink: 0; /* 🚨 Prevent shrinking */
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* Nice subtle shadow */
+  z-index: 1000; /* Ensure it stays on top */
+  background-size: cover; /* Cover the entire footer */
+  background-repeat: no-repeat; /* No repeating of the background */
+  background: linear-gradient(
+    18deg,
+    rgba(60, 64, 66, 0.9976905311778291) 2%,
+    rgba(96, 99, 102, 1) 14%,
+    rgba(55, 59, 59, 1) 86%
+  ); /* ✅ Corrected background gradient */
+  flex-grow: 1; /* Allow footer to grow */
+  position: relative; /* Positioning context for child elements */
+}
+
+/* 📱 Mobile Adjustments */
+@media (max-width: 768px) {
+  .footer {
+    padding: 8px;
+    font-size: 0.9rem;
   }
-  
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 6px;
+    font-size: 0.8rem;
+  }
+}

@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { GET_MY_PROFILE } from "../graphql/queries";
+import "./Wireframe.css"; // Import the CSS for styling
 
 const Profile: React.FC = () => {
   const { loading, error, data } = useQuery(GET_MY_PROFILE);
