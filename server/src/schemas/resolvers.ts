@@ -44,9 +44,9 @@ const resolvers = {
     // Login an existing user and return a JWT token
     login: async (
       _parent: any,
-      { email, password }: { email: string; password: string }
+      { username, password }: { username: string; password: string }
     ) => {
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ username });
       if (!user) {
         throw new Error("Can't find this user");
       }
