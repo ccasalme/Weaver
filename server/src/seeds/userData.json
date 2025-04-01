@@ -1,20 +1,24 @@
 [
     {
+        "fullName": "Story Weaver",
         "username": "storyweaver",
         "email": "weaver1@example.com",
         "password": "password123"
       },
       {
+        "fullName": "Ink Smith",
         "username": "inksmith",
         "email": "inksmith@example.com",
         "password": "writeon456"
       },
       {
+        "fullName": "Fable Crafter",
         "username": "fablecrafter",
         "email": "fable@example.com",
         "password": "legend789"
       },
       {
+        "fullName": "Spidey Money",
         "username": "spideynomoney",
         "email": "spideyisbroke@gmail.com",
         "password": "nowayhome"
