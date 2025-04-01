@@ -254,13 +254,15 @@ button:hover {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 9998;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 2000;
+  background-color: rgba(0, 0, 0, 0.7); /* darken the background */
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-y: auto; /* enables scrolling for taller content */
+  padding: 2rem; /* helps when modal content is large */
 }
 
 .modal-backdrop h2 {
@@ -308,16 +310,15 @@ button:hover {
 
 
 .modal {
-  position: relative; /* not fixed */
-  max-width: 600px;
-  width: 90%;
-  max-height: 90vh;
-  background: radial-gradient(circle, #f0eee3 63%, #adb4b6 100%);
-  padding: 30px;
+  background-color: white;
+  padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
   overflow-y: auto;
-  z-index: 3001; /* ✅ Higher z-index */
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  z-index: 9999;
 }
 
 .modal::-webkit-scrollbar {

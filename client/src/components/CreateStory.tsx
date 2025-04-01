@@ -1,4 +1,3 @@
-// src/components/CreateStory.tsx
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { CREATE_STORY } from "../graphql/mutations";
@@ -25,10 +24,7 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose }) => {
 
     try {
       await createStory({
-        variables: {
-          title,
-          content,
-        },
+        variables: { title, content },
       });
 
       setTitle("");
@@ -41,24 +37,47 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
+    <div
+      className="modal-backdrop"
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        zIndex: 9998,
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        overflowY: "auto",
+        padding: "2rem",
+      }}
+    >
+      <div
+        className="modal"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: "linear-gradient(to right, rgb(159, 171, 174), rgb(59, 77, 77))",
+          borderRadius: "12px",
+          maxWidth: "700px",
+          width: "100%",
+          padding: "2rem",
+          overflowY: "auto",
+          maxHeight: "90vh",
+          boxShadow: "0 0 20px rgba(0,0,0,0.4)",
+        }}
+      >
         <form
           onSubmit={handleSubmit}
-          className="add-comment-container"
           style={{
-            background: "linear-gradient(to right, rgb(159, 171, 174), rgb(59, 77, 77))",
-            padding: "2rem",
-            borderRadius: "8px",
             display: "flex",
             flexDirection: "column",
             gap: "1rem",
-            maxHeight: "70vh",
-            overflowY: "auto",
           }}
         >
           <h2
-            className="modal-title"
             style={{
               fontSize: "1.5rem",
               fontWeight: "bold",
@@ -70,31 +89,78 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose }) => {
           >
             Create a New Origin 📚
           </h2>
+
           <input
             type="text"
             placeholder="Origin Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="modal-input"
+            style={{
+              padding: "0.75rem",
+              borderRadius: "8px",
+              border: "1px solid #ccc",
+              fontSize: "1rem",
+            }}
           />
+
           <textarea
             placeholder="Once upon a time in the multiverse... ✨"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
             maxLength={3000}
-            className="modal-textarea"
+            style={{
+              minHeight: "150px",
+              padding: "0.75rem",
+              borderRadius: "8px",
+              border: "1px solid #ccc",
+              fontSize: "1rem",
+              resize: "vertical",
+            }}
           />
-          <div className="modal-btn-group" style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
-            <button type="submit" className="modal-submit-btn">
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "1rem",
+              marginTop: "1rem",
+            }}
+          >
+            <button
+              type="submit"
+              style={{
+                backgroundColor: "#3b4d4d",
+                color: "white",
+                padding: "0.75rem 1.5rem",
+                borderRadius: "50px",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
               Post Origin
             </button>
-            <button type="button" onClick={onClose} className="modal-close-btn">
+            <button
+              type="button"
+              onClick={onClose}
+              style={{
+                backgroundColor: "#ccc",
+                padding: "0.75rem 1.5rem",
+                borderRadius: "50px",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
               ❎ Cancel
             </button>
           </div>
-          {error && <p className="modal-error">Error: {error.message}</p>}
+
+          {error && (
+            <p style={{ color: "red", textAlign: "center" }}>
+              Error: {error.message}
+            </p>
+          )}
         </form>
       </div>
     </div>

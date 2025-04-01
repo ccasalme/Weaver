@@ -79,6 +79,14 @@ const Homepage: React.FC = () => {
     setBranchStoryId(storyId);
   };
 
+  const handleCreateClick = () => {
+    if (!isAuthenticated) {
+      setShowOopsModal(true);
+    } else {
+      setShowCreateStory(true);
+    }
+  };
+
   if (loading) return <p>Loading stories... 📚</p>;
   if (error) return <p>Error loading stories: {error.message}</p>;
 
@@ -121,6 +129,25 @@ const Homepage: React.FC = () => {
           </button>
         </div>
       )}
+
+      {/* ✅ Create Button on Top of Feed */}
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <button
+          onClick={handleCreateClick}
+          className="create-btn"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+            color: "white",
+            padding: "10px 20px",
+            borderRadius: "50px",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          ➕ Create New Origin
+        </button>
+      </div>
 
       {/* ✅ Story Feed */}
       <div className="story-feed">
@@ -191,16 +218,6 @@ const Homepage: React.FC = () => {
           <p>No Origin Multiverses available. Start by creating one! 📚</p>
         )}
       </div>
-
-      {/* ✅ Floating Create Story Button */}
-      {isAuthenticated && (
-        <button
-          className="floating-create-btn"
-          onClick={() => setShowCreateStory(true)}
-        >
-          ➕ Create New Origin
-        </button>
-      )}
 
       {/* ✅ Modals */}
       {showLogin && (

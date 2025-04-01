@@ -114,7 +114,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className="profile-container">
-      <h2 style={{color: "white"}}>My Profile</h2>
+      <h2 style={{color: "white"}}>Weaver's Profile</h2>
       <img src={profile.avatar} alt="Profile Avatar" className="profile-avatar" />
       <p style={{color: "white"}}>{profile.bio}</p>
       <p style={{color: "white"}}>👥 Followers: {profile.followers.length}</p>
