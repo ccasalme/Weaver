@@ -51,7 +51,7 @@ const typeDefs = `
     _id: ID!
     story: Story!
     user: User!
-    voteType: upvote | downvote
+    voteType: VoteType!
   }
 
   type Auth {
@@ -75,7 +75,7 @@ const typeDefs = `
     likeStory(storyId: ID!): Story!
     addComment(storyId: ID!, content: String!): Comment!
     deleteStory(storyId: ID!): Story!
-    voteStory(storyId: ID!, voteType: upvote | downvote): Vote!
+    voteStory(storyId: ID!, voteType: VoteType): Vote!
   }
 `;
 
