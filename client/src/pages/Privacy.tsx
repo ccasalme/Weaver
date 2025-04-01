@@ -99,6 +99,14 @@ const PrivacyPolicy: React.FC = () => {
           offerings.
         </p>
       </div>
+      {/* Liability Disclaimer */}
+      <div className="section">
+        <h2 className="section-title">Limitation of Liability</h2>
+        <p>
+          Cyrl Casalme, Stella Nabajja, and Corey Parsons are not liable for any
+          claims, damages, or losses resulting from the use of this Site.
+        </p>
+      </div>
     </div>
   );
 };
