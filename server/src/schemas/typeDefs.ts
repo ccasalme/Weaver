@@ -42,6 +42,11 @@ const typeDefs = `
     text: String!
   }
 
+  enum VoteType {
+    upvote
+    downvote
+  }
+
   type Vote {
     _id: ID!
     story: Story!
