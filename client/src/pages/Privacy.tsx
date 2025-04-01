@@ -132,6 +132,15 @@ const PrivacyPolicy: React.FC = () => {
           will be removed without affecting the rest of the document.
         </p>
       </div>
+      {/* Changes */}
+      <div className="section">
+        <h2 className="section-title">Changes to This Policy</h2>
+        <p>
+          These terms and policies may be updated to reflect changes in the
+          platform or to remain in compliance with the law. We may post updates
+          on the site or notify users via email if necessary.
+        </p>
+      </div>
     </div>
   );
 };
