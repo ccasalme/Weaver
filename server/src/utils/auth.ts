@@ -47,4 +47,3 @@ export class AuthenticationError extends GraphQLError {
     Object.defineProperty(this, 'name', { value: 'AuthenticationError' });
   }
 };
-

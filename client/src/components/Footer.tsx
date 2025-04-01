@@ -13,7 +13,13 @@ const Footer = () => {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             background: 'linear-gradient(18deg, rgba(60,64,66,0.9976905311778291) 2%, rgba(96,99,102,1) 14%, rgba(55,59,59,1) 86%)',
-            zIndex: 1000 // Ensure the footer is above other content
+            zIndex: 1000, // Ensure the footer is above other content
+            flexShrink: 0,
+            flexGrow: 1,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontFamily: 'Arial, sans-serif',
         }}
         >
             <p style={{

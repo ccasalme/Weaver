@@ -1,51 +1,279 @@
 /* ========================== */
-/* 🌟 Core Page Container Styles */
+/* 🌟 Reset and Core Styles */
+/* ========================== */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+}
+
+/* Core container that fills the viewport properly */
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background: url("../assets/WireFrameBackground.png") center center / cover
+    no-repeat fixed;
+  overflow-x: hidden;
+}
+
+/* ========================== */
+/* 🎉 Page Container */
 /* ========================== */
 .page-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: url('../assets/WireFrameBackground.png') center center / cover
-        no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
-    z-index: 1; /* ✅ Changed to 1 */
-    background-attachment: fixed;
-    overflow-y: auto;
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 50px;
+  margin: 0 auto;
 }
 
-
-/* 🎯 Auth/Feed Container Styles */
-.auth-container,
-.feed-container {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 600px;
-    margin-top: 20px;
-    z-index: 10;
+/* ========================== */
+/* 🎯 Banner Styling - Full Width and Height Fix */
+/* ========================== */
+.banner-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  width: 100%;
+  max-width: 1400px; /* ✅ Full width */
+  height: auto;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
 }
 
+/* Banners now take up full width properly */
+.hero-banner,
+.hero-banner-2 {
+  width: 100%;
+  height: 400px; /* ✅ Increased height for better impact */
+  object-fit: cover;
+  border-radius: 12px; /* ✅ No rounded corners for full coverage */
+}
+
+/* ========================== */
+/* 📚 Story Feed Styles */
+/* ========================== */
+.story-feed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 800px; /* ✅ Increased width for better readability */
+  height: auto;
+  margin-top: 20px;
+  padding: 240px; /* ✅ Increased padding for breathing room */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-image: url("../assets/storycardBackground.png");
+  background-size: cover; /* ✅ Ensure full coverage */
+  background-repeat: no-repeat; /* ✅ Stop that repeat */
+  background-position: center; /* ✅ Center the background */
+  position: relative; /* ✅ To avoid weird scroll issues */
+}
+
+/* 🎯 Individual Story Card */
+.story-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 100px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  width: 100%;
+  max-width: 700px;
+  background-image: url("../assets/PopUpBackground.png");
+}
+
+/* Larger titles for better accessibility */
+.story-card h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: white;
+  background: linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%);
+}
+
+.story-card p {
+  font-size: 1.5rem;
+  color: white;
+  margin: 5px 0;
+  background: linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%);
+}
+
+/* ========================== */
+/* 💬 Comment Section */
+/* ========================== */
+.comment-input-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.comment-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+  font-size: 1rem;
+}
+
+.comment-btn {
+  padding: 12px 16px;
+  background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(66, 64, 64, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.comment-btn:hover {
+  background-color: #45a049;
+}
+
+.comments-section {
+  margin-top: 15px;
+  width: 100%;
+  text-align: left;
+}
+
+.comment-card {
+  background-color: #f9f9f9;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 🌟 Modal Container */
+.add-comment-container,
+.branch-story-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+/* 🎯 Modal Inputs */
+.add-comment-container textarea,
+.branch-story-modal textarea,
+.branch-story-modal input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+}
+
+/* 🎉 Submit Button */
+.add-comment-container button,
+.branch-story-modal button {
+  padding: 12px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-comment-container button:hover,
+.branch-story-modal button:hover {
+  background-color: #45a049;
+}
+
+/* ========================== */
+/* 🎯 Auth/Feed Container */
+/* ========================== */
 .auth-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-image: url('../assets/PopUpBackground.png');
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url("../assets/PopUpBackground.png");
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
 }
 
-
-/* 🎯 Button for Auth Actions */
 /* ✅ Button Styles */
 button {
-  padding: 8px 8px;
+  padding: 12px 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: linear-gradient(
+    180deg,
+    rgba(207, 200, 200, 1) 0%,
+    rgba(197, 203, 217, 1) 94%
+  );
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #ddd;
+  transform: translateY(-2px);
+}
+
+/* ========================== */
+/* 🌟 Modal Styles */
+/* ========================== */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9998;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7); /* darken the background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto; /* enables scrolling for taller content */
+  padding: 2rem; /* helps when modal content is large */
+}
+
+.modal-backdrop h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: white;
+  background: linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%);
+}
+
+.modal-backdrop button {
+  padding: 8px 12px;
   text-decoration: none;
   color: black;
   font-size: 14px;
@@ -58,67 +286,237 @@ button {
   cursor: pointer;
   width: 100%;
   margin-bottom: 8px;
+}
+
+.modal-backdrop .close-btn {
+  position: absolute;
+  top: 5px;
+  left: 5px; /* ✅ Move to left instead of right */
+  width: 24px;
+  height: 24px;
+  background: none !important; /* ✅ FINAL: No background */
+  border: none !important; /* ✅ FINAL: No borders */
+  box-shadow: none !important; /* ✅ Clean up any shadows */
+  outline: none; /* ✅ No focus outline */
+  cursor: pointer;
+  z-index: 9999; /* ✅ Max z-index to be on top */
+  margin-bottom: 8px;
+}
+
+.modal-backdrop .close-btn:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+
+.modal {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  z-index: 9999;
+}
+
+.modal::-webkit-scrollbar {
+  width: 8px;
+}
+.modal::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+
+.modal-input,
+.modal-textarea {
+  width: 100%;
+  font-size: 1rem;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.modal-textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+.action-btn-group {
+  display: flex;
+  justify-content: space-between; /* Equal spacing */
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap; /* Handles smaller screens */
+}
+
+.action-btn-group button {
+  flex: 1 1 30%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+
+.tab-group {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+  justify-content: center;
+}
+
+.tab-group button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: #d2dce3;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.tab-group .active-tab {
+  background: #a6b8c4;
+  font-weight: bold;
+}
+
+.story-list {
+  list-style: none;
+  padding: 0;
   margin-top: 10px;
 }
 
-
-/* ✅ Feed Container Styles */
-.feed-container {
-    margin-top: 40px;
-    padding: 20px;
-    width: 100%;
-    max-width: 900px;
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    text-align: center;
+.story-item {
+  padding: 12px;
+  background: #ffffffa6;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* ✅ Push content down when not logged in */
-.main-content {
-    margin-top: 20px;
-    padding: 20px;
-    width: 100%;
-    box-sizing: border-box;
+.comment-thread {
+  margin-top: 10px;
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.see-threads-btn {
+  margin-top: 10px;
+  background: transparent;
+  border: none;
+  color: #333;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.floating-create-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 3000;
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 30px;
+  background: linear-gradient(180deg, rgba(207,200,200,1) 0%, rgba(197,203,217,1) 94%);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.floating-create-btn:hover {
+  background-color: #ccc;
+  transform: scale(1.05);
 }
 
 /* ========================== */
-/* ✨ Modal Styles for Login & JoinUs */
+/* Profile Styling */
 /* ========================== */
-.modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 2000;
+
+.profile-container {
+  max-width: 700px;
+  margin: auto;
+  padding: 2rem;
+  color: white;
 }
 
-/* 🌟 Centered Modal */
-.modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgb(240, 238, 227);
-    background: radial-gradient(circle, rgba(240, 238, 227, 1) 63%, rgba(173, 180, 182, 1) 100%);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 400px;
-    z-index: 3001;
+.profile-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 2rem;
 }
 
-button.close-button, 
-.modal .close-button {
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
-    outline: none !important;
-    padding: 0 !important;
-    z-index: 99999 !important;
+.profile-pic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.profile-bio {
+  margin: 0.5rem 0;
+  color: #ccc;
+}
+
+.profile-followers {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.tab-group {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1.5rem;
+}
+
+.tab-group button {
+  background: transparent;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: #aaa;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+
+.tab-group .active-tab {
+  color: white;
+  border-color: white;
+}
+
+.see-threads-btn {
+  margin-top: 0.5rem;
+  background: none;
+  border: none;
+  color: #7ed6df;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.comment-thread {
+  list-style: none;
+  padding-left: 1rem;
+  margin-top: 0.5rem;
+  border-left: 2px solid #555;
+  color: #ccc;
+}
+
+.dummy-warning {
+  color: orange;
+  text-align: center;
+  margin-top: 2rem;
 }
 
 
@@ -126,169 +524,56 @@ button.close-button,
 /* 🌸 Mobile & Responsive Styling */
 /* ========================== */
 @media (max-width: 768px) {
-    .auth-container,
-    .feed-container {
-        width: 95%;
-    }
-}
-
-@media (max-width: 430px) {
-    h1 {
-        font-size: 1.3rem;
-    }
-
-    p {
-        font-size: 0.9rem;
-    }
-}
-
-/* ========================= */
-/* 🎉 Story Feed Styles */
-/* ========================= */
-.story-feed {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 90%;
-    max-width: 800px;
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    background-image: url('../assets/storycardBackground.png');
+  .page-container {
+    padding: 0 10px;
   }
-  
-  /* 🎯 Individual Story Card */
-  .story-card {
-    background-color: #f9f9f9;
-    padding: 15px;
-    margin-bottom: 12px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    background: linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1);
-    color: white;
-    padding: 10px 20px;
-    border-radius: "50px";
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    border: none;
-  }
-  p {
-    color: white;
-    height: 100%;
+
+  .banner-container {
     width: 100%;
-    font-size: 1.5rem;
-    text-align: center, space-between;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    color: white;
-    font-size: 2rem;
-    text-align: center;
-  }
-
-  .story-card h3 {
-    margin-top: 0;
-    font-size: 1.4rem;
-  }
-  
-  .story-card p {
-    margin: 5px 0;
-    font-size: 1rem;
-  }
-  
-  /* 📱 Responsive Story Styling */
-  @media (max-width: 768px) {
-    .story-feed {
-      width: 95%;
-    }
-  
-    .story-card h3 {
-      font-size: 1.2rem;
-    }
-  
-    .story-card p {
-      font-size: 0.9rem;
-    }
-  }
-  /* 🎉 Auth Container Hidden after Login */
-.auth-container.hidden {
-    display: none;
-  }
-  
-  /* ✅ Logout Button Style */
-  button.logout-btn {
-    background-color: #ff4d4d;
-    color: white;
-    transition: background-color 0.3s ease;
-  }
-  
-  button.logout-btn:hover {
-    background-color: #ff3333;
-  }
-  
-/* ✅ Hero Banner Style */
-/* ✅ Hero Banner Style */
-.hero-banner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  height: 60vh;
-  background-size: cover;
-  background-position: center;
-  max-height: 400px; /* Optional - Adjust for preferred height */
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 0; /* 🚨 Remove margin to eliminate the space */
-}
-
-/* ✅ Second Banner Style */
-.hero-banner-2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  height: auto;
-  background-size: cover;
-  background-position: center;
-  max-height: 500px; /* Optional - Adjust for preferred height */
-  object-fit: cover;
-  border-radius: 12px;
-  margin-top: -5px; /* 🚨 Eliminate space between the two */
-}
-
-/* ✅ Optional: Add gap between banners if necessary */
-.banner-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0; /* 🚨 No gap between banners */
-  width: 100%;
-  height: auto;
-  background-size: cover;
-  background-position: center;
-}
-
-@media (max-width: 768px) {
   .hero-banner,
   .hero-banner-2 {
-    height: 40vh;
-    border-radius: 25px;
-    padding: 0; /* 🚨 Reset padding for mobile */
+    height: 250px; /* ✅ Adjusted for mobile view */
+  }
+
+  .story-feed {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .story-card {
+    width: 100%;
+  }
+
+  .auth-container {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .modal {
+    width: 90%;
+  }
+
+  button {
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
-  .hero-banner,
-  .hero-banner-2 {
-    height: 30vh;
-    border-radius: 15px;
-    padding: 0; /* 🚨 Reset padding for smaller screens */
+  .story-card h3 {
+    font-size: 1.5rem;
+  }
+
+  .story-card p {
+    font-size: 1rem;
+  }
+
+  .comment-input {
+    font-size: 0.9rem;
+  }
+
+  button {
+    font-size: 0.9rem;
   }
 }
