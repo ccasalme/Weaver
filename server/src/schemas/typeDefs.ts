@@ -1,7 +1,7 @@
 const typeDefs = `
   type User {
     _id: ID!
-    fullname: String!
+    fullName: String!
     username: String!
     email: String!
   }
@@ -63,8 +63,6 @@ const typeDefs = `
   type Query {
     me: User
     myProfile: Profile
-    getProfiles: [Profile]
-    getUsers: [User]
     getPrompts: [Prompt]
     getStories: [Story]
   }
