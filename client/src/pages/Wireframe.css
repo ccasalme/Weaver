@@ -165,6 +165,49 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* 🌟 Modal Container */
+.add-comment-container,
+.branch-story-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+/* 🎯 Modal Inputs */
+.add-comment-container textarea,
+.branch-story-modal textarea,
+.branch-story-modal input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+}
+
+/* 🎉 Submit Button */
+.add-comment-container button,
+.branch-story-modal button {
+  padding: 12px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-comment-container button:hover,
+.branch-story-modal button:hover {
+  background-color: #45a049;
+}
+
 /* ========================== */
 /* 🎯 Auth/Feed Container */
 /* ========================== */
@@ -265,18 +308,35 @@ button:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: radial-gradient(
-    circle,
-    rgba(240, 238, 227, 1) 63%,
-    rgba(173, 180, 182, 1) 100%
-  );
-  padding: 25px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  background: radial-gradient(circle, #f0eee3 63%, #adb4b6 100%);
+  padding: 30px;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 400px;
+  overflow-y: auto;
   z-index: 3001;
 }
+
+.modal-input,
+.modal-textarea {
+  width: 100%;
+  font-size: 1rem;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.modal-textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+
+
 
 /* ========================== */
 /* 🌸 Mobile & Responsive Styling */
