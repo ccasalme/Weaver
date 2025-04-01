@@ -37,9 +37,11 @@ export const GET_ME = gql`
 `;
 
 // ✅ Get user profile (bio, avatar, saved stories, etc.)
+// src/graphql/queries.ts
 export const GET_MY_PROFILE = gql`
   query MyProfile {
     myProfile {
+      username
       bio
       avatar
       followers {
@@ -48,15 +50,40 @@ export const GET_MY_PROFILE = gql`
       sharedStories {
         _id
         title
-      }
-      branchedStories {
-        _id
-        title
+        content
+        comments {
+          _id
+          content
+          author {
+            username
+          }
+        }
       }
       likedStories {
         _id
         title
+        content
+        comments {
+          _id
+          content
+          author {
+            username
+          }
+        }
+      }
+      branchedStories {
+        _id
+        title
+        content
+        comments {
+          _id
+          content
+          author {
+            username
+          }
+        }
       }
     }
   }
 `;
+

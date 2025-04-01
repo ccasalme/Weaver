@@ -19,6 +19,7 @@ interface Story {
 
 interface ProfileData {
   myProfile: {
+    username: string; 
     bio: string;
     avatar: string;
     followers: { username: string }[];
@@ -28,8 +29,10 @@ interface ProfileData {
   };
 }
 
+
 //temporary dummy data if server is offline
 const dummyProfile: ProfileData["myProfile"] = {
+  username: "spideynomoney",
   bio: "Just your friendly neighbourhood thread weaver. 🕸️",
   avatar: fallbackAvatar,
   followers: [{ username: "ironfan" }, { username: "strangelycool" }],
@@ -100,7 +103,25 @@ const Profile: React.FC = () => {
       <div className="profile-header">
         <img src={profile.avatar} alt="Profile" className="profile-pic" />
         <div>
-          <h2>@weaver</h2>
+          <h2 style={{
+            color: "white",
+            padding: "10px",
+            borderRadius: "5px",
+            backgroundColor: "#2c3e50",
+            display: "inline-block",
+            margin: 0,
+            textAlign: "center",
+            width: "100%",
+            fontSize: "2.5em",
+            fontWeight: "bold",
+            lineHeight: "1.5em",
+            textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+            textTransform: "uppercase",
+            letterSpacing: "0.05em",
+            marginBottom: "10px",
+            textOverflow: "ellipsis",
+            overflow: "hidden"
+          }}>@{profile.username ?? "weaver"}</h2>
           <p className="profile-bio">{profile.bio}</p>
           <p className="profile-followers">👥 {profile.followers.length} followers</p>
         </div>
