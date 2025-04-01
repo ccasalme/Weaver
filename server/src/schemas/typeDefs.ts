@@ -12,6 +12,7 @@ const typeDefs = `
     bio: String
     avatar: String
     followers: [User]
+    following: [User]
     sharedStories: [Story]
     branchedStories: [Story]
     likedStories: [Story]
