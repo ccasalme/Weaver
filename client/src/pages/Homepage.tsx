@@ -4,6 +4,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import "./Wireframe.css"; // CSS file
 import Login from "../components/Login";
 import JoinUs from "../components/JoinUs";
+import OOPSModal from "../components/OOPSModal"; // ✅ Import OOPS Modal
 import HeroBanner from "../assets/weaverBanner.png";
 import SecondBanner from "../assets/weaverBanner2.png";
 import { GET_STORIES } from "../graphql/queries";
@@ -33,6 +34,7 @@ const Homepage: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const [showJoinUs, setShowJoinUs] = useState<boolean>(false);
+  const [showOopsModal, setShowOopsModal] = useState<boolean>(false); // ✅ New state for OOPS modal
   const [commentInputs, setCommentInputs] = useState<{ [key: string]: string }>(
     {}
   );
@@ -102,6 +104,11 @@ const Homepage: React.FC = () => {
 
   // ✅ Handle Add Comment
   const handleAddComment = async (storyId: string) => {
+    if (!isAuthenticated) {
+      setShowOopsModal(true); // ❗️ Show OOPS modal if not logged in
+      return;
+    }
+
     const content = commentInputs[storyId];
     if (content && content.trim() !== "") {
       try {
@@ -155,36 +162,12 @@ const Homepage: React.FC = () => {
           </p>
 
           {/* ✅ Login Button */}
-          <button
-            onClick={() => setShowLogin(true)}
-            className="login-btn"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
-              color: "white",
-              padding: "10px 20px",
-              borderRadius: "50px",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
+          <button onClick={() => setShowLogin(true)} className="login-btn">
             Login
           </button>
 
           {/* ✅ Join Us Button */}
-          <button
-            onClick={() => setShowJoinUs(true)}
-            className="join-btn"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
-              color: "white",
-              padding: "10px 20px",
-              borderRadius: "50px",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
+          <button onClick={() => setShowJoinUs(true)} className="join-btn">
             Join Us
           </button>
         </div>
@@ -288,6 +271,21 @@ const Homepage: React.FC = () => {
           switchToLogin={() => {
             setShowJoinUs(false);
             setShowLogin(true);
+          }}
+        />
+      )}
+
+      {/* ❗️ Render OOPS Modal if not authenticated */}
+      {showOopsModal && (
+        <OOPSModal
+          onClose={() => setShowOopsModal(false)}
+          switchToLogin={() => {
+            setShowOopsModal(false);
+            setShowLogin(true);
+          }}
+          switchToJoinUs={() => {
+            setShowOopsModal(false);
+            setShowJoinUs(true);
           }}
         />
       )}
