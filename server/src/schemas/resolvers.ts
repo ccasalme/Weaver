@@ -257,6 +257,23 @@ const resolvers = {
       return updatedProfile;
     },
 
+    // Unfollow another user
+    unfollowUser: async (
+      _: any,
+      { profileId }: { profileId: string },
+      context: any
+    ) => {
+      if (!context.user) throw new Error("You need to be logged in!");
+
+      const updatedProfile = await Profile.findByIdAndUpdate(
+        profileId,
+        { $pull: { followers: context.user._id } },
+        { new: true }
+      );
+
+      if (!updatedProfile) throw new Error("Profile not found");
+      return updatedProfile;
+    }
   },
 };
 
