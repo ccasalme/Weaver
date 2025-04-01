@@ -81,15 +81,16 @@ const PrivacyPolicy: React.FC = () => {
           portfolio purposes only. Use the site respectfully and lawfully.
         </p>
       </div>
+      {/* Intellectual Property */}
       <div className="section">
-        <h2 className="section-title" style={{ color: "white" }}>
-          Intellectual Property
-        </h2>
+        <h2 className="section-title">Intellectual Property</h2>
         <p>
-          All content published and made available on our site is the property
-          of our company and the site’s creators.
+          All content on this Site is the property of Cyrl Casalme, Stella
+          Nabajja, and Corey Parsons, including text, code, logos, images, and
+          anything else related to the platform.
         </p>
       </div>
+
       <div className="section">
         <h2 className="section-title" style={{ color: "white" }}>
           Third Party Goods and Services
