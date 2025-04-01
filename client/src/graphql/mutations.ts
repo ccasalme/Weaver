@@ -103,4 +103,12 @@ export const UPDATE_PROFILE = gql`
   }
 `;
 
-
+// ✅ Delete a story
+export const DELETE_STORY = gql`
+  mutation deleteStory($storyId: ID!) {
+    deleteStory(storyId: $storyId) {
+      _id
+      title
+    }
+  }
+`;

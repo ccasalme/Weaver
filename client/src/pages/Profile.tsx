@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_MY_PROFILE } from "../graphql/queries";
-import { UPDATE_PROFILE } from "../graphql/mutations";
-import "./Wireframe.css";
+import { UPDATE_PROFILE, CREATE_STORY, DELETE_STORY } from "../graphql/mutations";
 import fallbackAvatar from "../assets/fallbackAvatar.png";
+import "./Wireframe.css";
 
 interface Story {
   _id: string;
@@ -61,6 +61,9 @@ const dummyProfile: ProfileData["myProfile"] = {
 const Profile: React.FC = () => {
   const { error, data } = useQuery<ProfileData>(GET_MY_PROFILE);
   const [updateProfile] = useMutation(UPDATE_PROFILE);
+  const [createStory] = useMutation(CREATE_STORY);
+  const [deleteStory] = useMutation(DELETE_STORY);
+
   const [activeTab, setActiveTab] = useState<"stories" | "branches" | "likes">("stories");
   const [expandedThreads, setExpandedThreads] = useState<{ [storyId: string]: boolean }>({});
   const [editing, setEditing] = useState(false);
@@ -68,6 +71,10 @@ const Profile: React.FC = () => {
   const [showFollowing, setShowFollowing] = useState(false);
   const [newBio, setNewBio] = useState("");
   const [newAvatarFile, setNewAvatarFile] = useState<File | null>(null);
+
+  const [newTitle, setNewTitle] = useState("");
+  const [newContent, setNewContent] = useState("");
+  const [newGenre, setNewGenre] = useState("");
 
   const profile = data?.myProfile ?? dummyProfile;
 
@@ -91,6 +98,22 @@ const Profile: React.FC = () => {
     }
   };
 
+  const handleCreateStory = async () => {
+    if (!newTitle.trim() || !newContent.trim()) {
+      alert("Please fill in both the title and story content.");
+      return;
+    }
+    try {
+      await createStory({ variables: { title: newTitle, content: newContent } });
+      setNewTitle("");
+      setNewContent("");
+      setNewGenre("");
+      alert("Story created successfully! 🎉");
+    } catch (err) {
+      console.error("Story creation failed", err);
+    }
+  };
+
   const renderStoryList = (stories: Story[]) => (
     <div className="story-list">
       {stories.map((story) => (
@@ -111,6 +134,11 @@ const Profile: React.FC = () => {
               ))}
             </ul>
           )}
+          <button onClick={() => {
+            if (window.confirm("Are you sure you want to delete this story?")) {
+              deleteStory({ variables: { storyId: story._id } }).then(() => window.location.reload());
+            }
+          }}>🗑️ Delete</button>
         </div>
       ))}
     </div>
@@ -121,26 +149,7 @@ const Profile: React.FC = () => {
       <div className="profile-header">
         <img src={profile.avatar} alt="Profile" className="profile-pic" />
         <div>
-          <h2 className="username-heading"
-          style={{
-          color: "white",
-          padding: "10px",
-          borderRadius: "5px",
-          backgroundColor: "#2c3e50",
-          display: "inline-block",
-          margin: 0,
-          textAlign: "center",
-          width: "100%",
-          fontSize: "2.5em",
-          fontWeight: "bold",
-          lineHeight: "1.5em",
-          textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-          textTransform: "uppercase",
-          letterSpacing: "0.05em",
-          marginBottom: "10px",
-          textOverflow: "ellipsis",
-          overflow: "hidden"
-          }}>@{profile.username ?? "weaver"}</h2>
+          <h2 className="username-heading">@{profile.username ?? "weaver"}</h2>
           {editing ? (
             <>
               <textarea
@@ -173,27 +182,7 @@ const Profile: React.FC = () => {
           )}
           {showFollowers && (
             <div className="follower-modal">
-              <h4
-              style={{
-              color: "white",
-              padding: "10px",
-              borderRadius: "5px",
-              backgroundColor: "#2c3e50",
-              display: "inline-block",
-              margin: 0,
-              textAlign: "center",
-              width: "100%",
-              fontSize: "2.5em",
-              fontWeight: "bold",
-              lineHeight: "1.5em",
-              textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-              textTransform: "uppercase",
-              letterSpacing: "0.05em",
-              marginBottom: "10px",
-              textOverflow: "ellipsis",
-              overflow: "hidden"
-              }}
-              >Followers</h4>
+              <h4>Followers</h4>
               <ul>
                 {profile.followers.map((f, i) => (
                   <li key={i}>@{f.username}</li>
@@ -203,27 +192,7 @@ const Profile: React.FC = () => {
           )}
           {showFollowing && (
             <div className="following-modal">
-              <h4
-                    style={{
-                      color: "white",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      backgroundColor: "#2c3e50",
-                      display: "inline-block",
-                      margin: 0,
-                      textAlign: "center",
-                      width: "100%",
-                      fontSize: "2.5em",
-                      fontWeight: "bold",
-                      lineHeight: "1.5em",
-                      textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.05em",
-                      marginBottom: "10px",
-                      textOverflow: "ellipsis",
-                      overflow: "hidden"
-                    }}
-              >Following</h4>
+              <h4>Following</h4>
               <ul>
                 {profile.following.map((f, i) => (
                   <li key={i}>@{f.username}</li>
@@ -233,29 +202,49 @@ const Profile: React.FC = () => {
           )}
         </div>
       </div>
+
       <div className="tab-group">
-        <button
-          onClick={() => setActiveTab("stories")}
-          className={activeTab === "stories" ? "active-tab" : ""}
-        >
-          📚 Stories
-        </button>
-        <button
-          onClick={() => setActiveTab("branches")}
-          className={activeTab === "branches" ? "active-tab" : ""}
-        >
-          🌱 Branches
-        </button>
-        <button
-          onClick={() => setActiveTab("likes")}
-          className={activeTab === "likes" ? "active-tab" : ""}
-        >
-          ❤️ Likes
-        </button>
+        <button onClick={() => setActiveTab("stories")} className={activeTab === "stories" ? "active-tab" : ""}>📚 Stories</button>
+        <button onClick={() => setActiveTab("branches")} className={activeTab === "branches" ? "active-tab" : ""}>🌱 Branches</button>
+        <button onClick={() => setActiveTab("likes")} className={activeTab === "likes" ? "active-tab" : ""}>❤️ Likes</button>
       </div>
+
+      {/* Create Story input UI */}
+      {activeTab === "stories" && (
+        <div className="create-story-form">
+          <h3>Create a New Origin 📖</h3>
+          <input
+            type="text"
+            placeholder="Title"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+          />
+          <textarea
+            placeholder="Tell your story..."
+            value={newContent}
+            onChange={(e) => setNewContent(e.target.value)}
+          />
+          <select value={newGenre} onChange={(e) => setNewGenre(e.target.value)}>
+            <option value="">Select Genre</option>
+            <option value="Sci-fi">Sci-fi</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Mystery">Mystery</option>
+            <option value="Romance">Romance</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Horror">Horror</option>
+            <option value="YoungAdult">Young Adult</option>
+            <option value="Thriller">Thriller</option>
+            <option value="FanFiction">Fan Fiction</option>
+            <option value="Adult18+">Adult 18+</option>
+          </select>
+          <button onClick={handleCreateStory}>Submit Origin</button>
+        </div>
+      )}
+
       {activeTab === "stories" && renderStoryList(profile.sharedStories)}
       {activeTab === "branches" && renderStoryList(profile.branchedStories)}
       {activeTab === "likes" && renderStoryList(profile.likedStories)}
+
       {error && (
         <p className="dummy-warning">
           ⚠️ You’re viewing a <strong>dummy profile</strong> while the server is offline.
