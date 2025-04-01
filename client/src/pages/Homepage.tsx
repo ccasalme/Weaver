@@ -1,7 +1,7 @@
 // src/pages/Homepage.tsx
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import "./Wireframe.css"; // CSS file
+import "./Wireframe.css";
 import Login from "../components/Login";
 import JoinUs from "../components/JoinUs";
 import OOPSModal from "../components/OOPSModal";
@@ -12,7 +12,6 @@ import SecondBanner from "../assets/weaverBanner2.png";
 import { GET_STORIES } from "../graphql/queries";
 import { LIKE_STORY } from "../graphql/mutations";
 
-// ✅ Define Story Interface
 interface Story {
   _id: string;
   title: string;
@@ -40,23 +39,19 @@ const Homepage: React.FC = () => {
   const [activeStoryId, setActiveStoryId] = useState<string | null>(null);
   const [branchStoryId, setBranchStoryId] = useState<string | null>(null);
 
-  // ✅ Check login status on load
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
   }, []);
 
-  // ✅ Fetch stories from GraphQL
   const { loading, error, data, refetch } = useQuery<{ getStories: Story[] }>(
     GET_STORIES
   );
 
-  // ✅ Like story mutation
   const [likeStory] = useMutation(LIKE_STORY, {
     onCompleted: () => refetch(),
   });
 
-  // ✅ Handle Like Click
   const handleLikeClick = async (storyId: string) => {
     try {
       await likeStory({ variables: { storyId } });
@@ -66,31 +61,28 @@ const Homepage: React.FC = () => {
     }
   };
 
-  // ✅ Open Add Comment Modal
   const openAddCommentModal = (storyId: string) => {
     if (!isAuthenticated) {
-      setShowOopsModal(true); // ❗️ Show OOPS modal if not logged in
+      setShowOopsModal(true);
       return;
     }
-    setActiveStoryId(storyId); // Open AddComment modal for that story
+    setActiveStoryId(storyId);
   };
 
-  // ✅ Open Branch Story Modal
   const openBranchModal = (storyId: string) => {
     if (!isAuthenticated) {
       setShowOopsModal(true);
       return;
     }
-    setBranchStoryId(storyId); // Open BranchStory modal
+    setBranchStoryId(storyId);
   };
 
-  // ✅ Loading and Error States
   if (loading) return <p>Loading stories... 📚</p>;
   if (error) return <p>Error loading stories: {error.message}</p>;
 
   return (
     <div className="page-container">
-      {/* ✅ Hero Banner Section */}
+      {/* ✅ Hero Banners */}
       <div className="banner-container">
         <img src={HeroBanner} alt="Weaver Banner" className="hero-banner" />
         <img
@@ -100,7 +92,7 @@ const Homepage: React.FC = () => {
         />
       </div>
 
-      {/* ✅ Show login and join us buttons only if NOT logged in */}
+      {/* ✅ Auth Buttons */}
       {!isAuthenticated && (
         <div className="auth-container">
           <h2
@@ -119,19 +111,16 @@ const Homepage: React.FC = () => {
             Join us to explore, create, and engage with stories.
           </p>
 
-          {/* ✅ Login Button */}
           <button onClick={() => setShowLogin(true)} className="login-btn">
             Login
           </button>
-
-          {/* ✅ Join Us Button */}
           <button onClick={() => setShowJoinUs(true)} className="join-btn">
             Join Us
           </button>
         </div>
       )}
 
-      {/* ✅ Stories Section */}
+      {/* ✅ Story Feed */}
       <div className="story-feed">
         <h2
           style={{
@@ -145,6 +134,7 @@ const Homepage: React.FC = () => {
         >
           Recent Stories 📚
         </h2>
+
         {Array.isArray(data?.getStories) && data.getStories.length > 0 ? (
           data.getStories.map((story) => (
             <div key={story._id} className="story-card">
@@ -154,31 +144,31 @@ const Homepage: React.FC = () => {
                 <strong>By:</strong> {story.author.username}
               </p>
 
-              {/* ❤️ Like Button */}
-              <button
-                onClick={() => handleLikeClick(story._id)}
-                className="like-btn"
-              >
-                ❤️ Vote ({story.likes || 0})
-              </button>
+              {/* ✅ Grouped Action Buttons */}
+              <div className="action-btn-group">
+                <button
+                  onClick={() => handleLikeClick(story._id)}
+                  className="like-btn"
+                >
+                  ❤️ Vote ({story.likes || 0})
+                </button>
 
-              {/* 🌱 Branch Button */}
-              <button
-                onClick={() => openBranchModal(story._id)}
-                className="branch-btn"
-              >
-                🌱 Branch
-              </button>
+                <button
+                  onClick={() => openBranchModal(story._id)}
+                  className="branch-btn"
+                >
+                  🌱 Branch
+                </button>
 
-              {/* 💬 Add Comment Button */}
-              <button
-                onClick={() => openAddCommentModal(story._id)}
-                className="comment-btn"
-              >
-                💬 Add a thread to the origin!
-              </button>
+                <button
+                  onClick={() => openAddCommentModal(story._id)}
+                  className="comment-btn"
+                >
+                  💬 Add a thread to the origin!
+                </button>
+              </div>
 
-              {/* 🎉 Comments Section */}
+              {/* ✅ Comments */}
               <div className="comments-section">
                 {story.comments && story.comments.length > 0 ? (
                   story.comments.map((comment) => (
@@ -200,7 +190,7 @@ const Homepage: React.FC = () => {
         )}
       </div>
 
-      {/* ✅ Render modals for Login and JoinUs */}
+      {/* ✅ Modals */}
       {showLogin && (
         <Login
           onClose={() => setShowLogin(false)}
@@ -221,7 +211,6 @@ const Homepage: React.FC = () => {
         />
       )}
 
-      {/* ❗️ Render OOPS Modal if not authenticated */}
       {showOopsModal && (
         <OOPSModal
           onClose={() => setShowOopsModal(false)}
@@ -236,7 +225,6 @@ const Homepage: React.FC = () => {
         />
       )}
 
-      {/* 💬 Add Comment Modal */}
       {activeStoryId && (
         <AddComment
           storyId={activeStoryId}
@@ -244,7 +232,6 @@ const Homepage: React.FC = () => {
         />
       )}
 
-      {/* 🌱 Branch Story Modal */}
       {branchStoryId && (
         <BranchStory
           parentStoryId={branchStoryId}

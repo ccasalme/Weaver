@@ -335,6 +335,20 @@ button:hover {
   resize: vertical;
 }
 
+.action-btn-group {
+  display: flex;
+  justify-content: space-between; /* Equal spacing */
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap; /* Handles smaller screens */
+}
+
+.action-btn-group button {
+  flex: 1 1 30%;
+  text-align: center;
+  white-space: nowrap;
+}
 
 
 
