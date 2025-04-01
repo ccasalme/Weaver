@@ -212,6 +212,34 @@ const resolvers = {
 
       return story;
     },
+
+    // Vote for a story (upvote/downvote)
+    voteStory: async (
+      _: any,
+      { storyId, voteType }: { storyId: string; voteType: string },
+      context: any
+    ) => {
+      if (!context.user) throw new Error("You need to be logged in!");
+
+      const existingVote = await Vote.findOne({
+        user: context.user._id,
+        story: storyId,
+      });
+
+      if (existingVote) {
+        existingVote.voteType = voteType;
+        await existingVote.save();
+        return existingVote;
+      }
+
+      const newVote = await Vote.create({
+        user: context.user._id,
+        story: storyId,
+        voteType,
+      });
+
+      return newVote;
+    },
   },
 };
 
