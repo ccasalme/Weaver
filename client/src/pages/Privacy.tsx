@@ -2,6 +2,7 @@ import React from "react";
 import "./Privacy.css"; // Ensure this still contains the styling you want
 import "./Wireframe.css"; // Background image styling
 import Wireframe from "../assets/WireFrameBackground.png";
+import CollapsibleSection from "../components/CollapsibleSection";
 
 //collapsible component and css not applied yet
 const PrivacyPolicy: React.FC = () => {
