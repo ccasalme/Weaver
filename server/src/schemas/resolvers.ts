@@ -1,4 +1,4 @@
-import { User, Profile, Prompt, Story, Comment, Vote } from "../models/index.js";
+import { User, Profile, Prompt, Story, Comment } from "../models/index.js";
 import { signToken } from "../utils/auth.js";
 
 const resolvers = {
@@ -45,9 +45,9 @@ const resolvers = {
     // Login an existing user and return a JWT token
     login: async (
       _parent: any,
-      { username, password }: { username: string; password: string }
+      { email, password }: { email: string; password: string }
     ) => {
-      const user = await User.findOne({ username });
+      const user = await User.findOne({ email });
       if (!user) {
         throw new Error("Can't find this user");
       }
@@ -65,13 +65,12 @@ const resolvers = {
     addUser: async (
       _: any,
       {
-        fullName,
         username,
         email,
         password,
-      }: { fullName: string; username: string; email: string; password: string }
+      }: { username: string; email: string; password: string }
     ) => {
-      const user = await User.create({ fullName, username, email, password });
+      const user = await User.create({ username, email, password });
       await Profile.create({ user: user._id });
       const token = signToken(user.username, user.email, user._id);
       return { token, user };
@@ -171,71 +170,6 @@ const resolvers = {
       });
 
       return comment;
-    },
-
-     // Delete a story and related comments (but not branched stories)
-     deleteStory: async (
-      _: any,
-      { storyId }: { storyId: string },
-      context: any
-    ) => {
-      if (!context.user) throw new Error("You need to be logged in!");
-
-      const story = await Story.findOne({ _id: storyId, author: context.user._id });
-      if (!story) throw new Error("Story not found or you're not authorized to delete it");
-
-      // Delete associated comments
-      await Comment.deleteMany({ story: storyId });
-
-      // Remove from any profiles (shared, liked only)
-      await Profile.updateMany(
-        {},
-        {
-          $pull: {
-            sharedStories: storyId,
-            likedStories: storyId,
-          },
-        }
-      );
-
-      // Remove story from any parent story's branches
-      await Story.updateMany(
-        { branches: storyId },
-        { $pull: { branches: storyId } }
-      );
-
-      // Delete the story itself
-      await story.deleteOne();
-
-      return story;
-    },
-
-    // Vote for a story (upvote/downvote)
-    voteStory: async (
-      _: any,
-      { storyId, voteType }: { storyId: string; voteType: "upvote" | "downvote" },
-      context: any
-    ) => {
-      if (!context.user) throw new Error("You need to be logged in!");
-
-      const existingVote = await Vote.findOne({
-        user: context.user._id,
-        story: storyId,
-      });
-
-      if (existingVote) {
-        existingVote.voteType = voteType;
-        await existingVote.save();
-        return existingVote;
-      }
-
-      const newVote = await Vote.create({
-        user: context.user._id,
-        story: storyId,
-        voteType,
-      });
-
-      return newVote;
     },
   },
 };
