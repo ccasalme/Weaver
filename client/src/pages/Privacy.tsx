@@ -68,14 +68,17 @@ const PrivacyPolicy: React.FC = () => {
           legal, or administrative reasons.
         </p>
       </div>
+      {/* Terms and Conditions */}
       <div className="section">
-        <h2 className="section-title" style={{ color: "white" }}>
-          Terms and Conditions
-        </h2>
+        <h2 className="section-title">Terms and Conditions</h2>
         <p>
-          These terms and conditions govern your use of this site, which is
-          provided by our company. By accessing this site, you indicate your
-          acknowledgment and acceptance of these terms and conditions.
+          These Terms and Conditions govern your use of this Site. By accessing
+          the Site, you confirm that you have read and understand the terms and
+          agree to comply with them.
+        </p>
+        <p>
+          This site is a prototype project and is intended for educational and
+          portfolio purposes only. Use the site respectfully and lawfully.
         </p>
       </div>
       <div className="section">
