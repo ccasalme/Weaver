@@ -54,7 +54,6 @@ export const ADD_COMMENT = gql`
   }
 `;
 
-
 // ✅ Follow another user
 export const FOLLOW_USER = gql`
   mutation FollowUser($targetUserId: ID!) {
@@ -74,3 +73,17 @@ export const UNFOLLOW_USER = gql`
     }
   }
 `;
+
+// ✅ Login mutation
+export const LOGIN_USER = gql`
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+      user {
+        _id
+        username
+      }
+    }
+  }
+`;
+
