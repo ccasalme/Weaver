@@ -50,6 +50,7 @@ const typeDefs = `
   type Query {
     me: User
     myProfile: Profile
+    getUsers: [User]
     getPrompts: [Prompt]
     getStories: [Story]
   }
@@ -61,6 +62,7 @@ const typeDefs = `
     branchStory(storyId: ID!, title: String!, content: String!): Story!
     likeStory(storyId: ID!): Story!
     addComment(storyId: ID!, content: String!): Comment!
+    deleteStory(storyId: ID!): Story!
   }
 `;
 
