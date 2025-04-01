@@ -219,7 +219,7 @@ const Homepage: React.FC = () => {
                   onChange={(e) =>
                     handleCommentChange(story._id, e.target.value)
                   }
-                  placeholder="Add your comment... (max 3000 chars)"
+                  placeholder="Start weaving and threading... (max 3000 chars)"
                   className="comment-input"
                   rows={3}
                   maxLength={3000}

@@ -216,6 +216,50 @@ button:hover {
   z-index: 2000;
 }
 
+.modal-backdrop h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: white;
+  background: linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%);
+}
+
+.modal-backdrop button {
+  padding: 8px 12px;
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+  border-radius: 12px;
+  background: rgb(207, 200, 200);
+  background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
+  box-shadow: 10px 10px 10px #3F403E;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.modal-backdrop .close-btn {
+  position: absolute;
+  top: 5px;
+  left: 5px; /* ✅ Move to left instead of right */
+  width: 24px;
+  height: 24px;
+  background: none !important; /* ✅ FINAL: No background */
+  border: none !important; /* ✅ FINAL: No borders */
+  box-shadow: none !important; /* ✅ Clean up any shadows */
+  outline: none; /* ✅ No focus outline */
+  cursor: pointer;
+  z-index: 9999; /* ✅ Max z-index to be on top */
+  margin-bottom: 8px;
+}
+
+.modal-backdrop .close-btn:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+
 .modal {
   position: fixed;
   top: 50%;
