@@ -1,4 +1,4 @@
-import { User, Profile, Prompt, Story, Comment } from "../models/index.js";
+import { User, Profile, Prompt, Story, Comment, Vote } from "../models/index.js";
 import { signToken } from "../utils/auth.js";
 
 const resolvers = {
