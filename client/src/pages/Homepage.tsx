@@ -4,11 +4,13 @@ import { useQuery, useMutation } from "@apollo/client";
 import "./Wireframe.css"; // CSS file
 import Login from "../components/Login";
 import JoinUs from "../components/JoinUs";
-import OOPSModal from "../components/OOPSModal"; // ✅ Import OOPS Modal
+import OOPSModal from "../components/OOPSModal";
+import AddComment from "../components/AddComment";
+import BranchStory from "../components/BranchStory";
 import HeroBanner from "../assets/weaverBanner.png";
 import SecondBanner from "../assets/weaverBanner2.png";
 import { GET_STORIES } from "../graphql/queries";
-import { LIKE_STORY, BRANCH_STORY, ADD_COMMENT } from "../graphql/mutations";
+import { LIKE_STORY } from "../graphql/mutations";
 
 // ✅ Define Story Interface
 interface Story {
@@ -34,15 +36,13 @@ const Homepage: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const [showJoinUs, setShowJoinUs] = useState<boolean>(false);
-  const [showOopsModal, setShowOopsModal] = useState<boolean>(false); // ✅ New state for OOPS modal
-  const [commentInputs, setCommentInputs] = useState<{ [key: string]: string }>(
-    {}
-  );
+  const [showOopsModal, setShowOopsModal] = useState<boolean>(false);
+  const [activeStoryId, setActiveStoryId] = useState<string | null>(null);
+  const [branchStoryId, setBranchStoryId] = useState<string | null>(null);
 
-  // ✅ Login check on load
+  // ✅ Check login status on load
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("Token found:", !!token);
     setIsAuthenticated(!!token);
   }, []);
 
@@ -56,17 +56,7 @@ const Homepage: React.FC = () => {
     onCompleted: () => refetch(),
   });
 
-  // ✅ Branch story mutation
-  const [branchStory] = useMutation(BRANCH_STORY, {
-    onCompleted: () => refetch(),
-  });
-
-  // ✅ Add comment mutation
-  const [addComment] = useMutation(ADD_COMMENT, {
-    onCompleted: () => refetch(),
-  });
-
-  // ✅ Handle Like
+  // ✅ Handle Like Click
   const handleLikeClick = async (storyId: string) => {
     try {
       await likeStory({ variables: { storyId } });
@@ -76,54 +66,22 @@ const Homepage: React.FC = () => {
     }
   };
 
-  // ✅ Handle Branch
-  const handleBranchClick = async (storyId: string) => {
-    const title = prompt("Enter the title for your branched story:");
-    const content = prompt("Enter the content for your branched story:");
-    if (title && content) {
-      try {
-        await branchStory({ variables: { storyId, title, content } });
-        console.log("Story branched!");
-      } catch (error) {
-        console.error("Error branching story:", error);
-      }
-    }
-  };
-
-  // ✅ Handle Comment Input Change
-  const handleCommentChange = (storyId: string, content: string) => {
-    if (content.length <= 3000) {
-      setCommentInputs({
-        ...commentInputs,
-        [storyId]: content,
-      });
-    } else {
-      alert("Comments cannot exceed 3000 characters! 😳");
-    }
-  };
-
-  // ✅ Handle Add Comment
-  const handleAddComment = async (storyId: string) => {
+  // ✅ Open Add Comment Modal
+  const openAddCommentModal = (storyId: string) => {
     if (!isAuthenticated) {
       setShowOopsModal(true); // ❗️ Show OOPS modal if not logged in
       return;
     }
+    setActiveStoryId(storyId); // Open AddComment modal for that story
+  };
 
-    const content = commentInputs[storyId];
-    if (content && content.trim() !== "") {
-      try {
-        await addComment({ variables: { storyId, content } });
-        console.log("Comment added!");
-        setCommentInputs({
-          ...commentInputs,
-          [storyId]: "", // Clear input after submitting
-        });
-      } catch (error) {
-        console.error("Error adding comment:", error);
-      }
-    } else {
-      alert("Comment cannot be empty! 📝");
+  // ✅ Open Branch Story Modal
+  const openBranchModal = (storyId: string) => {
+    if (!isAuthenticated) {
+      setShowOopsModal(true);
+      return;
     }
+    setBranchStoryId(storyId); // Open BranchStory modal
   };
 
   // ✅ Loading and Error States
@@ -206,31 +164,19 @@ const Homepage: React.FC = () => {
 
               {/* 🌱 Branch Button */}
               <button
-                onClick={() => handleBranchClick(story._id)}
+                onClick={() => openBranchModal(story._id)}
                 className="branch-btn"
               >
                 🌱 Branch
               </button>
 
-              {/* 💬 Comment Input + Button */}
-              <div className="comment-input-section">
-                <textarea
-                  value={commentInputs[story._id] || ""}
-                  onChange={(e) =>
-                    handleCommentChange(story._id, e.target.value)
-                  }
-                  placeholder="Start weaving and threading... (max 3000 chars)"
-                  className="comment-input"
-                  rows={3}
-                  maxLength={3000}
-                />
-                <button
-                  onClick={() => handleAddComment(story._id)}
-                  className="comment-btn"
-                >
-                  💬 Add a thread to the origin!
-                </button>
-              </div>
+              {/* 💬 Add Comment Button */}
+              <button
+                onClick={() => openAddCommentModal(story._id)}
+                className="comment-btn"
+              >
+                💬 Add a thread to the origin!
+              </button>
 
               {/* 🎉 Comments Section */}
               <div className="comments-section">
@@ -287,6 +233,22 @@ const Homepage: React.FC = () => {
             setShowOopsModal(false);
             setShowJoinUs(true);
           }}
+        />
+      )}
+
+      {/* 💬 Add Comment Modal */}
+      {activeStoryId && (
+        <AddComment
+          storyId={activeStoryId}
+          onClose={() => setActiveStoryId(null)}
+        />
+      )}
+
+      {/* 🌱 Branch Story Modal */}
+      {branchStoryId && (
+        <BranchStory
+          parentStoryId={branchStoryId}
+          onClose={() => setBranchStoryId(null)}
         />
       )}
     </div>
