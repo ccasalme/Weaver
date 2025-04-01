@@ -238,6 +238,25 @@ const resolvers = {
 
       return newVote;
     },
+
+    // Follow another user
+    followUser: async (
+      _: any,
+      { profileId }: { profileId: string },
+      context: any
+    ) => {
+      if (!context.user) throw new Error("You need to be logged in!");
+
+      const updatedProfile = await Profile.findByIdAndUpdate(
+        profileId,
+        { $addToSet: { followers: context.user._id } },
+        { new: true }
+      );
+
+      if (!updatedProfile) throw new Error("Profile not found");
+      return updatedProfile;
+    },
+
   },
 };
 
