@@ -32,6 +32,30 @@ const PrivacyPolicy: React.FC = () => {
           and more to improve the platform and for analytics or spam protection.
         </p>
       </div>
+      {/* Cookies */}
+      <div className="section">
+        <h2 className="section-title">Cookies</h2>
+        <p>
+          Cookies are used to enhance your experience. For example, login
+          cookies, screen preference cookies, and comment data may be stored.
+        </p>
+        <ul>
+          <li>Login cookies last 2 days (or 2 weeks with “Remember Me”).</li>
+          <li>Screen option cookies last 1 year.</li>
+          <li>
+            Comment and post cookies may store content metadata for convenience.
+          </li>
+        </ul>
+      </div>
+      {/* Embedded Content */}
+      <div className="section">
+        <h2 className="section-title">Embedded Content</h2>
+        <p>
+          Articles on this site may include embedded media from other websites.
+          Interacting with embedded content (like YouTube videos or Tweets)
+          behaves exactly like visiting those external sites.
+        </p>
+      </div>
       <div className="section">
         <h2 className="section-title" style={{ color: "white" }}>
           Terms and Conditions
