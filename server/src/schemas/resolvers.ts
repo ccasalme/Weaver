@@ -216,7 +216,7 @@ const resolvers = {
     // Vote for a story (upvote/downvote)
     voteStory: async (
       _: any,
-      { storyId, voteType }: { storyId: string; voteType: string },
+      { storyId, voteType }: { storyId: string; voteType: "upvote" | "downvote" },
       context: any
     ) => {
       if (!context.user) throw new Error("You need to be logged in!");
