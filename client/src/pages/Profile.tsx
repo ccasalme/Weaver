@@ -1,8 +1,8 @@
-// src/pages/Profile.tsx
 import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_MY_PROFILE } from "../graphql/queries";
 import "./Wireframe.css";
+import fallbackAvatar from "../assets/fallbackAvatar.png"; // or use any placeholder URL
 
 interface Story {
   _id: string;
@@ -28,15 +28,54 @@ interface ProfileData {
   };
 }
 
+const dummyProfile: ProfileData["myProfile"] = {
+  bio: "Just your friendly neighbourhood thread weaver. 🕸️",
+  avatar: fallbackAvatar || "../assets/fallbackAvatar.png",
+  followers: [{ username: "ironfan" }, { username: "strangelycool" }],
+  sharedStories: [
+    {
+      _id: "1",
+      title: "🕷️ Spidey Origins",
+      content: "Bitten by a radioactive spider... you know the rest.",
+      comments: [
+        {
+          _id: "c1",
+          content: "Iconic.",
+          author: { username: "webhead99" },
+        },
+      ],
+    },
+  ],
+  branchedStories: [
+    {
+      _id: "2",
+      title: "🧬 Multiverse Madness",
+      content: "What if Gwen never fell?",
+      comments: [],
+    },
+  ],
+  likedStories: [
+    {
+      _id: "3",
+      title: "🕸️ Venom's Side",
+      content: "A misunderstood monster. Or something worse?",
+      comments: [
+        {
+          _id: "c2",
+          content: "Chills 😱",
+          author: { username: "symbiobae" },
+        },
+      ],
+    },
+  ],
+};
+
 const Profile: React.FC = () => {
-  const { loading, error, data } = useQuery<ProfileData>(GET_MY_PROFILE);
+  const { error, data } = useQuery<ProfileData>(GET_MY_PROFILE);
   const [activeTab, setActiveTab] = useState<"stories" | "branches" | "likes">("stories");
   const [expandedThreads, setExpandedThreads] = useState<{ [storyId: string]: boolean }>({});
 
-  if (loading) return <p>Loading profile... ⌛</p>;
-  if (error) return <p>Error loading profile! ❌</p>;
-
-  const { bio, avatar, followers, sharedStories, likedStories, branchedStories } = data!.myProfile;
+  const profile = data?.myProfile ?? dummyProfile;
 
   const handleToggleThreads = (storyId: string) => {
     setExpandedThreads((prev) => ({
@@ -71,10 +110,10 @@ const Profile: React.FC = () => {
 
   return (
     <div className="profile-container">
-      <img src={avatar} alt="Profile Avatar" className="profile-avatar" />
+      <img src={profile.avatar} alt="Profile Avatar" className="profile-avatar" />
       <h2>My Profile</h2>
-      <p>{bio}</p>
-      <p>👥 Followers: {followers.length}</p>
+      <p>{profile.bio}</p>
+      <p>👥 Followers: {profile.followers.length}</p>
 
       {/* Tabs */}
       <div className="tab-group">
@@ -99,9 +138,15 @@ const Profile: React.FC = () => {
       </div>
 
       {/* Story Content */}
-      {activeTab === "stories" && renderStoryList(sharedStories)}
-      {activeTab === "branches" && renderStoryList(branchedStories)}
-      {activeTab === "likes" && renderStoryList(likedStories)}
+      {activeTab === "stories" && renderStoryList(profile.sharedStories)}
+      {activeTab === "branches" && renderStoryList(profile.branchedStories)}
+      {activeTab === "likes" && renderStoryList(profile.likedStories)}
+
+      {error && (
+        <p style={{ color: "orange", marginTop: "2rem", textAlign: "center" }}>
+          ⚠️ You’re viewing a <strong>dummy profile</strong> while the server is offline.
+        </p>
+      )}
     </div>
   );
 };
