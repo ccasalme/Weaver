@@ -439,7 +439,85 @@ button:hover {
   transform: scale(1.05);
 }
 
+/* ========================== */
+/* Profile Styling */
+/* ========================== */
 
+.profile-container {
+  max-width: 700px;
+  margin: auto;
+  padding: 2rem;
+  color: white;
+}
+
+.profile-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.profile-pic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.profile-bio {
+  margin: 0.5rem 0;
+  color: #ccc;
+}
+
+.profile-followers {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.tab-group {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1.5rem;
+}
+
+.tab-group button {
+  background: transparent;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: #aaa;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+
+.tab-group .active-tab {
+  color: white;
+  border-color: white;
+}
+
+.see-threads-btn {
+  margin-top: 0.5rem;
+  background: none;
+  border: none;
+  color: #7ed6df;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.comment-thread {
+  list-style: none;
+  padding-left: 1rem;
+  margin-top: 0.5rem;
+  border-left: 2px solid #555;
+  color: #ccc;
+}
+
+.dummy-warning {
+  color: orange;
+  text-align: center;
+  margin-top: 2rem;
+}
 
 
 /* ========================== */

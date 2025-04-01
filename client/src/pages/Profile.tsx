@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_MY_PROFILE } from "../graphql/queries";
 import "./Wireframe.css";
-import fallbackAvatar from "../assets/fallbackAvatar.png"; // or use any placeholder URL
+import fallbackAvatar from "../assets/fallbackAvatar.png";
 
 interface Story {
   _id: string;
@@ -28,52 +28,32 @@ interface ProfileData {
   };
 }
 
-//Fallback data for when the server is offline
-// This is a temporary solution to ensure the UI remains functional
-// while the server is down. Ideally, you would want to handle this more gracefully.
+//temporary dummy data if server is offline
 const dummyProfile: ProfileData["myProfile"] = {
   bio: "Just your friendly neighbourhood thread weaver. 🕸️",
-  avatar: fallbackAvatar || "../assets/fallbackAvatar.png",
+  avatar: fallbackAvatar,
   followers: [{ username: "ironfan" }, { username: "strangelycool" }],
   sharedStories: [
     {
       _id: "1",
       title: "🕷️ Spidey Origins",
       content: "Bitten by a radioactive spider... you know the rest.",
-      comments: [
-        {
-          _id: "c1",
-          content: "Iconic.",
-          author: { username: "webhead99" },
-        },
-      ],
+      comments: [{ _id: "c1", content: "Iconic.", author: { username: "webhead99" } }],
     },
   ],
   branchedStories: [
-    {
-      _id: "2",
-      title: "🧬 Multiverse Madness",
-      content: "What if Gwen never fell?",
-      comments: [],
-    },
+    { _id: "2", title: "🧬 Multiverse Madness", content: "What if Gwen never fell?", comments: [] },
   ],
   likedStories: [
     {
       _id: "3",
       title: "🕸️ Venom's Side",
       content: "A misunderstood monster. Or something worse?",
-      comments: [
-        {
-          _id: "c2",
-          content: "Chills 😱",
-          author: { username: "symbiobae" },
-        },
-      ],
+      comments: [{ _id: "c2", content: "Chills 😱", author: { username: "symbiobae" } }],
     },
   ],
 };
 
-// None-dummy data
 const Profile: React.FC = () => {
   const { error, data } = useQuery<ProfileData>(GET_MY_PROFILE);
   const [activeTab, setActiveTab] = useState<"stories" | "branches" | "likes">("stories");
@@ -89,15 +69,18 @@ const Profile: React.FC = () => {
   };
 
   const renderStoryList = (stories: Story[]) => (
-    <ul className="story-list">
+    <div className="story-list">
       {stories.map((story) => (
-        <li key={story._id} className="story-item">
-          <strong>{story.title}</strong>
+        <div key={story._id} className="story-card">
+          <h3>{story.title}</h3>
+          <p>{story.content}</p>
+
           {story.comments.length > 0 && (
             <button onClick={() => handleToggleThreads(story._id)} className="see-threads-btn">
-              {expandedThreads[story._id] ? "🔽 Hide Threads" : "🧵 See All Threads"}
+              {expandedThreads[story._id] ? "🔽 Hide Threads" : "🧵 See Threads"}
             </button>
           )}
+
           {expandedThreads[story._id] && (
             <ul className="comment-thread">
               {story.comments.map((comment) => (
@@ -107,47 +90,49 @@ const Profile: React.FC = () => {
               ))}
             </ul>
           )}
-        </li>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 
   return (
     <div className="profile-container">
-      <h2 style={{color: "white"}}>Weaver's Profile</h2>
-      <img src={profile.avatar} alt="Profile Avatar" className="profile-avatar" />
-      <p style={{color: "white"}}>{profile.bio}</p>
-      <p style={{color: "white"}}>👥 Followers: {profile.followers.length}</p>
+      <div className="profile-header">
+        <img src={profile.avatar} alt="Profile" className="profile-pic" />
+        <div>
+          <h2>@weaver</h2>
+          <p className="profile-bio">{profile.bio}</p>
+          <p className="profile-followers">👥 {profile.followers.length} followers</p>
+        </div>
+      </div>
 
-      {/* Tabs */}
       <div className="tab-group">
         <button
           onClick={() => setActiveTab("stories")}
           className={activeTab === "stories" ? "active-tab" : ""}
         >
-          📚 My Stories
+          📚 Stories
         </button>
         <button
           onClick={() => setActiveTab("branches")}
           className={activeTab === "branches" ? "active-tab" : ""}
         >
-          🌱 My Branches
+          🌱 Branches
         </button>
         <button
           onClick={() => setActiveTab("likes")}
           className={activeTab === "likes" ? "active-tab" : ""}
         >
-          ❤️ Liked Stories
+          ❤️ Likes
         </button>
       </div>
 
-      {/* Story Content */}
       {activeTab === "stories" && renderStoryList(profile.sharedStories)}
       {activeTab === "branches" && renderStoryList(profile.branchedStories)}
       {activeTab === "likes" && renderStoryList(profile.likedStories)}
 
       {error && (
-        <p style={{ color: "orange", marginTop: "2rem", textAlign: "center" }}>
+        <p className="dummy-warning">
           ⚠️ You’re viewing a <strong>dummy profile</strong> while the server is offline.
         </p>
       )}

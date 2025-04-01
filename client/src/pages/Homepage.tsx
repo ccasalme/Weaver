@@ -209,13 +209,28 @@ const Homepage: React.FC = () => {
                     </div>
                   ))
                 ) : (
-                  <p>No threads to the origin yet. Be the first to thread! 💬</p>
+                  <p style={{color: "white"}}>No threads to the origin yet. Be the first to thread! 💬</p>
                 )}
               </div>
             </div>
           ))
         ) : (
-          <p>No Origin Multiverses available. Start by creating one! 📚</p>
+          <p style={{color: "white",
+            padding: "10px",
+            borderRadius: "5px",
+            background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+            textAlign: "center",
+            marginTop: "20px",
+            marginBottom: "20px",
+            fontSize: "2.5em",
+            fontWeight: "bold",
+            lineHeight: "1.5em",
+            letterSpacing: "0.05em",
+            textTransform: "uppercase",
+            fontFamily: "Arial, sans-serif",
+            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+            transition: "all 0.3s ease"
+          }}>No Origin Multiverses available. Start by creating one! 📚</p>
         )}
       </div>
 

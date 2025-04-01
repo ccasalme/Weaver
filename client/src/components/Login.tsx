@@ -3,6 +3,7 @@ import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../graphql/mutations";
 import "./Modal.css";
 import dummyUser from "../data/dummyUser.json";
+import { setToken } from "../utils/auth"; // ✅ new addition
 
 interface LoginProps {
   onClose: () => void;
@@ -33,7 +34,7 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
       const token = data?.login?.token;
 
       if (token) {
-        localStorage.setItem("token", token);
+        setToken(token); // ✅ use utils
         alert("Logged in successfully! 🎉");
         window.location.reload();
         onClose();
@@ -41,15 +42,16 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
         setError("Login failed. Please try again.");
       }
     } catch {
-      
       // fallback to dummy user login
       if (username === dummyUser.username && password === dummyUser.password) {
+        setToken("dummy-auth-token"); // ✅ use utils
         alert("Dummy login successful! 🎭");
-        localStorage.setItem("token", "dummy-auth-token");
         window.location.reload();
         onClose();
+      } else {
+        setError("Invalid credentials. Please try again.");
       }
-    }      
+    }
   };
 
   return (
@@ -89,8 +91,8 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
 
         <form onSubmit={handleLogin}>
           <input
-            type="username"
-            placeholder="username"
+            type="text" // ✅ fix input type
+            placeholder="Username"
             value={username}
             onChange={(e) => setUserName(e.target.value)}
             required
