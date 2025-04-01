@@ -17,15 +17,15 @@ const PrivacyPolicy: React.FC = () => {
         <h2 className="section-title">Privacy Policy</h2>
         <p>
           This Privacy Policy governs the manner in which stealmynoteshere.com
-          (the “Site”) collects, uses, maintains, and discloses information
-          collected from users. This site is a prototype project owned and
-          operated by Cyrl Casalme, Stella Nabajja, and Corey Parsons for
-          educational and portfolio purposes.
+          collects, uses, maintains, and discloses information collected from
+          users.
         </p>
         <p>
-          When you sign up, your data (like name and email) is collected and
-          stored by the site owners. Your data will never be sold or shared with
-          third parties.
+          This site is a prototype project owned and operated by Cyrl Casalme,
+          Stella Nabajja, and Corey Parsons for educational and portfolio
+          purposes. When you sign up, your data is collected and stored by the
+          site owners. Your data will never be sold or shared with third
+          parties.
         </p>
         <p>
           We may collect metadata such as IP address, browser agent, referrer,
@@ -39,8 +39,10 @@ const PrivacyPolicy: React.FC = () => {
           Cookies are used to enhance your experience. For example, login
           cookies, screen preference cookies, and comment data may be stored.
         </p>
-        <ul>
-          <li>Login cookies last 2 days (or 2 weeks with “Remember Me”).</li>
+        <ul className="cookie-list" style={{ listStyleType: "none" }}>
+          <li className="cookie list-item">
+            Login cookies last 2 days (or 2 weeks with “Remember Me”).
+          </li>
           <li>Screen option cookies last 1 year.</li>
           <li>
             Comment and post cookies may store content metadata for convenience.
