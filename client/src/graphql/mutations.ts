@@ -18,10 +18,15 @@ export const CREATE_STORY = gql`
 
 // ✅ Branch a story
 export const BRANCH_STORY = gql`
-  mutation BranchStory($storyId: ID!, $title: String!, $content: String!) {
+  mutation branchStory($storyId: ID!, $title: String!, $content: String!) {
     branchStory(storyId: $storyId, title: $title, content: $content) {
       _id
       title
+      content
+      branches {
+        _id
+        title
+      }
     }
   }
 `;
