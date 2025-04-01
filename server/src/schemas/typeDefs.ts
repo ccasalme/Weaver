@@ -62,6 +62,7 @@ const typeDefs = `
   type Query {
     me: User
     myProfile: Profile
+    getProfiles: [Profile]
     getUsers: [User]
     getPrompts: [Prompt]
     getStories: [Story]
