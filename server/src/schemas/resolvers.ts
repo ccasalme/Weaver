@@ -175,6 +175,43 @@ const resolvers = {
 
       return comment;
     },
+
+     // Delete a story and related comments (but not branched stories)
+     deleteStory: async (
+      _: any,
+      { storyId }: { storyId: string },
+      context: any
+    ) => {
+      if (!context.user) throw new Error("You need to be logged in!");
+
+      const story = await Story.findOne({ _id: storyId, author: context.user._id });
+      if (!story) throw new Error("Story not found or you're not authorized to delete it");
+
+      // Delete associated comments
+      await Comment.deleteMany({ story: storyId });
+
+      // Remove from any profiles (shared, liked only)
+      await Profile.updateMany(
+        {},
+        {
+          $pull: {
+            sharedStories: storyId,
+            likedStories: storyId,
+          },
+        }
+      );
+
+      // Remove story from any parent story's branches
+      await Story.updateMany(
+        { branches: storyId },
+        { $pull: { branches: storyId } }
+      );
+
+      // Delete the story itself
+      await story.deleteOne();
+
+      return story;
+    },
   },
 };
 
