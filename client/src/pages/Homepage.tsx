@@ -218,7 +218,7 @@ const Homepage: React.FC = () => {
                 onClick={() => handleLikeClick(story._id)}
                 className="like-btn"
               >
-                ❤️ Like ({story.likes || 0})
+                ❤️ Vote ({story.likes || 0})
               </button>
 
               {/* 🌱 Branch Button */}
@@ -245,7 +245,7 @@ const Homepage: React.FC = () => {
                   onClick={() => handleAddComment(story._id)}
                   className="comment-btn"
                 >
-                  💬 Submit Comment
+                  💬 Add a thread to the origin!
                 </button>
               </div>
 
@@ -261,13 +261,13 @@ const Homepage: React.FC = () => {
                     </div>
                   ))
                 ) : (
-                  <p>No comments yet. Be the first to comment! 💬</p>
+                  <p>No threads to the origin yet. Be the first to thread! 💬</p>
                 )}
               </div>
             </div>
           ))
         ) : (
-          <p>No stories available. Start by creating one! 📚</p>
+          <p>No Origin Multiverses available. Start by creating one! 📚</p>
         )}
       </div>
 
