@@ -16,19 +16,13 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!title.trim() || !content.trim()) {
       alert("Please enter a title and story content.");
       return;
     }
 
     try {
-      await createStory({
-        variables: { title, content },
-      });
-
-      setTitle("");
-      setContent("");
+      await createStory({ variables: { title, content } });
       alert("Story created successfully! 🎉");
       onClose();
     } catch (err) {
@@ -38,129 +32,61 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose }) => {
 
   return (
     <div
-      className="modal-backdrop"
       onClick={onClose}
       style={{
         position: "fixed",
         top: 0,
         left: 0,
-        zIndex: 9998,
         width: "100vw",
         height: "100vh",
-        backgroundColor: "rgba(0, 0, 0, 0.7)",
+        backgroundColor: "rgba(0,0,0,0.8)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        overflowY: "auto",
+        zIndex: 9999,
         padding: "2rem",
       }}
     >
       <div
-        className="modal"
         onClick={(e) => e.stopPropagation()}
         style={{
-          background: "linear-gradient(to right, rgb(159, 171, 174), rgb(59, 77, 77))",
-          borderRadius: "12px",
-          maxWidth: "700px",
-          width: "100%",
+          background: "white",
           padding: "2rem",
-          overflowY: "auto",
-          maxHeight: "90vh",
-          boxShadow: "0 0 20px rgba(0,0,0,0.4)",
+          borderRadius: "12px",
+          maxWidth: "600px",
+          width: "100%",
+          zIndex: 99999,
         }}
       >
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "1.5rem",
-              fontWeight: "bold",
-              color: "white",
-              textAlign: "center",
-              textTransform: "uppercase",
-              letterSpacing: "1px",
-            }}
-          >
-            Create a New Origin 📚
-          </h2>
-
+        <h2>Create New Origin</h2>
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
-            placeholder="Origin Title"
+            placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            style={{
-              padding: "0.75rem",
-              borderRadius: "8px",
-              border: "1px solid #ccc",
-              fontSize: "1rem",
-            }}
+            style={{ width: "100%", marginBottom: "1rem", padding: "0.5rem" }}
           />
-
           <textarea
-            placeholder="Once upon a time in the multiverse... ✨"
+            placeholder="Your origin story..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
-            maxLength={3000}
             style={{
-              minHeight: "150px",
-              padding: "0.75rem",
-              borderRadius: "8px",
-              border: "1px solid #ccc",
-              fontSize: "1rem",
-              resize: "vertical",
+              width: "100%",
+              height: "150px",
+              padding: "0.5rem",
+              marginBottom: "1rem",
             }}
           />
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: "1rem",
-              marginTop: "1rem",
-            }}
-          >
-            <button
-              type="submit"
-              style={{
-                backgroundColor: "#3b4d4d",
-                color: "white",
-                padding: "0.75rem 1.5rem",
-                borderRadius: "50px",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              Post Origin
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              style={{
-                backgroundColor: "#ccc",
-                padding: "0.75rem 1.5rem",
-                borderRadius: "50px",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              ❎ Cancel
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <button type="submit">Submit</button>
+            <button type="button" onClick={onClose}>
+              Cancel
             </button>
           </div>
-
-          {error && (
-            <p style={{ color: "red", textAlign: "center" }}>
-              Error: {error.message}
-            </p>
-          )}
+          {error && <p style={{ color: "red" }}>Error: {error.message}</p>}
         </form>
       </div>
     </div>
