@@ -42,6 +42,12 @@ const typeDefs = `
     text: String!
   }
 
+  type Vote {
+    _id: ID!
+    story: Story!
+    user: User!
+    voteType: String!
+
   type Auth {
     token: String!
     user: User!
@@ -63,6 +69,7 @@ const typeDefs = `
     likeStory(storyId: ID!): Story!
     addComment(storyId: ID!, content: String!): Comment!
     deleteStory(storyId: ID!): Story!
+    voteStory(storyId: ID!, voteType: String!): Vote!
   }
 `;
 
