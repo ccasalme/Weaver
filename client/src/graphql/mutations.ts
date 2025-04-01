@@ -87,4 +87,20 @@ export const LOGIN_USER = gql`
   }
 `;
 
+export const UPDATE_PROFILE = gql`
+  mutation updateProfile($bio: String, $avatar: String) {
+    updateProfile(bio: $bio, avatar: $avatar) {
+      _id
+      bio
+      avatar
+      followers {
+        username
+      }
+      user {
+        username
+      }
+    }
+  }
+`;
+
 
