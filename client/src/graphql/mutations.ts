@@ -2,11 +2,16 @@ import { gql } from "@apollo/client";
 
 // ✅ Create a new origin or thread
 export const CREATE_STORY = gql`
-  mutation CreateStory($title: String!, $content: String!) {
+  mutation createStory($title: String!, $content: String!) {
     createStory(title: $title, content: $content) {
       _id
       title
       content
+      likes
+      comments {
+        _id
+        content
+      }
     }
   }
 `;
