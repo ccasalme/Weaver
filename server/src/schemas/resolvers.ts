@@ -34,16 +34,6 @@ const resolvers = {
       return profile;
     },
 
-    // Retrieve all profiles without requiring authentication
-    getProfiles: async () => {
-      return await Profile.find()
-        .populate("user")
-        .populate("followers")
-        .populate("sharedStories")
-        .populate("branchedStories")
-        .populate("likedStories");
-    },
-
     // Retrieve all writing prompts
     getPrompts: async () => {
       return await Prompt.find();
