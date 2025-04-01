@@ -47,6 +47,7 @@ const typeDefs = `
     story: Story!
     user: User!
     voteType: String!
+  }
 
   type Auth {
     token: String!
