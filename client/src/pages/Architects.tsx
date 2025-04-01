@@ -10,12 +10,12 @@ const architects = [
   {
     name: "Stella Nabajja",
     image: "https://placehold.co/140x140?text=Stella",
-    github: "https://github.com/stellanabajja",
+    github: "https://github.com/snabaj",
   },
   {
     name: "Corey Parsons",
     image: "https://placehold.co/140x140?text=Corey",
-    github: "https://github.com/yourGitHubUsername",
+    github: "https://github.com/cpars",
   },
 ];
 
