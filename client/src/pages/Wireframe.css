@@ -2,22 +2,26 @@
 /* 🌟 Core Page Container Styles */
 /* ========================== */
 .page-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: url('../assets/WireFrameBackground.png') center center / cover
-        no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
-    z-index: 1; /* ✅ Changed to 1 */
-    background-attachment: fixed;
-    overflow-y: auto;
+  position: fixed; /* ❗️ Change to relative to allow content height */
+  width: 100vw;
+  height: 100vh; /* ✅ Ensure full viewport height */
+  min-height: 100vh; /* ✅ Ensure page height grows dynamically */
+  background: url('../assets/WireFrameBackground.png') center center / cover
+    no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* ✅ Start content at the top */
+  align-items: center;
+  text-align: center;
+  z-index: 1;
+  overflow-y: auto;
+  padding-bottom: 50px; /* ✅ Ensure footer space */
+  background-attachment: fixed;
+  left: 0;
+  top: 0;
 }
+
+
 
 
 /* 🎯 Auth/Feed Container Styles */
@@ -150,8 +154,9 @@ button.close-button,
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 90%;
-    max-width: 800px;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
     margin-top: 20px;
     padding: 20px;
     border-radius: 12px;
@@ -190,13 +195,33 @@ button.close-button,
   }
 
   .story-card h3 {
-    margin-top: 0;
-    font-size: 1.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin: auto;
+    padding: 0 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 5px 0;
+    font-size: 3rem;
   }
   
   .story-card p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin: auto;
+    padding: 0 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
     margin: 5px 0;
-    font-size: 1rem;
+    font-size: 3rem;
   }
   
   /* 📱 Responsive Story Styling */
@@ -231,64 +256,59 @@ button.close-button,
   
 /* ✅ Hero Banner Style */
 /* ✅ Hero Banner Style */
-.hero-banner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  height: 60vh;
-  background-size: cover;
-  background-position: center;
-  max-height: 400px; /* Optional - Adjust for preferred height */
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 0; /* 🚨 Remove margin to eliminate the space */
+.hero-banner,
+.hero-banner-2 {
+  .hero-banner,
+  .hero-banner-2 {
+    width: 100%;
+    height: 0;
+    padding-top: 56.25%; /* ✅ 16:9 ratio fallback */
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 0;
+  }
 }
 
-/* ✅ Second Banner Style */
-.hero-banner-2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  height: auto;
-  background-size: cover;
-  background-position: center;
-  max-height: 500px; /* Optional - Adjust for preferred height */
-  object-fit: cover;
-  border-radius: 12px;
-  margin-top: -5px; /* 🚨 Eliminate space between the two */
-}
 
 /* ✅ Optional: Add gap between banners if necessary */
+/* ✅ Updated Banner Container */
 .banner-container {
   display: flex;
   flex-direction: column;
-  gap: 0; /* 🚨 No gap between banners */
+  gap: 5px; /* ✅ Add subtle gap if needed */
   width: 100%;
   height: auto;
   background-size: cover;
   background-position: center;
+  margin-bottom: 10px; /* ✅ Ensure consistent spacing */
 }
 
 @media (max-width: 768px) {
   .hero-banner,
   .hero-banner-2 {
-    height: 40vh;
-    border-radius: 25px;
-    padding: 0; /* 🚨 Reset padding for mobile */
+    aspect-ratio: 16 / 9; /* Maintain aspect ratio */
+    max-height: 300px; /* ✅ Reduce banner height on smaller screens */
+    border-radius: 8px;
+  }
+
+  .banner-container {
+    gap: 3px;
+    margin-bottom: 5px;
   }
 }
 
 @media (max-width: 480px) {
   .hero-banner,
   .hero-banner-2 {
-    height: 30vh;
-    border-radius: 15px;
-    padding: 0; /* 🚨 Reset padding for smaller screens */
+    aspect-ratio: 4 / 3; /* Better for mobile */
+    max-height: 250px;
+    border-radius: 5px;
+  }
+
+  .banner-container {
+    gap: 2px;
+    margin-bottom: 5px;
   }
 }
+

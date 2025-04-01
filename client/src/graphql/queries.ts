@@ -1,7 +1,5 @@
 import { gql } from "@apollo/client";
 
-
-// ✅ Get all stories
 export const GET_STORIES = gql`
   query GetStories {
     getStories {
@@ -11,13 +9,10 @@ export const GET_STORIES = gql`
       author {
         username
       }
-      likes
-      branches {
-        _id
-      }
     }
   }
 `;
+
 
 
 // ✅ Get current logged-in user
