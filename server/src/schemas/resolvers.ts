@@ -24,6 +24,7 @@ const resolvers = {
       const profile = await Profile.findOne({ user: context.user._id })
         .populate("user")
         .populate("followers")
+        .populate("following")
         .populate("sharedStories")
         .populate("branchedStories")
         .populate("likedStories");
