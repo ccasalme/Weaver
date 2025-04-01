@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../graphql/mutations";
+import dummyUser from "../data/dummyUser.json";
 import "./Modal.css";
 
 interface LoginProps {
@@ -25,6 +26,18 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
     }
 
     try {
+      // 🌟 Dummy fallback logic for local dev
+      if (
+        email === dummyUser.email &&
+        password === dummyUser.password
+      ) {
+        localStorage.setItem("token", "dummy-auth-token");
+        alert("Logged in with dummy! 🕸️");
+        window.location.reload();
+        onClose();
+        return;
+      }
+
       const { data } = await loginUser({
         variables: { email, password },
       });
@@ -127,7 +140,7 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
             marginTop: "10px",
           }}
         >
-          Don’t have an account?{" "}
+          Don’t have an account?{' '}
           <button
             type="button"
             onClick={switchToJoinUs}
