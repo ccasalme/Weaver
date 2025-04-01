@@ -107,6 +107,15 @@ button.close-button,
     z-index: 99999 !important;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  scroll-behavior: smooth; /* ✨ Smooth scrolling */
+}
+
+
 /* ============================== */
 /* 🎯 Media Queries for All Devices */
 /* ============================== */

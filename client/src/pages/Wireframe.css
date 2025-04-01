@@ -1,50 +1,114 @@
 /* ========================== */
 /* 🌟 Core Page Container Styles */
 /* ========================== */
-.page-container {
-  position: fixed; /* ❗️ Change to relative to allow content height */
-  width: 100vw;
-  height: 100vh; /* ✅ Ensure full viewport height */
-  min-height: 100vh; /* ✅ Ensure page height grows dynamically */
+#root {
+  width: 100%;
+  height: 100%;
   background: url('../assets/WireFrameBackground.png') center center / cover
-    no-repeat;
+    no-repeat fixed; /* ✅ Keep the background fixed without breaking layout */
+  overflow-y: auto; /* ✅ Allow natural scrolling */
+}
+
+
+/* ========================== */
+/* 🌟 Core Page Container Styles */
+/* ========================== */
+.page-container {
+  position: relative; /* ✅ No fixed position */
+  width: 100vw;
+  min-height: 100vh; /* ✅ Ensures content covers height */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* ✅ Start content at the top */
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
   z-index: 1;
-  overflow-y: auto;
-  padding-bottom: 50px; /* ✅ Ensure footer space */
+  overflow-y: auto; /* ✅ Scroll naturally */
+  padding-bottom: 50px; /* ✅ Room for footer */
   background-attachment: fixed;
-  left: 0;
-  top: 0;
-  flex-grow: 1; /* ✅ Allow the container to grow */
+}
+
+/* 🎉 Fix for Story Feed */
+.story-feed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* ✅ Prevents content from shrinking */
+  width: 100%;
+  max-width: 1200px;
+  height: auto;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-image: url('../assets/storycardBackground.png');
+  overflow-y: visible; /* ✅ Allow content to be scrollable naturally */
+  flex-grow: 1; /* ✅ Allow it to grow properly */
+  position: relative; /* ✅ Prevents overlap */
 }
 
 
+/* 🎯 Individual Story Card */
+.story-card {
+  background-color: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  background: linear-gradient(180deg, rgba(94, 98, 98, 1) 0%, rgba(102, 122, 126, 1) 94%);
+  color: white;
+  padding: 10px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
 
+.story-card h3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin: auto;
+  padding: 0 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 5px 0;
+  font-size: 3rem;
+}
+
+.story-card p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin: auto;
+  padding: 0 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 5px 0;
+  font-size: 3rem;
+}
 
 /* 🎯 Auth/Feed Container Styles */
-.auth-container,
-.feed-container {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 600px;
-    margin-top: 20px;
-    z-index: 10;
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url('../assets/PopUpBackground.png');
+  padding: 50px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px; /* ✅ Prevents stretching */
+  margin-top: 20px;
+  margin-bottom: 20px;
+  z-index: 10;
 }
 
-.auth-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-image: url('../assets/PopUpBackground.png');
-}
 
 
 /* 🎯 Button for Auth Actions */
@@ -67,31 +131,11 @@ button {
 }
 
 
-/* ✅ Feed Container Styles */
-.feed-container {
-    margin-top: 40px;
-    padding: 20px;
-    width: 100%;
-    max-width: 900px;
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-
-/* ✅ Push content down when not logged in */
-.main-content {
-    margin-top: 20px;
-    padding: 20px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
 /* ========================== */
 /* ✨ Modal Styles for Login & JoinUs */
 /* ========================== */
 .modal-backdrop {
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     width: 100vw;
@@ -102,19 +146,20 @@ button {
 
 /* 🌟 Centered Modal */
 .modal {
-    position: fixed;
+    position: relative;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: rgb(240, 238, 227);
     background: radial-gradient(circle, rgba(240, 238, 227, 1) 63%, rgba(173, 180, 182, 1) 100%);
-    padding: 20px;
+    padding: 50px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    width: 90%;
+    width: 100%;
     max-width: 400px;
     z-index: 3001;
 }
+
 
 button.close-button, 
 .modal .close-button {
@@ -146,47 +191,12 @@ button.close-button,
         font-size: 0.9rem;
     }
 }
-
-/* ========================= */
-/* 🎉 Story Feed Styles */
-/* ========================= */
-.story-feed {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-image: url('../assets/storycardBackground.png');
-}
-
   
-  /* 🎯 Individual Story Card */
-  .story-card {
-    background-color: #f9f9f9;
-    padding: 15px;
-    margin-bottom: 12px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    background: linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1);
-    color: white;
-    padding: 10px 20px;
-    border-radius: "50px";
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    border: none;
-  }
   p {
     color: white;
     height: 100%;
     width: 100%;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     text-align: center, space-between;
   }
 
@@ -196,35 +206,7 @@ button.close-button,
     text-align: center;
   }
 
-  .story-card h3 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    margin: auto;
-    padding: 0 20px;
-    margin-bottom: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin: 5px 0;
-    font-size: 3rem;
-  }
-  
-  .story-card p {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    margin: auto;
-    padding: 0 20px;
-    margin-bottom: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin: 5px 0;
-    font-size: 3rem;
-  }
+
   
   /* 📱 Responsive Story Styling */
   @media (max-width: 768px) {
@@ -313,4 +295,3 @@ button.close-button,
     margin-bottom: 5px;
   }
 }
-
