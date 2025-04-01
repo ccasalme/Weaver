@@ -6,9 +6,9 @@ const WeaverInfo: React.FC = () => {
       <h1>What is Weaver?</h1>
       <p className="metaphor-intro">
         <em>
-          Imagine a loom. Not for fabric — but for stories. Every idea is a
-          thread. Every branch, a path. And every Weaver brings their
-          imagination to the loom to create something entirely new, together.
+          Stories are like trees. Each idea is a seed, planted by one creator.
+          As others join in, the story grows — branching into new directions,
+          deepening its roots, and stretching toward endless skies.
         </em>
       </p>
       <p>
