@@ -33,13 +33,14 @@ export const BRANCH_STORY = gql`
 
 // ✅ Like or Save a story
 export const LIKE_STORY = gql`
-  mutation LikeStory($storyId: ID!) {
+  mutation likeStory($storyId: ID!) {
     likeStory(storyId: $storyId) {
       _id
       likes
     }
   }
 `;
+
 
 // ✅ Follow another user
 export const FOLLOW_USER = gql`
