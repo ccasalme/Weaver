@@ -47,10 +47,13 @@ body {
 .banner-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0px;
   width: 100%;
+  max-width: 1400px; /* ✅ Full width */
   height: auto;
   margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
 }
 
 /* Banners now take up full width properly */
@@ -59,7 +62,7 @@ body {
   width: 100%;
   height: 400px; /* ✅ Increased height for better impact */
   object-fit: cover;
-  border-radius: 0; /* ✅ No rounded corners for full coverage */
+  border-radius: 12px; /* ✅ No rounded corners for full coverage */
 }
 
 /* ========================== */
