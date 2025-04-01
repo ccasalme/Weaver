@@ -124,6 +124,14 @@ const PrivacyPolicy: React.FC = () => {
           Canada, and the jurisdictions where the creators reside.
         </p>
       </div>
+      {/* Severability */}
+      <div className="section">
+        <h2 className="section-title">Severability</h2>
+        <p>
+          If any part of these Terms and Conditions is found invalid, that part
+          will be removed without affecting the rest of the document.
+        </p>
+      </div>
     </div>
   );
 };
