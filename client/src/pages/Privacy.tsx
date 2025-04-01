@@ -107,6 +107,15 @@ const PrivacyPolicy: React.FC = () => {
           claims, damages, or losses resulting from the use of this Site.
         </p>
       </div>
+      {/* Indemnity */}
+      <div className="section">
+        <h2 className="section-title">Indemnity</h2>
+        <p>
+          By using this Site, you agree to indemnify and hold harmless the site
+          owners and contributors against any claims or losses arising from your
+          use of the platform or violation of these terms.
+        </p>
+      </div>
     </div>
   );
 };
