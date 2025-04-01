@@ -78,6 +78,7 @@ const typeDefs = `
     deleteStory(storyId: ID!): Story!
     voteStory(storyId: ID!, voteType: VoteType): Vote!
     followUser(userId: ID!): Profile!
+    unfollowUser(userId: ID!): Profile!
   }
 `;
 
