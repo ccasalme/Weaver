@@ -1,5 +1,4 @@
-// src/pages/Homepage.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import "./Wireframe.css";
 import Login from "../components/Login";
@@ -8,11 +7,12 @@ import OOPSModal from "../components/OOPSModal";
 import AddComment from "../components/AddComment";
 import BranchStory from "../components/BranchStory";
 import CreateStory from "../components/CreateStory";
-import DeleteStoryModal from "../components/DeleteStoryModal"; // ✅ New import
+import DeleteStoryModal from "../components/DeleteStoryModal";
 import HeroBanner from "../assets/weaverBanner.png";
 import SecondBanner from "../assets/weaverBanner2.png";
-import { GET_STORIES } from "../graphql/queries";
+import { GET_STORIES, GET_ME } from "../graphql/queries";
 import { CREATE_STORY, LIKE_STORY } from "../graphql/mutations";
+import { isLoggedIn } from "../utils/auth";
 
 interface Story {
   _id: string;
@@ -35,8 +35,6 @@ interface Comment {
 }
 
 const Homepage: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [showLogin, setShowLogin] = useState(false);
   const [showJoinUs, setShowJoinUs] = useState(false);
   const [showOopsModal, setShowOopsModal] = useState(false);
@@ -45,11 +43,13 @@ const Homepage: React.FC = () => {
   const [showCreateStory, setShowCreateStory] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [storyToDelete, setStoryToDelete] = useState<string | null>(null);
-
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
 
   const { loading, error, data, refetch } = useQuery<{ getStories: Story[] }>(GET_STORIES);
+  const { data: meData } = useQuery(GET_ME, {
+    skip: !isLoggedIn(),
+  });
 
   const [createStory] = useMutation(CREATE_STORY, {
     onCompleted: () => {
@@ -63,12 +63,8 @@ const Homepage: React.FC = () => {
     onCompleted: () => refetch(),
   });
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("user_id");
-    setIsAuthenticated(!!token);
-    setCurrentUserId(userId);
-  }, []);
+  const isAuthenticated = !!meData?.me?._id;
+  const currentUserId = meData?.me?._id || null;
 
   const handleLikeClick = async (storyId: string) => {
     if (!isAuthenticated) {
@@ -144,6 +140,7 @@ const Homepage: React.FC = () => {
         </div>
       )}
 
+      {/* 🔥 Quick Create */}
       <div className="quick-create-story" style={{ textAlign: "center", marginTop: "30px" }}>
         <h3 style={{ color: "white" }}>Quick Origin Submission</h3>
         <input
@@ -230,7 +227,7 @@ const Homepage: React.FC = () => {
         )}
       </div>
 
-      {/* ✅ Modals */}
+      {/* 🔐 Modals */}
       {showLogin && (
         <Login onClose={() => setShowLogin(false)} switchToJoinUs={() => {
           setShowLogin(false); setShowJoinUs(true);
