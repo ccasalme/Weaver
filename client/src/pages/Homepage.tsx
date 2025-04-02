@@ -15,20 +15,20 @@ import { LIKE_STORY } from "../graphql/mutations";
 
 interface Story {
   _id: string;
-  title: string;
-  content: string;
-  author: {
-    username: string;
+  title?: string;
+  content?: string;
+  author?: {
+    username?: string;
   };
-  likes: number;
-  comments: Comment[];
+  likes?: number;
+  comments?: Comment[];
 }
 
 interface Comment {
   _id: string;
-  content: string;
-  author: {
-    username: string;
+  content?: string;
+  author?: {
+    username?: string;
   };
 }
 
@@ -42,14 +42,11 @@ const Homepage: React.FC = () => {
   const [showCreateStory, setShowCreateStory] = useState<boolean>(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("id_token");
+    const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
   }, []);
 
-  const { loading, error, data, refetch } = useQuery<{ getStories: Story[] }>(
-    GET_STORIES
-  );
-
+  const { loading, error, data, refetch } = useQuery<{ getStories: Story[] }>(GET_STORIES);
   const [likeStory] = useMutation(LIKE_STORY, {
     onCompleted: () => refetch(),
   });
@@ -64,27 +61,18 @@ const Homepage: React.FC = () => {
   };
 
   const openAddCommentModal = (storyId: string) => {
-    if (!isAuthenticated) {
-      setShowOopsModal(true);
-      return;
-    }
+    if (!isAuthenticated) return setShowOopsModal(true);
     setActiveStoryId(storyId);
   };
 
   const openBranchModal = (storyId: string) => {
-    if (!isAuthenticated) {
-      setShowOopsModal(true);
-      return;
-    }
+    if (!isAuthenticated) return setShowOopsModal(true);
     setBranchStoryId(storyId);
   };
 
   const handleCreateClick = () => {
-    if (!isAuthenticated) {
-      setShowOopsModal(true);
-    } else {
-      setShowCreateStory(true);
-    }
+    if (!isAuthenticated) return setShowOopsModal(true);
+    setShowCreateStory(true);
   };
 
   if (loading) return <p>Loading stories... 📚</p>;
@@ -92,29 +80,33 @@ const Homepage: React.FC = () => {
 
   return (
     <div className="page-container">
+      {/* ✅ Hero Banners */}
       <div className="banner-container">
         <img src={HeroBanner} alt="Weaver Banner" className="hero-banner" />
         <img src={SecondBanner} alt="Weaver Banner 2" className="hero-banner-2" />
       </div>
 
+      {/* ✅ Auth Buttons */}
       {!isAuthenticated && (
         <div className="auth-container">
-          <h2 style={{ color: "white", textAlign: "center", background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)", padding: "10px", borderRadius: "5px" }}>
+          <h2 style={{
+            color: "white",
+            textAlign: "center",
+            background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+            padding: "10px",
+            borderRadius: "5px",
+          }}>
             Welcome to Weaver!
           </h2>
           <p style={{ color: "white", textAlign: "center" }}>
             Join us to explore, create, and engage with stories.
           </p>
-
-          <button onClick={() => setShowLogin(true)} className="login-btn">
-            Login
-          </button>
-          <button onClick={() => setShowJoinUs(true)} className="join-btn">
-            Join Us
-          </button>
+          <button onClick={() => setShowLogin(true)} className="login-btn">Login</button>
+          <button onClick={() => setShowJoinUs(true)} className="join-btn">Join Us</button>
         </div>
       )}
 
+      {/* ✅ Create Button */}
       <div style={{ textAlign: "center", marginTop: "20px" }}>
         <button
           onClick={handleCreateClick}
@@ -132,65 +124,81 @@ const Homepage: React.FC = () => {
         </button>
       </div>
 
+      {/* ✅ Story Feed */}
       <div className="story-feed">
-        <h2 style={{ color: "white", textAlign: "center", background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)", padding: "10px", borderRadius: "5px" }}>
+        <h2 style={{
+          color: "white",
+          textAlign: "center",
+          background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+          padding: "10px",
+          borderRadius: "5px",
+        }}>
           Recent Stories 📚
         </h2>
 
         {Array.isArray(data?.getStories) && data.getStories.length > 0 ? (
           data.getStories.map((story) => (
             <div key={story._id} className="story-card">
-              <h3>{story.title}</h3>
-              <p>{story.content}</p>
-              <p>
-                <strong>By:</strong> {story.author.username}
-              </p>
+              <h3>{story.title ?? "Untitled Origin"}</h3>
+              <p>{story.content ?? "No content provided."}</p>
+              <p><strong>By:</strong> {story.author?.username ?? "Anonymous"}</p>
 
+              {/* ✅ Actions */}
               <div className="action-btn-group">
-                <button
-                  onClick={() => handleLikeClick(story._id)}
-                  className="like-btn"
-                >
-                  ❤️ Vote ({story.likes || 0})
+                <button onClick={() => handleLikeClick(story._id)} className="like-btn">
+                  ❤️ Vote ({story.likes ?? 0})
                 </button>
-
-                <button
-                  onClick={() => openBranchModal(story._id)}
-                  className="branch-btn"
-                >
+                <button onClick={() => openBranchModal(story._id)} className="branch-btn">
                   🌱 Branch
                 </button>
-
-                <button
-                  onClick={() => openAddCommentModal(story._id)}
-                  className="comment-btn"
-                >
+                <button onClick={() => openAddCommentModal(story._id)} className="comment-btn">
                   💬 Add a thread to the origin!
                 </button>
               </div>
 
+              {/* ✅ Comments */}
               <div className="comments-section">
-                {story.comments && story.comments.length > 0 ? (
+                {Array.isArray(story.comments) && story.comments.length > 0 ? (
                   story.comments.map((comment) => (
                     <div key={comment._id} className="comment-card">
                       <p>
-                        <strong>{comment.author.username}:</strong> {comment.content}
+                        <strong>{comment.author?.username ?? "Anonymous"}:</strong>{" "}
+                        {comment.content ?? "(no content)"}
                       </p>
                     </div>
                   ))
                 ) : (
-                  <p style={{ color: "white" }}>No threads to the origin yet. Be the first to thread! 💬</p>
+                  <p style={{ color: "white" }}>
+                    No threads to the origin yet. Be the first to thread! 💬
+                  </p>
                 )}
               </div>
             </div>
           ))
         ) : (
-          <p style={{ color: "white", padding: "10px", borderRadius: "5px", background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)", textAlign: "center", marginTop: "20px", marginBottom: "20px", fontSize: "2.5em", fontWeight: "bold", lineHeight: "1.5em", letterSpacing: "0.05em", textTransform: "uppercase", fontFamily: "Arial, sans-serif", textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)", transition: "all 0.3s ease" }}>
+          <p style={{
+            color: "white",
+            padding: "10px",
+            borderRadius: "5px",
+            background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+            textAlign: "center",
+            marginTop: "20px",
+            marginBottom: "20px",
+            fontSize: "2.5em",
+            fontWeight: "bold",
+            lineHeight: "1.5em",
+            letterSpacing: "0.05em",
+            textTransform: "uppercase",
+            fontFamily: "Arial, sans-serif",
+            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+            transition: "all 0.3s ease",
+          }}>
             No Origin Multiverses available. Start by creating one! 📚
           </p>
         )}
       </div>
 
+      {/* ✅ Modals */}
       {showLogin && (
         <Login
           onClose={() => setShowLogin(false)}
@@ -200,7 +208,6 @@ const Homepage: React.FC = () => {
           }}
         />
       )}
-
       {showJoinUs && (
         <JoinUs
           onClose={() => setShowJoinUs(false)}
@@ -210,7 +217,6 @@ const Homepage: React.FC = () => {
           }}
         />
       )}
-
       {showOopsModal && (
         <OOPSModal
           onClose={() => setShowOopsModal(false)}
@@ -224,21 +230,18 @@ const Homepage: React.FC = () => {
           }}
         />
       )}
-
       {activeStoryId && (
         <AddComment
           storyId={activeStoryId}
           onClose={() => setActiveStoryId(null)}
         />
       )}
-
       {branchStoryId && (
         <BranchStory
           parentStoryId={branchStoryId}
           onClose={() => setBranchStoryId(null)}
         />
       )}
-
       {showCreateStory && (
         <div className="modal-backdrop" onClick={() => setShowCreateStory(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
