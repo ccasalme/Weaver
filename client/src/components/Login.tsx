@@ -3,7 +3,7 @@ import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../graphql/mutations";
 import "./Modal.css";
 import dummyUser from "../data/dummyUser.json";
-import { setToken } from "../utils/auth"; // ✅ new addition
+import { setToken } from "../utils/auth";
 
 interface LoginProps {
   onClose: () => void;
@@ -32,9 +32,11 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
       });
 
       const token = data?.login?.token;
+      const userId = data?.login?.user?._id;
 
-      if (token) {
-        setToken(token); // ✅ use utils
+      if (token && userId) {
+        setToken(token);
+        localStorage.setItem("user_id", userId); // ✅ Save user ID
         alert("Logged in successfully! 🎉");
         window.location.reload();
         onClose();
@@ -42,9 +44,13 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
         setError("Login failed. Please try again.");
       }
     } catch {
-      // fallback to dummy user login
-      if (username === dummyUser.username && password === dummyUser.password) {
-        setToken("dummy-auth-token"); // ✅ use utils
+      // ✅ fallback to dummy user (only if needed)
+      if (
+        username === dummyUser.username &&
+        password === dummyUser.password
+      ) {
+        setToken("dummy-auth-token");
+        localStorage.setItem("user_id", dummyUser._id); // make sure _id exists in dummyUser.json
         alert("Dummy login successful! 🎭");
         window.location.reload();
         onClose();
@@ -91,7 +97,7 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
 
         <form onSubmit={handleLogin}>
           <input
-            type="text" // ✅ fix input type
+            type="text"
             placeholder="Username"
             value={username}
             onChange={(e) => setUserName(e.target.value)}

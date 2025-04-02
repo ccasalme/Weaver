@@ -11,68 +11,123 @@ import CreateStory from "../components/CreateStory";
 import HeroBanner from "../assets/weaverBanner.png";
 import SecondBanner from "../assets/weaverBanner2.png";
 import { GET_STORIES } from "../graphql/queries";
-import { LIKE_STORY } from "../graphql/mutations";
+import { CREATE_STORY, LIKE_STORY, DELETE_STORY } from "../graphql/mutations";
 
 interface Story {
   _id: string;
-  title?: string;
-  content?: string;
-  author?: {
-    username?: string;
+  title: string;
+  content: string;
+  author: {
+    _id: string;
+    username: string;
   };
-  likes?: number;
-  comments?: Comment[];
+  likes: number;
+  comments: Comment[];
 }
 
 interface Comment {
   _id: string;
-  content?: string;
-  author?: {
-    username?: string;
+  content: string;
+  author: {
+    username: string;
   };
 }
 
 const Homepage: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const [showJoinUs, setShowJoinUs] = useState<boolean>(false);
   const [showOopsModal, setShowOopsModal] = useState<boolean>(false);
   const [activeStoryId, setActiveStoryId] = useState<string | null>(null);
   const [branchStoryId, setBranchStoryId] = useState<string | null>(null);
   const [showCreateStory, setShowCreateStory] = useState<boolean>(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
-  }, []);
+  const [newTitle, setNewTitle] = useState<string>("");
+  const [newContent, setNewContent] = useState<string>("");
 
   const { loading, error, data, refetch } = useQuery<{ getStories: Story[] }>(GET_STORIES);
+
+  const [createStory] = useMutation(CREATE_STORY, {
+    onCompleted: () => {
+      setNewTitle("");
+      setNewContent("");
+      refetch();
+    },
+  });
+
   const [likeStory] = useMutation(LIKE_STORY, {
     onCompleted: () => refetch(),
   });
 
+  const [deleteStory] = useMutation(DELETE_STORY, {
+    onCompleted: () => refetch(),
+  });
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("user_id");
+    setIsAuthenticated(!!token);
+    setCurrentUserId(userId);
+  }, []);
+
   const handleLikeClick = async (storyId: string) => {
+    if (!isAuthenticated) {
+      setShowOopsModal(true);
+      return;
+    }
+
     try {
       await likeStory({ variables: { storyId } });
-      console.log("Story liked!");
     } catch (error) {
       console.error("Error liking story:", error);
     }
   };
 
+  const handleDeleteClick = async (storyId: string) => {
+    const confirmed = window.confirm(
+      "Woah, there, Weaver. You're about to delete an entire universe. By doing so, every thread in this universe will be deleted. You will be deleting a whole timeline. Are you sure that you want this?"
+    );
+    if (!confirmed) return;
+
+    const confirmedAgain = window.confirm(
+      "This is the last warning from the Architects, our Dearest Weaver, once you delete this universe, there is absolutely no going back...Are you absolutely sure? This is the point of no return..."
+    );
+    if (!confirmedAgain) return;
+
+    try {
+      await deleteStory({ variables: { storyId } });
+    } catch (error) {
+      console.error("Error deleting story:", error);
+    }
+  };
+
+  const handleQuickCreateStory = async () => {
+    if (!isAuthenticated) {
+      setShowOopsModal(true);
+      return;
+    }
+    if (!newTitle.trim() || !newContent.trim()) return;
+    try {
+      await createStory({ variables: { title: newTitle, content: newContent } });
+    } catch (err) {
+      console.error("Error creating story:", err);
+    }
+  };
+
   const openAddCommentModal = (storyId: string) => {
-    if (!isAuthenticated) return setShowOopsModal(true);
+    if (!isAuthenticated) {
+      setShowOopsModal(true);
+      return;
+    }
     setActiveStoryId(storyId);
   };
 
   const openBranchModal = (storyId: string) => {
-    if (!isAuthenticated) return setShowOopsModal(true);
+    if (!isAuthenticated) {
+      setShowOopsModal(true);
+      return;
+    }
     setBranchStoryId(storyId);
-  };
-
-  const handleCreateClick = () => {
-    if (!isAuthenticated) return setShowOopsModal(true);
-    setShowCreateStory(true);
   };
 
   if (loading) return <p>Loading stories... 📚</p>;
@@ -80,7 +135,7 @@ const Homepage: React.FC = () => {
 
   return (
     <div className="page-container">
-      {/* ✅ Hero Banners */}
+      {/* ✅ Banners */}
       <div className="banner-container">
         <img src={HeroBanner} alt="Weaver Banner" className="hero-banner" />
         <img src={SecondBanner} alt="Weaver Banner 2" className="hero-banner-2" />
@@ -106,21 +161,27 @@ const Homepage: React.FC = () => {
         </div>
       )}
 
-      {/* ✅ Create Button */}
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <button
-          onClick={handleCreateClick}
-          className="create-btn"
-          style={{
-            background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
-            color: "white",
-            padding: "10px 20px",
-            borderRadius: "50px",
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
-          ➕ Create New Origin
+      {/* ✅ Quick Origin Creation */}
+      <div className="quick-create-story" style={{ textAlign: "center", marginTop: "30px" }}>
+        <h3 style={{ color: "white" }}>Quick Origin Submission</h3>
+        <input
+          type="text"
+          placeholder="Story Title"
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+          style={{ padding: "8px", width: "60%", borderRadius: "8px", marginBottom: "8px" }}
+        />
+        <br />
+        <textarea
+          placeholder="What's your origin story?"
+          value={newContent}
+          onChange={(e) => setNewContent(e.target.value)}
+          rows={4}
+          style={{ padding: "10px", width: "60%", borderRadius: "8px" }}
+        />
+        <br />
+        <button onClick={handleQuickCreateStory} className="create-btn" style={{ marginTop: "10px" }}>
+          🚀 Submit Origin
         </button>
       </div>
 
@@ -139,14 +200,13 @@ const Homepage: React.FC = () => {
         {Array.isArray(data?.getStories) && data.getStories.length > 0 ? (
           data.getStories.map((story) => (
             <div key={story._id} className="story-card">
-              <h3>{story.title ?? "Untitled Origin"}</h3>
-              <p>{story.content ?? "No content provided."}</p>
-              <p><strong>By:</strong> {story.author?.username ?? "Anonymous"}</p>
+              <h3>{story.title}</h3>
+              <p>{story.content}</p>
+              <p><strong>By:</strong> {story.author.username}</p>
 
-              {/* ✅ Actions */}
               <div className="action-btn-group">
                 <button onClick={() => handleLikeClick(story._id)} className="like-btn">
-                  ❤️ Vote ({story.likes ?? 0})
+                  ❤️ Vote ({story.likes || 0})
                 </button>
                 <button onClick={() => openBranchModal(story._id)} className="branch-btn">
                   🌱 Branch
@@ -154,23 +214,22 @@ const Homepage: React.FC = () => {
                 <button onClick={() => openAddCommentModal(story._id)} className="comment-btn">
                   💬 Add a thread to the origin!
                 </button>
+                {isAuthenticated && currentUserId === story.author._id && (
+                  <button onClick={() => handleDeleteClick(story._id)} className="delete-btn">
+                    🗑️ Delete Origin
+                  </button>
+                )}
               </div>
 
-              {/* ✅ Comments */}
               <div className="comments-section">
-                {Array.isArray(story.comments) && story.comments.length > 0 ? (
+                {story.comments.length > 0 ? (
                   story.comments.map((comment) => (
                     <div key={comment._id} className="comment-card">
-                      <p>
-                        <strong>{comment.author?.username ?? "Anonymous"}:</strong>{" "}
-                        {comment.content ?? "(no content)"}
-                      </p>
+                      <p><strong>{comment.author.username}:</strong> {comment.content}</p>
                     </div>
                   ))
                 ) : (
-                  <p style={{ color: "white" }}>
-                    No threads to the origin yet. Be the first to thread! 💬
-                  </p>
+                  <p style={{ color: "white" }}>No threads to the origin yet. Be the first to thread! 💬</p>
                 )}
               </div>
             </div>
@@ -191,7 +250,7 @@ const Homepage: React.FC = () => {
             textTransform: "uppercase",
             fontFamily: "Arial, sans-serif",
             textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-            transition: "all 0.3s ease",
+            transition: "all 0.3s ease"
           }}>
             No Origin Multiverses available. Start by creating one! 📚
           </p>
@@ -231,16 +290,10 @@ const Homepage: React.FC = () => {
         />
       )}
       {activeStoryId && (
-        <AddComment
-          storyId={activeStoryId}
-          onClose={() => setActiveStoryId(null)}
-        />
+        <AddComment storyId={activeStoryId} onClose={() => setActiveStoryId(null)} />
       )}
       {branchStoryId && (
-        <BranchStory
-          parentStoryId={branchStoryId}
-          onClose={() => setBranchStoryId(null)}
-        />
+        <BranchStory parentStoryId={branchStoryId} onClose={() => setBranchStoryId(null)} />
       )}
       {showCreateStory && (
         <div className="modal-backdrop" onClick={() => setShowCreateStory(false)}>
