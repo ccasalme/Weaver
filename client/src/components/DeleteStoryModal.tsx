@@ -23,7 +23,6 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
     try {
       await deleteStory({ variables: { storyId } });
 
-      // 🔥 guilt trip popup
       alert(
         "Good job. You just deleted a whole universe. 🌌\n\nA timeline that consisted of worlds... gone. The multiverse is shaken. Branched timelines are damaged. This origin is now wiped from the database.\n\nMay you bear the weight of the consequences of destroying an origin universe.\n\nDo not be surprised if other Weavers like yourself form a Council to overthrow you. 😔"
       );
