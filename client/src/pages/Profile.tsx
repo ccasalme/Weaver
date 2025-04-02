@@ -5,6 +5,13 @@ import { UPDATE_PROFILE, CREATE_STORY, DELETE_STORY } from "../graphql/mutations
 import fallbackAvatar from "../assets/fallbackAvatar.png";
 import "./Wireframe.css";
 
+interface User {
+  _id: string;
+  username: string;
+  email: string;
+  fullName: string;
+}
+
 interface Story {
   _id: string;
   title: string;
@@ -20,15 +27,11 @@ interface Story {
 
 interface ProfileData {
   myProfile: {
-    user: {
-      _id: string;
-      username: string;
-      email: string;
-    };
+    user: User;
     bio: string;
     avatar: string;
-    followers: { username: string }[];
-    following: { username: string }[];
+    followers: User[];
+    following: User[];
     sharedStories: Story[];
     likedStories: Story[];
     branchedStories: Story[];
@@ -39,29 +42,45 @@ const dummyProfile: ProfileData["myProfile"] = {
   user: {
     _id: "dummy",
     username: "spideynomoney",
-    email: "spidey@threads.com"
+    email: "spidey@threads.com",
+    fullName: "Peter Parker",
   },
   bio: "Just your friendly neighbourhood thread weaver. 🕸️",
   avatar: fallbackAvatar,
-  followers: [{ username: "ironfan" }, { username: "strangelycool" }],
-  following: [{ username: "legend27" }, { username: "webwitch" }],
+  followers: [
+    { _id: "1", username: "ironfan", email: "", fullName: "Tony Stark" },
+    { _id: "2", username: "strangelycool", email: "", fullName: "Stephen Strange" },
+  ],
+  following: [
+    { _id: "3", username: "legend27", email: "", fullName: "Thor Odinson" },
+    { _id: "4", username: "webwitch", email: "", fullName: "Wanda Maximoff" },
+  ],
   sharedStories: [
     {
       _id: "1",
       title: "🕷️ Spidey Origins",
       content: "Bitten by a radioactive spider... you know the rest.",
-      comments: [{ _id: "c1", content: "Iconic.", author: { username: "webhead99" } }],
+      comments: [
+        { _id: "c1", content: "Iconic.", author: { username: "webhead99" } },
+      ],
     },
   ],
   branchedStories: [
-    { _id: "2", title: "🧬 Multiverse Madness", content: "What if Gwen never fell?", comments: [] },
+    {
+      _id: "2",
+      title: "🧬 Multiverse Madness",
+      content: "What if Gwen never fell?",
+      comments: [],
+    },
   ],
   likedStories: [
     {
       _id: "3",
       title: "🕸️ Venom's Side",
       content: "A misunderstood monster. Or something worse?",
-      comments: [{ _id: "c2", content: "Chills 😱", author: { username: "symbiobae" } }],
+      comments: [
+        { _id: "c2", content: "Chills 😱", author: { username: "symbiobae" } },
+      ],
     },
   ],
 };
@@ -71,6 +90,7 @@ const Profile: React.FC = () => {
   const { loading, data } = useQuery<ProfileData>(GET_MY_PROFILE, {
     skip: !token,
   });
+
   const [updateProfile] = useMutation(UPDATE_PROFILE);
   const [createStory] = useMutation(CREATE_STORY);
   const [deleteStory] = useMutation(DELETE_STORY);
@@ -181,6 +201,8 @@ const Profile: React.FC = () => {
         <img src={profile.avatar} alt="Profile" className="profile-pic" />
         <div>
           <h2 className="username-heading">@{profile.user.username}</h2>
+          <p className="profile-fullname">{profile.user.fullName}</p>
+
           {editing ? (
             <>
               <textarea
@@ -201,16 +223,17 @@ const Profile: React.FC = () => {
               <p className="profile-bio">{profile.bio}</p>
               <p className="profile-followers">
                 👥 <button onClick={() => setShowFollowers(!showFollowers)}>
-                  {profile.followers.length} Followers
+                  {profile.followers?.length ?? 0} Followers
                 </button>
                 {' | '}
                 <button onClick={() => setShowFollowing(!showFollowing)}>
-                  {profile.following.length} Following
+                  {profile.following?.length ?? 0} Following
                 </button>
               </p>
               <button onClick={() => setEditing(true)}>Edit Profile</button>
             </>
           )}
+
           {showFollowers && (
             <div className="follower-modal">
               <h4>Followers</h4>
