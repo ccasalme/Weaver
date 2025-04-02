@@ -21,7 +21,8 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email || !username || !password || !confirmPassword || !fullName) {
+    // Basic input validation
+    if (!email.trim() || !username.trim() || !password || !confirmPassword || !fullName.trim()) {
       setError("Please fill in all fields.");
       return;
     }
@@ -33,7 +34,12 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
 
     try {
       const { data } = await addUser({
-        variables: { fullName, username, email, password },
+        variables: {
+          fullName: fullName.trim(),
+          username: username.trim(),
+          email: email.trim(),
+          password: password,
+        },
       });
 
       const token = data?.addUser?.token;
@@ -73,6 +79,7 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
         >
           ❎
         </button>
+
         <h2
           style={{
             color: "white", 
@@ -82,9 +89,13 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
             padding: "10px",
             borderRadius: "5px"
           }}
-        >Join Weaver</h2>
-        {error && <p className="error">{error}</p>}
-        <form onSubmit={handleSignup}>
+        >
+          Join Weaver
+        </h2>
+
+        {error && <p className="error" role="alert" style={{ color: "salmon", textAlign: "center" }}>{error}</p>}
+
+        <form onSubmit={handleSignup} noValidate>
           <input
             type="text"
             placeholder="Full Name (First and Last)"
@@ -120,6 +131,7 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
+
           <button 
             type="submit"
             style={{
@@ -131,8 +143,11 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
               border: "none",
               cursor: "pointer"
             }}
-          >Sign Up</button>
+          >
+            Sign Up
+          </button>
         </form>
+
         <p 
           className="bottom-section"
           style={{ 
