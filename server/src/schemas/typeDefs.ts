@@ -12,7 +12,6 @@ const typeDefs = `
     bio: String
     avatar: String
     followers: [User]
-    following: [User]
     sharedStories: [Story]
     branchedStories: [Story]
     likedStories: [Story]
@@ -44,6 +43,18 @@ const typeDefs = `
     text: String!
   }
 
+  enum VoteType {
+    upvote
+    downvote
+  }
+
+  type Vote {
+    _id: ID!
+    story: Story!
+    user: User!
+    voteType: VoteType!
+  }
+
   type Auth {
     token: String!
     user: User!
@@ -57,16 +68,14 @@ const typeDefs = `
   }
 
   type Mutation {
-    login(email: String!, password: String!): Auth!
-    addUser(username: String!, email: String!, password: String!): Auth!
+    login(username: String!, password: String!): Auth!
+    addUser(fullName: String!, username: String!, email: String!, password: String!): Auth!
     createStory(title: String!, content: String!): Story!
     branchStory(storyId: ID!, title: String!, content: String!): Story!
     likeStory(storyId: ID!): Story!
     addComment(storyId: ID!, content: String!): Comment!
     deleteStory(storyId: ID!): Story!
     voteStory(storyId: ID!, voteType: VoteType): Vote!
-    followUser(profileId: ID!): Profile!
-    unfollowUser(profileId: ID!): Profile!
   }
 `;
 
