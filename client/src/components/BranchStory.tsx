@@ -13,7 +13,7 @@ const BranchStory: React.FC<BranchStoryProps> = ({ parentStoryId, onClose }) => 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const [branchStory, { error }] = useMutation(BRANCH_STORY, {
+  const [branchStory, { error, loading }] = useMutation(BRANCH_STORY, {
     refetchQueries: [{ query: GET_STORIES }],
   });
 
@@ -28,9 +28,9 @@ const BranchStory: React.FC<BranchStoryProps> = ({ parentStoryId, onClose }) => 
     try {
       await branchStory({
         variables: {
-          storyId: parentStoryId,
-          title,
-          content,
+          storyId: parentStoryId ?? "", // safety check
+          title: title.trim(),
+          content: content.trim(),
         },
       });
 
@@ -69,6 +69,7 @@ const BranchStory: React.FC<BranchStoryProps> = ({ parentStoryId, onClose }) => 
           >
             Branch a New Story 🌱
           </h2>
+
           <input
             type="text"
             placeholder="Branch Title"
@@ -76,7 +77,9 @@ const BranchStory: React.FC<BranchStoryProps> = ({ parentStoryId, onClose }) => 
             onChange={(e) => setTitle(e.target.value)}
             required
             className="modal-input"
+            style={{ marginBottom: "1rem", padding: "0.5rem", width: "100%" }}
           />
+
           <textarea
             placeholder="What happens next? (max 3000 chars)"
             value={content}
@@ -84,20 +87,61 @@ const BranchStory: React.FC<BranchStoryProps> = ({ parentStoryId, onClose }) => 
             required
             maxLength={3000}
             className="modal-textarea"
+            style={{
+              marginBottom: "1rem",
+              padding: "0.5rem",
+              width: "100%",
+              height: "120px",
+            }}
           />
-          <div className="modal-btn-group">
-            <button type="submit" className="modal-submit-btn">
-              Submit Branch ✨
+
+          <div className="modal-btn-group" style={{ display: "flex", gap: "1rem" }}>
+            <button
+              type="submit"
+              className="modal-submit-btn"
+              disabled={loading}
+              style={{
+                padding: "0.5rem 1rem",
+                backgroundColor: "#fff",
+                color: "#333",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              {loading ? "Submitting..." : "Submit Branch ✨"}
             </button>
             <button
               type="button"
               onClick={onClose}
               className="modal-close-btn"
+              style={{
+                padding: "0.5rem 1rem",
+                backgroundColor: "#ccc",
+                color: "#000",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
             >
               ❎ Cancel
             </button>
           </div>
-          {error && <p className="modal-error">Error: {error.message}</p>}
+
+          {error && (
+            <p
+              className="modal-error"
+              style={{
+                color: "#ffdddd",
+                background: "#330000",
+                padding: "0.5rem",
+                marginTop: "1rem",
+                borderRadius: "4px",
+              }}
+            >
+              Error: {error.message ?? "Something went wrong."}
+            </p>
+          )}
         </form>
       </div>
     </div>
