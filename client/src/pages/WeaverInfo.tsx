@@ -3,7 +3,26 @@ import React from "react";
 const WeaverInfo: React.FC = () => {
   return (
     <div className="page-container">
-      <h1>What is Weaver?</h1>
+      <h1
+      style={{
+        color: "white",
+        padding: "10px",
+        borderRadius: "5px",
+        backgroundColor: "#2c3e50",
+        display: "inline-block",
+        margin: 0,
+        textAlign: "center",
+        width: "100%",
+        fontSize: "2.5em",
+        fontWeight: "bold",
+        lineHeight: "1.5em",
+        textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+        textTransform: "uppercase",
+        letterSpacing: "0.05em",
+        marginBottom: "10px",
+        textOverflow: "ellipsis",
+        overflow: "hidden"
+      }}>What is Weaver?</h1>
       <p className="metaphor-intro">
         <em>
           Stories are like trees. Each idea is a seed, planted by one creator.

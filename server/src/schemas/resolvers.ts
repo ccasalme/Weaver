@@ -6,6 +6,7 @@ import {
   Comment,
   Vote,
 } from "../models/index.js";
+
 import { signToken } from "../utils/auth.js";
 
 const resolvers = {
@@ -53,9 +54,9 @@ const resolvers = {
     // Login an existing user and return a JWT token
     login: async (
       _parent: any,
-      { username, password }: { username: string; password: string }
+      { email, password }: { email: string; password: string }
     ) => {
-      const user = await User.findOne({ username });
+      const user = await User.findOne({ email });
       if (!user) {
         throw new Error("Can't find this user");
       }
@@ -73,13 +74,12 @@ const resolvers = {
     addUser: async (
       _: any,
       {
-        fullName,
         username,
         email,
         password,
-      }: { fullName: string; username: string; email: string; password: string }
+      }: { username: string; email: string; password: string }
     ) => {
-      const user = await User.create({ fullName, username, email, password });
+      const user = await User.create({ username, email, password });
       await Profile.create({ user: user._id });
       const token = signToken(user.username, user.email, user._id);
       return { token, user };

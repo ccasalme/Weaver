@@ -44,18 +44,6 @@ const typeDefs = `
     text: String!
   }
 
-  enum VoteType {
-    upvote
-    downvote
-  }
-
-  type Vote {
-    _id: ID!
-    story: Story!
-    user: User!
-    voteType: VoteType!
-  }
-
   type Auth {
     token: String!
     user: User!
@@ -69,8 +57,8 @@ const typeDefs = `
   }
 
   type Mutation {
-    login(username: String!, password: String!): Auth!
-    addUser(fullName: String!, username: String!, email: String!, password: String!): Auth!
+    login(email: String!, password: String!): Auth!
+    addUser(username: String!, email: String!, password: String!): Auth!
     createStory(title: String!, content: String!): Story!
     branchStory(storyId: ID!, title: String!, content: String!): Story!
     likeStory(storyId: ID!): Story!
