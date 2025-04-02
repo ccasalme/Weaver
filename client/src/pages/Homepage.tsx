@@ -42,7 +42,7 @@ const Homepage: React.FC = () => {
   const [showCreateStory, setShowCreateStory] = useState<boolean>(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("id_token");
     setIsAuthenticated(!!token);
   }, []);
 
@@ -92,29 +92,14 @@ const Homepage: React.FC = () => {
 
   return (
     <div className="page-container">
-      {/* ✅ Hero Banners */}
       <div className="banner-container">
         <img src={HeroBanner} alt="Weaver Banner" className="hero-banner" />
-        <img
-          src={SecondBanner}
-          alt="Weaver Banner 2"
-          className="hero-banner-2"
-        />
+        <img src={SecondBanner} alt="Weaver Banner 2" className="hero-banner-2" />
       </div>
 
-      {/* ✅ Auth Buttons */}
       {!isAuthenticated && (
         <div className="auth-container">
-          <h2
-            style={{
-              color: "white",
-              textAlign: "center",
-              background:
-                "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
-              padding: "10px",
-              borderRadius: "5px",
-            }}
-          >
+          <h2 style={{ color: "white", textAlign: "center", background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)", padding: "10px", borderRadius: "5px" }}>
             Welcome to Weaver!
           </h2>
           <p style={{ color: "white", textAlign: "center" }}>
@@ -130,14 +115,12 @@ const Homepage: React.FC = () => {
         </div>
       )}
 
-      {/* ✅ Create Button on Top of Feed */}
       <div style={{ textAlign: "center", marginTop: "20px" }}>
         <button
           onClick={handleCreateClick}
           className="create-btn"
           style={{
-            background:
-              "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+            background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
             color: "white",
             padding: "10px 20px",
             borderRadius: "50px",
@@ -149,18 +132,8 @@ const Homepage: React.FC = () => {
         </button>
       </div>
 
-      {/* ✅ Story Feed */}
       <div className="story-feed">
-        <h2
-          style={{
-            color: "white",
-            textAlign: "center",
-            background:
-              "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
-            padding: "10px",
-            borderRadius: "5px",
-          }}
-        >
+        <h2 style={{ color: "white", textAlign: "center", background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)", padding: "10px", borderRadius: "5px" }}>
           Recent Stories 📚
         </h2>
 
@@ -173,7 +146,6 @@ const Homepage: React.FC = () => {
                 <strong>By:</strong> {story.author.username}
               </p>
 
-              {/* ✅ Grouped Action Buttons */}
               <div className="action-btn-group">
                 <button
                   onClick={() => handleLikeClick(story._id)}
@@ -197,44 +169,28 @@ const Homepage: React.FC = () => {
                 </button>
               </div>
 
-              {/* ✅ Comments */}
               <div className="comments-section">
                 {story.comments && story.comments.length > 0 ? (
                   story.comments.map((comment) => (
                     <div key={comment._id} className="comment-card">
                       <p>
-                        <strong>{comment.author.username}:</strong>{" "}
-                        {comment.content}
+                        <strong>{comment.author.username}:</strong> {comment.content}
                       </p>
                     </div>
                   ))
                 ) : (
-                  <p style={{color: "white"}}>No threads to the origin yet. Be the first to thread! 💬</p>
+                  <p style={{ color: "white" }}>No threads to the origin yet. Be the first to thread! 💬</p>
                 )}
               </div>
             </div>
           ))
         ) : (
-          <p style={{color: "white",
-            padding: "10px",
-            borderRadius: "5px",
-            background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
-            textAlign: "center",
-            marginTop: "20px",
-            marginBottom: "20px",
-            fontSize: "2.5em",
-            fontWeight: "bold",
-            lineHeight: "1.5em",
-            letterSpacing: "0.05em",
-            textTransform: "uppercase",
-            fontFamily: "Arial, sans-serif",
-            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-            transition: "all 0.3s ease"
-          }}>No Origin Multiverses available. Start by creating one! 📚</p>
+          <p style={{ color: "white", padding: "10px", borderRadius: "5px", background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)", textAlign: "center", marginTop: "20px", marginBottom: "20px", fontSize: "2.5em", fontWeight: "bold", lineHeight: "1.5em", letterSpacing: "0.05em", textTransform: "uppercase", fontFamily: "Arial, sans-serif", textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)", transition: "all 0.3s ease" }}>
+            No Origin Multiverses available. Start by creating one! 📚
+          </p>
         )}
       </div>
 
-      {/* ✅ Modals */}
       {showLogin && (
         <Login
           onClose={() => setShowLogin(false)}
