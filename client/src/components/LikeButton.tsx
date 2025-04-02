@@ -6,21 +6,24 @@ import { GET_STORIES } from "../graphql/queries";
 
 interface LikeButtonProps {
   storyId: string;
-  initialLikes: number;
+  initialLikes?: number; // made optional in case of fallback
 }
 
-const LikeButton: React.FC<LikeButtonProps> = ({ storyId, initialLikes }) => {
-  const [likes, setLikes] = useState(initialLikes);
-  const [likeStory, { loading }] = useMutation(LIKE_STORY, {
+const LikeButton: React.FC<LikeButtonProps> = ({ storyId, initialLikes = 0 }) => {
+  const [likes, setLikes] = useState<number>(initialLikes);
+  const [likeStory, { loading, error }] = useMutation(LIKE_STORY, {
     refetchQueries: [{ query: GET_STORIES }],
   });
 
   const handleLike = async () => {
+    if (!storyId) return console.warn("Missing story ID for like mutation.");
+
     try {
       const { data } = await likeStory({ variables: { storyId } });
 
-      if (data?.likeStory) {
-        setLikes(data.likeStory.likes);
+      const updatedLikes = data?.likeStory?.likes;
+      if (typeof updatedLikes === "number") {
+        setLikes(updatedLikes);
       }
     } catch (err) {
       console.error("Error liking story:", err);
@@ -28,9 +31,36 @@ const LikeButton: React.FC<LikeButtonProps> = ({ storyId, initialLikes }) => {
   };
 
   return (
-    <button className="like-btn" onClick={handleLike} disabled={loading}>
-      ❤️ {loading ? "Liking..." : `Like ${likes}`}
-    </button>
+    <>
+      <button
+        className="like-btn"
+        onClick={handleLike}
+        disabled={loading}
+        style={{
+          padding: "0.5rem 1rem",
+          backgroundColor: "#ffcccb",
+          color: "#333",
+          border: "1px solid #ff9999",
+          borderRadius: "4px",
+          cursor: loading ? "not-allowed" : "pointer",
+          fontWeight: "bold",
+        }}
+      >
+        ❤️ {loading ? "Liking..." : `Like ${likes}`}
+      </button>
+
+      {error && (
+        <p
+          style={{
+            marginTop: "0.5rem",
+            fontSize: "0.85rem",
+            color: "red",
+          }}
+        >
+          ⚠️ Couldn’t like story. Try again later.
+        </p>
+      )}
+    </>
   );
 };
 
