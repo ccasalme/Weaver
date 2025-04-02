@@ -7,20 +7,23 @@ import {
   import { onError } from "@apollo/client/link/error";
   import { setContext } from "@apollo/client/link/context";
   
-  // ✅ HTTP link to your GraphQL server (proxied)
+  // ✅ HTTP link to your GraphQL server (Vite-compatible)
   const httpLink = createHttpLink({
-	uri: "/graphql",
+	uri: "/graphql", // Vite will proxy this to http://localhost:3001/graphql
   });
   
   // ✅ Error handler for Apollo
   const errorLink = onError(({ graphQLErrors, networkError }) => {
 	if (graphQLErrors) {
 	  for (const err of graphQLErrors) {
-		if (err.message.includes("Invalid token") || err.message.includes("jwt") || err.extensions?.code === "UNAUTHENTICATED") {
+		if (
+		  err.message.includes("Invalid token") ||
+		  err.message.includes("jwt") ||
+		  err.extensions?.code === "UNAUTHENTICATED"
+		) {
 		  console.warn("⛔ Token error detected. Clearing localStorage...");
 		  localStorage.removeItem("id_token");
-		  // Optionally redirect:
-		  // window.location.href = "/"; // or your login page
+		  // Optional redirect: window.location.href = "/";
 		}
 	  }
 	}
