@@ -20,7 +20,11 @@ interface Story {
 
 interface ProfileData {
   myProfile: {
-    username: string;
+    user: {
+      _id: string;
+      username: string;
+      email: string;
+    };
     bio: string;
     avatar: string;
     followers: { username: string }[];
@@ -32,7 +36,11 @@ interface ProfileData {
 }
 
 const dummyProfile: ProfileData["myProfile"] = {
-  username: "spideynomoney",
+  user: {
+    _id: "dummy",
+    username: "spideynomoney",
+    email: "spidey@threads.com"
+  },
   bio: "Just your friendly neighbourhood thread weaver. 🕸️",
   avatar: fallbackAvatar,
   followers: [{ username: "ironfan" }, { username: "strangelycool" }],
@@ -81,7 +89,7 @@ const Profile: React.FC = () => {
   if (!token) {
     return (
       <div className="profile-container">
-        <h2 className="username-heading">@{dummyProfile.username}</h2>
+        <h2 className="username-heading">@{dummyProfile.user.username}</h2>
         <p>{dummyProfile.bio}</p>
         <p>👥 {dummyProfile.followers.length} Followers</p>
         <p>You’re viewing a <strong>dummy profile</strong> — please login to access your data.</p>
@@ -172,8 +180,7 @@ const Profile: React.FC = () => {
       <div className="profile-header">
         <img src={profile.avatar} alt="Profile" className="profile-pic" />
         <div>
-            <h2 className="username-heading">@{profile.user.username}</h2>
-
+          <h2 className="username-heading">@{profile.user.username}</h2>
           {editing ? (
             <>
               <textarea
