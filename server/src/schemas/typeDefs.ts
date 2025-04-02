@@ -12,6 +12,7 @@ const typeDefs = `
     bio: String
     avatar: String
     followers: [User]
+    following: [User]
     sharedStories: [Story]
     branchedStories: [Story]
     likedStories: [Story]
@@ -62,6 +63,10 @@ const typeDefs = `
     branchStory(storyId: ID!, title: String!, content: String!): Story!
     likeStory(storyId: ID!): Story!
     addComment(storyId: ID!, content: String!): Comment!
+    deleteStory(storyId: ID!): Story!
+    voteStory(storyId: ID!, voteType: VoteType): Vote!
+    followUser(profileId: ID!): Profile!
+    unfollowUser(profileId: ID!): Profile!
   }
 `;
 

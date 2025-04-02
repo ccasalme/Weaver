@@ -5,6 +5,7 @@ export interface ProfileDocument extends Document {
   bio: string;
   avatar: string;
   followers: Schema.Types.ObjectId[];
+  following: Schema.Types.ObjectId[];
   sharedStories: Schema.Types.ObjectId[];
   branchedStories: Schema.Types.ObjectId[];
   likedStories: Schema.Types.ObjectId[];
@@ -26,6 +27,10 @@ const profileSchema = new Schema<ProfileDocument>(
       type: String,
     },
     followers: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    }],
+    following: [{
       type: Schema.Types.ObjectId,
       ref: 'User',
     }],

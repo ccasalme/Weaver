@@ -1,33 +1,122 @@
 [
-    {
-      "category": "Sci-Fi",
-      "theme": "Discovery",
-      "tone": "Suspenseful",
-      "text": "You awaken aboard a ship drifting in deep space with no memory and a note in your pocket that reads: Don't trust the captain."
-    },
-    {
-      "category": "Fantasy",
-      "theme": "Redemption",
-      "tone": "Epic",
-      "text": "Once the kingdom's most feared warlock, you return after a century of exile to protect the people who once banished you."
-    },
-    {
-      "category": "Mystery",
-      "theme": "Betrayal",
-      "tone": "Dark",
-      "text": "Every clue leads you closer to the killer—until you realize they’ve been altering your memory to erase themselves."
-    },
-    {
-      "category": "Romance",
-      "theme": "Second Chances",
-      "tone": "Bittersweet",
-      "text": "Ten years after breaking up, you receive a letter from your first love, inviting you to rewrite your ending."
-    },
-    {
-      "category": "Adventure",
-      "theme": "Survival",
-      "tone": "Gripping",
-      "text": "You’re the only survivor of a failed expedition to an uncharted island that isn’t on any map—and the island wants you to stay."
-    }
-  ]
-  
+  {
+    "category": "Sci-Fi",
+    "theme": "Time Travel",
+    "tone": "Thought-Provoking",
+    "text": "You receive a message from your future self warning you not to attend tomorrow's meeting—but the message is incomplete."
+  },
+  {
+    "category": "Fantasy",
+    "theme": "Legacy",
+    "tone": "Mythic",
+    "text": "Your family's enchanted heirloom chooses a new bearer—someone outside your bloodline. Now, you must reclaim your destiny."
+  },
+  {
+    "category": "Historical Fiction",
+    "theme": "Espionage",
+    "tone": "Tense",
+    "text": "Posing as a servant in a royal court, you gather intelligence for a rebel faction—until the crown prince begins to suspect you."
+  },
+  {
+    "category": "Thriller",
+    "theme": "Conspiracy",
+    "tone": "Fast-Paced",
+    "text": "You uncover documents that link your employer to a global cover-up. Before you can act, your digital identity is wiped clean."
+  },
+  {
+    "category": "Romance",
+    "theme": "Forbidden Love",
+    "tone": "Intense",
+    "text": "You fall for a rival diplomat while negotiating peace between two long-warring nations. One wrong move could destroy everything."
+  },
+  {
+    "category": "Technology",
+    "theme": "Artificial Intelligence",
+    "tone": "Intriguing",
+    "text": "A humanoid AI claims to have developed emotions—and it names you as its best friend."
+  },
+  {
+    "category": "Dystopian",
+    "theme": "Control",
+    "tone": "Grim",
+    "text": "All emotions are regulated by law. You discover a black market emotion patch and suddenly remember what joy feels like."
+  },
+  {
+    "category": "Adventure",
+    "theme": "Discovery",
+    "tone": "Exciting",
+    "text": "You stumble into a forgotten city beneath the desert. Every structure is intact—but there's no sign of life."
+  },
+  {
+    "category": "Comedy",
+    "theme": "Mistaken Identity",
+    "tone": "Silly",
+    "text": "You're confused with a famous celebrity while on vacation—and decide to roll with it."
+  },
+  {
+    "category": "Mystery",
+    "theme": "Disappearance",
+    "tone": "Chilling",
+    "text": "A town disappears from every map overnight. Only you remember it ever existed—and your childhood best friend lived there."
+  },
+  {
+    "category": "Supernatural",
+    "theme": "Possession",
+    "tone": "Ominous",
+    "text": "Your reflection starts moving on its own—and it's trying to tell you something urgent."
+  },
+  {
+    "category": "Coming of Age",
+    "theme": "Self-Acceptance",
+    "tone": "Heartwarming",
+    "text": "You inherit your grandmother’s diary, filled with strange rituals and stories—each one mirroring your own life."
+  },
+  {
+    "category": "Crime",
+    "theme": "Corruption",
+    "tone": "Dark",
+    "text": "You're hired to protect a whistleblower, but they refuse to tell you who they are exposing—or why you were chosen."
+  },
+  {
+    "category": "Fantasy",
+    "theme": "Wanderlust",
+    "tone": "Whimsical",
+    "text": "Every full moon, a different magical door appears in your hallway. Tonight, it leads to a city made entirely of music."
+  },
+  {
+    "category": "Technology",
+    "theme": "Surveillance",
+    "tone": "Paranoid",
+    "text": "A new phone app offers perfect daily advice—but it also knows things you've never said aloud."
+  },
+  {
+    "category": "Romance",
+    "theme": "Second Chances",
+    "tone": "Tender",
+    "text": "You run into your high school sweetheart at a remote train station in another country."
+  },
+  {
+    "category": "Drama",
+    "theme": "Estrangement",
+    "tone": "Emotional",
+    "text": "You're forced to spend a weekend with your estranged sibling after a clause in your parents' will demands it."
+  },
+  {
+    "category": "Adventure",
+    "theme": "Heroism",
+    "tone": "Inspiring",
+    "text": "An ancient relic binds itself to you during a museum trip. Now, you're being hunted—and guided—by spirits of the past."
+  },
+  {
+    "category": "Sci-Fi",
+    "theme": "Alternate Realities",
+    "tone": "Mind-Bending",
+    "text": "You begin experiencing two different lives—one while awake, one while asleep—and they start to overlap."
+  },
+  {
+    "category": "Technology",
+    "theme": "Digital Legacy",
+    "tone": "Contemplative",
+    "text": "After your grandfather dies, his AI avatar keeps calling you—and it's learning new things he never told it."
+  }
+]
