@@ -41,7 +41,11 @@ export const GET_ME = gql`
 export const GET_MY_PROFILE = gql`
   query MyProfile {
     myProfile {
-      username
+      user {
+        username
+        email
+        _id
+      }
       bio
       avatar
       followers {
@@ -86,4 +90,5 @@ export const GET_MY_PROFILE = gql`
     }
   }
 `;
+
 

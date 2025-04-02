@@ -1,5 +1,41 @@
 import { gql } from "@apollo/client";
 
+// ✅ Login mutation
+export const LOGIN_USER = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      token
+      user {
+        _id
+        username
+      }
+    }
+  }
+`;
+
+// 🚧 TODO: AddUser mutation (not yet in your client)
+export const ADD_USER = gql`
+  mutation addUser(
+    $fullName: String!
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    addUser(
+      fullName: $fullName
+      username: $username
+      email: $email
+      password: $password
+    ) {
+      token
+      user {
+        _id
+        username
+      }
+    }
+  }
+`;
+
 // ✅ Create a new origin or thread
 export const CREATE_STORY = gql`
   mutation createStory($title: String!, $content: String!) {
@@ -31,7 +67,7 @@ export const BRANCH_STORY = gql`
   }
 `;
 
-// ✅ Like or Save a story or Vote
+// ✅ Like or Vote on a story
 export const LIKE_STORY = gql`
   mutation likeStory($storyId: ID!) {
     likeStory(storyId: $storyId) {
@@ -41,13 +77,53 @@ export const LIKE_STORY = gql`
   }
 `;
 
-// ✅ Comment/Thread on a story
+// ✅ Comment on a story
 export const ADD_COMMENT = gql`
   mutation addComment($storyId: ID!, $content: String!) {
     addComment(storyId: $storyId, content: $content) {
       _id
       content
       author {
+        username
+      }
+    }
+  }
+`;
+
+// ✅ Delete a story
+export const DELETE_STORY = gql`
+  mutation deleteStory($storyId: ID!) {
+    deleteStory(storyId: $storyId) {
+      _id
+      title
+    }
+  }
+`;
+
+// ✅ Vote for a story
+export const VOTE_STORY = gql`
+  mutation voteStory($storyId: ID!, $voteType: VoteType) {
+    voteStory(storyId: $storyId, voteType: $voteType) {
+      _id
+      voteType
+      user {
+        username
+      }
+    }
+  }
+`;
+
+// ✅ Optional (not in typedefs, but needed for your profile)
+export const UPDATE_PROFILE = gql`
+  mutation updateProfile($bio: String, $avatar: String) {
+    updateProfile(bio: $bio, avatar: $avatar) {
+      _id
+      bio
+      avatar
+      followers {
+        username
+      }
+      user {
         username
       }
     }
@@ -70,45 +146,6 @@ export const UNFOLLOW_USER = gql`
     unfollowUser(targetUserId: $targetUserId) {
       _id
       username
-    }
-  }
-`;
-
-// ✅ Login mutation
-export const LOGIN_USER = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      token
-      user {
-        _id
-        username
-      }
-    }
-  }
-`;
-
-export const UPDATE_PROFILE = gql`
-  mutation updateProfile($bio: String, $avatar: String) {
-    updateProfile(bio: $bio, avatar: $avatar) {
-      _id
-      bio
-      avatar
-      followers {
-        username
-      }
-      user {
-        username
-      }
-    }
-  }
-`;
-
-// ✅ Delete a story
-export const DELETE_STORY = gql`
-  mutation deleteStory($storyId: ID!) {
-    deleteStory(storyId: $storyId) {
-      _id
-      title
     }
   }
 `;

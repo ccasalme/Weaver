@@ -59,7 +59,10 @@ const dummyProfile: ProfileData["myProfile"] = {
 };
 
 const Profile: React.FC = () => {
-  const { loading, data } = useQuery<ProfileData>(GET_MY_PROFILE);
+  const token = localStorage.getItem("id_token");
+  const { loading, data } = useQuery<ProfileData>(GET_MY_PROFILE, {
+    skip: !token,
+  });
   const [updateProfile] = useMutation(UPDATE_PROFILE);
   const [createStory] = useMutation(CREATE_STORY);
   const [deleteStory] = useMutation(DELETE_STORY);
@@ -75,12 +78,28 @@ const Profile: React.FC = () => {
   const [newContent, setNewContent] = useState("");
   const [newGenre, setNewGenre] = useState("");
 
+  if (!token) {
+    return (
+      <div className="profile-container">
+        <h2 className="username-heading">@{dummyProfile.username}</h2>
+        <p>{dummyProfile.bio}</p>
+        <p>👥 {dummyProfile.followers.length} Followers</p>
+        <p>You’re viewing a <strong>dummy profile</strong> — please login to access your data.</p>
+      </div>
+    );
+  }
+
   if (loading) return <p className="loading">Loading profile... 🧵</p>;
 
   const profile = data?.myProfile;
-  const isDummy = !profile;
-
-  const finalProfile = profile ?? dummyProfile;
+  if (!profile) {
+    return (
+      <div className="profile-container">
+        <h2>Failed to load profile</h2>
+        <p>Something went wrong. Please try again later.</p>
+      </div>
+    );
+  }
 
   const handleToggleThreads = (storyId: string) => {
     setExpandedThreads((prev) => ({
@@ -91,11 +110,11 @@ const Profile: React.FC = () => {
 
   const handleProfileUpdate = async () => {
     try {
-      let avatar = finalProfile.avatar;
+      let avatar = profile.avatar;
       if (newAvatarFile) {
         avatar = URL.createObjectURL(newAvatarFile);
       }
-      await updateProfile({ variables: { bio: newBio || finalProfile.bio, avatar } });
+      await updateProfile({ variables: { bio: newBio || profile.bio, avatar } });
       window.location.reload();
     } catch (err) {
       console.error("Profile update failed", err);
@@ -138,13 +157,11 @@ const Profile: React.FC = () => {
               ))}
             </ul>
           )}
-          {!isDummy && (
-            <button onClick={() => {
-              if (window.confirm("Are you sure you want to delete this story?")) {
-                deleteStory({ variables: { storyId: story._id } }).then(() => window.location.reload());
-              }
-            }}>🗑️ Delete</button>
-          )}
+          <button onClick={() => {
+            if (window.confirm("Are you sure you want to delete this story?")) {
+              deleteStory({ variables: { storyId: story._id } }).then(() => window.location.reload());
+            }
+          }}>🗑️ Delete</button>
         </div>
       ))}
     </div>
@@ -153,9 +170,10 @@ const Profile: React.FC = () => {
   return (
     <div className="profile-container">
       <div className="profile-header">
-        <img src={finalProfile.avatar} alt="Profile" className="profile-pic" />
+        <img src={profile.avatar} alt="Profile" className="profile-pic" />
         <div>
-          <h2 className="username-heading">@{finalProfile.username ?? "weaver"}</h2>
+            <h2 className="username-heading">@{profile.user.username}</h2>
+
           {editing ? (
             <>
               <textarea
@@ -173,24 +191,24 @@ const Profile: React.FC = () => {
             </>
           ) : (
             <>
-              <p className="profile-bio">{finalProfile.bio}</p>
+              <p className="profile-bio">{profile.bio}</p>
               <p className="profile-followers">
                 👥 <button onClick={() => setShowFollowers(!showFollowers)}>
-                  {finalProfile.followers.length} Followers
+                  {profile.followers.length} Followers
                 </button>
                 {' | '}
                 <button onClick={() => setShowFollowing(!showFollowing)}>
-                  {finalProfile.following.length} Following
+                  {profile.following.length} Following
                 </button>
               </p>
-              {!isDummy && <button onClick={() => setEditing(true)}>Edit Profile</button>}
+              <button onClick={() => setEditing(true)}>Edit Profile</button>
             </>
           )}
           {showFollowers && (
             <div className="follower-modal">
               <h4>Followers</h4>
               <ul>
-                {finalProfile.followers.map((f, i) => (
+                {profile.followers.map((f, i) => (
                   <li key={i}>@{f.username}</li>
                 ))}
               </ul>
@@ -200,7 +218,7 @@ const Profile: React.FC = () => {
             <div className="following-modal">
               <h4>Following</h4>
               <ul>
-                {finalProfile.following.map((f, i) => (
+                {profile.following.map((f, i) => (
                   <li key={i}>@{f.username}</li>
                 ))}
               </ul>
@@ -246,15 +264,9 @@ const Profile: React.FC = () => {
         </div>
       )}
 
-      {activeTab === "stories" && renderStoryList(finalProfile.sharedStories)}
-      {activeTab === "branches" && renderStoryList(finalProfile.branchedStories)}
-      {activeTab === "likes" && renderStoryList(finalProfile.likedStories)}
-
-      {isDummy && (
-        <p className="dummy-warning">
-          ⚠️ You’re viewing a <strong>dummy profile</strong> while the server is offline or failed to load your profile.
-        </p>
-      )}
+      {activeTab === "stories" && renderStoryList(profile.sharedStories)}
+      {activeTab === "branches" && renderStoryList(profile.branchedStories)}
+      {activeTab === "likes" && renderStoryList(profile.likedStories)}
     </div>
   );
 };
