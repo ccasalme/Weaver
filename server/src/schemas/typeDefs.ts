@@ -43,6 +43,18 @@ const typeDefs = `
     tone: String!
     text: String!
   }
+  
+  type Vote {
+    _id: ID!
+    story: Story!
+    user: User!
+    voteType: VoteType!
+  }
+
+  enum VoteType {
+    upvote
+    downvote
+  }
 
   type Auth {
     token: String!
