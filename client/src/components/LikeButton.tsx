@@ -11,15 +11,13 @@ interface LikeButtonProps {
 
 const LikeButton: React.FC<LikeButtonProps> = ({ storyId, initialLikes }) => {
   const [likes, setLikes] = useState(initialLikes);
-  const [likeStory] = useMutation(LIKE_STORY, {
+  const [likeStory, { loading }] = useMutation(LIKE_STORY, {
     refetchQueries: [{ query: GET_STORIES }],
   });
 
   const handleLike = async () => {
     try {
-      const { data } = await likeStory({
-        variables: { storyId },
-      });
+      const { data } = await likeStory({ variables: { storyId } });
 
       if (data?.likeStory) {
         setLikes(data.likeStory.likes);
@@ -30,8 +28,8 @@ const LikeButton: React.FC<LikeButtonProps> = ({ storyId, initialLikes }) => {
   };
 
   return (
-    <button className="like-btn" onClick={handleLike}>
-      ❤️ Like {likes}
+    <button className="like-btn" onClick={handleLike} disabled={loading}>
+      ❤️ {loading ? "Liking..." : `Like ${likes}`}
     </button>
   );
 };
