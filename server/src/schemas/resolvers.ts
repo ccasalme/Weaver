@@ -1,4 +1,11 @@
-import { User, Profile, Prompt, Story, Comment, Vote } from "../models/index.js";
+import {
+  User,
+  Profile,
+  Prompt,
+  Story,
+  Comment,
+  Vote,
+} from "../models/index.js";
 import { signToken } from "../utils/auth.js";
 
 const resolvers = {
@@ -120,7 +127,9 @@ const resolvers = {
         parentStory: originalStory._id,
       });
 
-      originalStory.branches.push(branchedStory._id as typeof originalStory.branches[0]);
+      originalStory.branches.push(
+        branchedStory._id as (typeof originalStory.branches)[0]
+      );
       await originalStory.save();
 
       await Profile.findOneAndUpdate(
@@ -174,16 +183,22 @@ const resolvers = {
       return comment;
     },
 
-     // Delete a story and related comments (but not branched stories)
-     deleteStory: async (
+    // Delete a story and related comments (but not branched stories)
+    deleteStory: async (
       _: any,
       { storyId }: { storyId: string },
       context: any
     ) => {
       if (!context.user) throw new Error("You need to be logged in!");
 
-      const story = await Story.findOne({ _id: storyId, author: context.user._id });
-      if (!story) throw new Error("Story not found or you're not authorized to delete it");
+      const story = await Story.findOne({
+        _id: storyId,
+        author: context.user._id,
+      });
+      if (!story)
+        throw new Error(
+          "Story not found or you're not authorized to delete it"
+        );
 
       // Delete associated comments
       await Comment.deleteMany({ story: storyId });
@@ -214,7 +229,10 @@ const resolvers = {
     // Vote for a story (upvote/downvote)
     voteStory: async (
       _: any,
-      { storyId, voteType }: { storyId: string; voteType: "upvote" | "downvote" },
+      {
+        storyId,
+        voteType,
+      }: { storyId: string; voteType: "upvote" | "downvote" },
       context: any
     ) => {
       if (!context.user) throw new Error("You need to be logged in!");
@@ -273,7 +291,7 @@ const resolvers = {
 
       if (!updatedProfile) throw new Error("Profile not found");
       return updatedProfile;
-    }
+    },
   },
 };
 
