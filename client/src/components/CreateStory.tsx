@@ -13,9 +13,8 @@ interface CreateStoryProps {
 const CreateStory: React.FC<CreateStoryProps> = ({ onClose }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  // const [showPreview, setShowPreview] = useState(false); // optional preview toggle
 
-  const [createStory, { error }] = useMutation(CREATE_STORY, {
+  const [createStory, { error, loading }] = useMutation(CREATE_STORY, {
     refetchQueries: [{ query: GET_STORIES }],
   });
 
@@ -33,7 +32,12 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose }) => {
     }
 
     try {
-      await createStory({ variables: { title, content } });
+      await createStory({
+        variables: {
+          title: title.trim(),
+          content: content.trim(),
+        },
+      });
       alert("Story created successfully! 🎉");
       setTitle("");
       setContent("");
@@ -76,7 +80,9 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose }) => {
             width: "100%",
           }}
         >
-          <h2 style={{ fontSize: "1.8rem", marginBottom: "1rem" }}>Create a New Origin 📖</h2>
+          <h2 style={{ fontSize: "1.8rem", marginBottom: "1rem" }}>
+            Create a New Origin 📖
+          </h2>
           <form onSubmit={handleSubmit}>
             <input
               type="text"
@@ -85,13 +91,18 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose }) => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
-              style={{ width: "100%", marginBottom: "1rem", padding: "0.5rem" }}
+              style={{
+                width: "100%",
+                marginBottom: "1rem",
+                padding: "0.5rem",
+              }}
             />
             <textarea
               placeholder="Your origin story..."
               value={content}
               onChange={(e) => setContent(e.target.value)}
               required
+              maxLength={3000}
               style={{
                 width: "100%",
                 height: "150px",
@@ -99,35 +110,43 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose }) => {
                 marginBottom: "1rem",
               }}
             />
-            {/* Markdown preview toggle */}
-            {/* <button
-              type="button"
-              onClick={() => setShowPreview(!showPreview)}
-              style={{ marginBottom: "1rem" }}
-            >
-              {showPreview ? "Hide" : "Show"} Preview
-            </button>
-
-            {showPreview && (
-              <div
-                style={{
-                  background: "#f4f4f4",
-                  padding: "1rem",
-                  borderRadius: "8px",
-                  marginBottom: "1rem",
-                }}
-              >
-                <ReactMarkdown>{content}</ReactMarkdown>
-              </div>
-            )} */}
 
             <div style={{ display: "flex", gap: "1rem" }}>
-              <button type="submit">Submit</button>
-              <button type="button" onClick={onClose}>
+              <button
+                type="submit"
+                disabled={loading}
+                style={{
+                  padding: "0.5rem 1rem",
+                  backgroundColor: "#fff",
+                  color: "#333",
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                  cursor: loading ? "not-allowed" : "pointer",
+                }}
+              >
+                {loading ? "Creating..." : "Submit"}
+              </button>
+              <button
+                type="button"
+                onClick={onClose}
+                style={{
+                  padding: "0.5rem 1rem",
+                  backgroundColor: "#ccc",
+                  color: "#000",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
                 Cancel
               </button>
             </div>
-            {error && <p style={{ color: "red" }}>Error: {error.message}</p>}
+
+            {error && (
+              <p style={{ color: "red", marginTop: "1rem" }}>
+                Error: {error.message ?? "Something went wrong."}
+              </p>
+            )}
           </form>
         </motion.div>
       </AnimatePresence>
