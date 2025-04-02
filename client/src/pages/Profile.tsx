@@ -1,3 +1,4 @@
+// src/components/Profile.tsx
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_MY_PROFILE } from "../graphql/queries";
@@ -38,53 +39,6 @@ interface ProfileData {
   };
 }
 
-const dummyProfile: ProfileData["myProfile"] = {
-  user: {
-    _id: "dummy",
-    username: "spideynomoney",
-    email: "spidey@threads.com",
-    fullName: "Peter Parker",
-  },
-  bio: "Just your friendly neighbourhood thread weaver. 🕸️",
-  avatar: fallbackAvatar,
-  followers: [
-    { _id: "1", username: "ironfan", email: "", fullName: "Tony Stark" },
-    { _id: "2", username: "strangelycool", email: "", fullName: "Stephen Strange" },
-  ],
-  following: [
-    { _id: "3", username: "legend27", email: "", fullName: "Thor Odinson" },
-    { _id: "4", username: "webwitch", email: "", fullName: "Wanda Maximoff" },
-  ],
-  sharedStories: [
-    {
-      _id: "1",
-      title: "🕷️ Spidey Origins",
-      content: "Bitten by a radioactive spider... you know the rest.",
-      comments: [
-        { _id: "c1", content: "Iconic.", author: { username: "webhead99" } },
-      ],
-    },
-  ],
-  branchedStories: [
-    {
-      _id: "2",
-      title: "🧬 Multiverse Madness",
-      content: "What if Gwen never fell?",
-      comments: [],
-    },
-  ],
-  likedStories: [
-    {
-      _id: "3",
-      title: "🕸️ Venom's Side",
-      content: "A misunderstood monster. Or something worse?",
-      comments: [
-        { _id: "c2", content: "Chills 😱", author: { username: "symbiobae" } },
-      ],
-    },
-  ],
-};
-
 const Profile: React.FC = () => {
   const token = localStorage.getItem("id_token");
   const { loading, data } = useQuery<ProfileData>(GET_MY_PROFILE, {
@@ -109,9 +63,9 @@ const Profile: React.FC = () => {
   if (!token) {
     return (
       <div className="profile-container">
-        <h2 className="username-heading">@{dummyProfile.user.username}</h2>
-        <p>{dummyProfile.bio}</p>
-        <p>👥 {dummyProfile.followers.length} Followers</p>
+        <h2 className="username-heading">@spideynomoney</h2>
+        <p>Just your friendly neighbourhood thread weaver. 🕸️</p>
+        <p>👥 2 Followers</p>
         <p>You’re viewing a <strong>dummy profile</strong> — please login to access your data.</p>
       </div>
     );
@@ -130,10 +84,7 @@ const Profile: React.FC = () => {
   }
 
   const handleToggleThreads = (storyId: string) => {
-    setExpandedThreads((prev) => ({
-      ...prev,
-      [storyId]: !prev[storyId],
-    }));
+    setExpandedThreads((prev) => ({ ...prev, [storyId]: !prev[storyId] }));
   };
 
   const handleProfileUpdate = async () => {
@@ -142,7 +93,12 @@ const Profile: React.FC = () => {
       if (newAvatarFile) {
         avatar = URL.createObjectURL(newAvatarFile);
       }
-      await updateProfile({ variables: { bio: newBio || profile.bio, avatar } });
+      await updateProfile({
+        variables: {
+          bio: newBio.trim() || profile.bio || "",
+          avatar: avatar || fallbackAvatar,
+        },
+      });
       window.location.reload();
     } catch (err) {
       console.error("Profile update failed", err);
@@ -155,7 +111,12 @@ const Profile: React.FC = () => {
       return;
     }
     try {
-      await createStory({ variables: { title: newTitle, content: newContent } });
+      await createStory({
+        variables: {
+          title: newTitle.trim(),
+          content: newContent.trim(),
+        },
+      });
       setNewTitle("");
       setNewContent("");
       setNewGenre("");
@@ -165,13 +126,25 @@ const Profile: React.FC = () => {
     }
   };
 
+  const handleDeleteStory = async (storyId: string) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this story?");
+    if (!confirmDelete) return;
+    try {
+      await deleteStory({ variables: { storyId } });
+      window.location.reload();
+    } catch (err) {
+      console.error("Failed to delete story:", err);
+      alert("Something went wrong while deleting the story.");
+    }
+  };
+
   const renderStoryList = (stories: Story[]) => (
     <div className="story-list">
       {stories.map((story) => (
         <div key={story._id} className="story-card">
-          <h3>{story.title}</h3>
-          <p>{story.content}</p>
-          {story.comments.length > 0 && (
+          <h3>{story?.title ?? "Untitled Story"}</h3>
+          <p>{story?.content ?? "No content available."}</p>
+          {story.comments?.length > 0 && (
             <button onClick={() => handleToggleThreads(story._id)} className="see-threads-btn">
               {expandedThreads[story._id] ? "🔽 Hide Threads" : "🧵 See Threads"}
             </button>
@@ -180,16 +153,12 @@ const Profile: React.FC = () => {
             <ul className="comment-thread">
               {story.comments.map((comment) => (
                 <li key={comment._id}>
-                  <strong>{comment.author.username}:</strong> {comment.content}
+                  <strong>{comment.author?.username ?? "Anonymous"}:</strong> {comment.content ?? "(no content)"}
                 </li>
               ))}
             </ul>
           )}
-          <button onClick={() => {
-            if (window.confirm("Are you sure you want to delete this story?")) {
-              deleteStory({ variables: { storyId: story._id } }).then(() => window.location.reload());
-            }
-          }}>🗑️ Delete</button>
+          <button onClick={() => handleDeleteStory(story._id)}>🗑️ Delete</button>
         </div>
       ))}
     </div>
@@ -198,10 +167,14 @@ const Profile: React.FC = () => {
   return (
     <div className="profile-container">
       <div className="profile-header">
-        <img src={profile.avatar} alt="Profile" className="profile-pic" />
+        <img
+          src={profile.avatar || fallbackAvatar}
+          alt="Profile"
+          className="profile-pic"
+        />
         <div>
-          <h2 className="username-heading">@{profile.user.username}</h2>
-          <p className="profile-fullname">{profile.user.fullName}</p>
+          <h2 className="username-heading">@{profile.user.username ?? "unknown_user"}</h2>
+          <p className="profile-fullname">{profile.user.fullName ?? "Unnamed User"}</p>
 
           {editing ? (
             <>
@@ -220,7 +193,7 @@ const Profile: React.FC = () => {
             </>
           ) : (
             <>
-              <p className="profile-bio">{profile.bio}</p>
+              <p className="profile-bio">{profile.bio || "No bio yet."}</p>
               <p className="profile-followers">
                 👥 <button onClick={() => setShowFollowers(!showFollowers)}>
                   {profile.followers?.length ?? 0} Followers
@@ -239,7 +212,7 @@ const Profile: React.FC = () => {
               <h4>Followers</h4>
               <ul>
                 {profile.followers.map((f, i) => (
-                  <li key={i}>@{f.username}</li>
+                  <li key={i}>@{f.username ?? "unknown"}</li>
                 ))}
               </ul>
             </div>
@@ -249,7 +222,7 @@ const Profile: React.FC = () => {
               <h4>Following</h4>
               <ul>
                 {profile.following.map((f, i) => (
-                  <li key={i}>@{f.username}</li>
+                  <li key={i}>@{f.username ?? "unknown"}</li>
                 ))}
               </ul>
             </div>
