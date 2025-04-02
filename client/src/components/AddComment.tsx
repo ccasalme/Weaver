@@ -16,7 +16,7 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
   const [content, setContent] = useState("");
   const titleRef = useRef<HTMLInputElement>(null);
 
-  const [addComment, { error }] = useMutation(ADD_COMMENT, {
+  const [addComment, { error, loading }] = useMutation(ADD_COMMENT, {
     refetchQueries: [{ query: GET_STORIES }],
   });
 
@@ -34,8 +34,8 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
     try {
       await addComment({
         variables: {
-          storyId,
-          content: `**${title}**\n\n${content}`,
+          storyId: storyId ?? "", // 🔐 safety net
+          content: `**${title.trim()}**\n\n${content.trim()}`,
         },
       });
       setTitle("");
@@ -90,6 +90,7 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
               onChange={(e) => setTitle(e.target.value)}
               required
               className="modal-input"
+              style={{ marginBottom: "1rem", padding: "0.5rem", width: "100%" }}
             />
 
             <textarea
@@ -99,31 +100,69 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
               required
               maxLength={3000}
               className="modal-textarea"
+              style={{
+                marginBottom: "1rem",
+                padding: "0.5rem",
+                width: "100%",
+                height: "120px",
+              }}
             />
 
-            <div className="markdown-preview">
+            <div className="markdown-preview" style={{ marginBottom: "1rem" }}>
               <h4 style={{ color: "white" }}>🔍 Preview</h4>
-              <div style={{
-                background: "white",
-                borderRadius: "6px",
-                padding: "1rem",
-                maxHeight: "200px",
-                overflowY: "auto",
-              }}>
-                <ReactMarkdown>{`**${title}**\n\n${content}`}</ReactMarkdown>
+              <div
+                style={{
+                  background: "white",
+                  borderRadius: "6px",
+                  padding: "1rem",
+                  maxHeight: "200px",
+                  overflowY: "auto",
+                }}
+              >
+                <ReactMarkdown>
+                  {`**${title || "Untitled Thread"}**\n\n${content || "*No content yet...*"}`}
+                </ReactMarkdown>
               </div>
             </div>
 
-            <div className="modal-btn-group">
-              <button type="submit" className="modal-submit-btn">
-                Submit Thread
+            <div className="modal-btn-group" style={{ display: "flex", gap: "1rem" }}>
+              <button
+                type="submit"
+                className="modal-submit-btn"
+                disabled={loading}
+                style={{
+                  padding: "0.5rem 1rem",
+                  backgroundColor: "#fff",
+                  color: "#333",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
+                {loading ? "Submitting..." : "Submit Thread"}
               </button>
-              <button type="button" onClick={onClose} className="modal-close-btn">
+              <button
+                type="button"
+                onClick={onClose}
+                className="modal-close-btn"
+                style={{
+                  padding: "0.5rem 1rem",
+                  backgroundColor: "#ccc",
+                  color: "#000",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
                 ❎ Cancel
               </button>
             </div>
 
-            {error && <p className="modal-error">Error: {error.message}</p>}
+            {error && (
+              <p className="modal-error" style={{ color: "#ffdddd", marginTop: "1rem" }}>
+                Error: {error.message ?? "Something went wrong."}
+              </p>
+            )}
           </form>
         </motion.div>
       </AnimatePresence>

@@ -1,6 +1,7 @@
+// src/graphql/queries.ts
 import { gql } from "@apollo/client";
 
-// ✅ Query: Get all stories
+// ✅ Get all stories — safe for null branches/parentStory.title
 export const GET_STORIES = gql`
   query GetStories {
     getStories {
@@ -26,17 +27,17 @@ export const GET_STORIES = gql`
       }
       branches {
         _id
-        title
+        title  # <- Must exist or be handled gracefully
       }
       parentStory {
         _id
-        title
+        title  # <- May be null if root origin, so your frontend must check
       }
     }
   }
 `;
 
-// ✅ Query: Get the currently logged-in user
+// ✅ Get logged-in user basic data
 export const GET_ME = gql`
   query Me {
     me {
@@ -48,25 +49,28 @@ export const GET_ME = gql`
   }
 `;
 
-// ✅ Query: Get the full profile of the logged-in user
+// ✅ Get full profile of the logged-in user (bio, avatar, connections)
 export const GET_MY_PROFILE = gql`
   query MyProfile {
     myProfile {
       _id
+      bio
+      avatar
+
       user {
         _id
         username
         email
         fullName
       }
-      bio
-      avatar
+
       followers {
         _id
         username
         email
         fullName
       }
+
       sharedStories {
         _id
         title
@@ -90,6 +94,7 @@ export const GET_MY_PROFILE = gql`
           title
         }
       }
+
       likedStories {
         _id
         title
@@ -113,6 +118,7 @@ export const GET_MY_PROFILE = gql`
           title
         }
       }
+
       branchedStories {
         _id
         title
@@ -140,7 +146,7 @@ export const GET_MY_PROFILE = gql`
   }
 `;
 
-// ✅ Query: Get all prompts (optional but defined in your schema)
+// ✅ Get all prompts (if you implement categories/themes for creativity)
 export const GET_PROMPTS = gql`
   query GetPrompts {
     getPrompts {

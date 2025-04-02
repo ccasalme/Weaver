@@ -37,10 +37,16 @@ const resolvers = {
 
     // Retrieve all stories, including author and comments
     getStories: async () => {
-      return await Story.find().populate("author").populate("comments");
+      return await Story.find()
+        .populate("author")
+        .populate({
+          path: "comments",
+          populate: { path: "author" }, // populates comment authors
+        })
+        .populate("branches") // populates branched stories
+        .populate("parentStory"); // populates parent stories
     },
   },
-
   Mutation: {
     // Login an existing user and return a JWT token
     login: async (

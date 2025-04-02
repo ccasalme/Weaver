@@ -1,3 +1,4 @@
+// src/graphql/mutations.ts
 import { gql } from "@apollo/client";
 
 // ✅ Login mutation
@@ -13,7 +14,7 @@ export const LOGIN_USER = gql`
   }
 `;
 
-// 🚧 TODO: AddUser mutation (not yet in your client)
+// ✅ Register a new user (AddUser)
 export const ADD_USER = gql`
   mutation addUser(
     $fullName: String!
@@ -36,7 +37,7 @@ export const ADD_USER = gql`
   }
 `;
 
-// ✅ Create a new origin or thread
+// ✅ Create a new story (origin/thread) — returns basic fields to avoid null crash
 export const CREATE_STORY = gql`
   mutation createStory($title: String!, $content: String!) {
     createStory(title: $title, content: $content) {
@@ -52,7 +53,7 @@ export const CREATE_STORY = gql`
   }
 `;
 
-// ✅ Branch a story
+// ✅ Branch a story — use defensive querying
 export const BRANCH_STORY = gql`
   mutation branchStory($storyId: ID!, $title: String!, $content: String!) {
     branchStory(storyId: $storyId, title: $title, content: $content) {
@@ -63,11 +64,15 @@ export const BRANCH_STORY = gql`
         _id
         title
       }
+      parentStory {
+        _id
+        title
+      }
     }
   }
 `;
 
-// ✅ Like or Vote on a story
+// ✅ Like a story — basic return avoids error if nested story fields are missing
 export const LIKE_STORY = gql`
   mutation likeStory($storyId: ID!) {
     likeStory(storyId: $storyId) {
@@ -77,20 +82,22 @@ export const LIKE_STORY = gql`
   }
 `;
 
-// ✅ Comment on a story
+// ✅ Add a comment — only return what's needed
 export const ADD_COMMENT = gql`
   mutation addComment($storyId: ID!, $content: String!) {
     addComment(storyId: $storyId, content: $content) {
       _id
       content
       author {
+        _id
         username
+        fullName
       }
     }
   }
 `;
 
-// ✅ Delete a story
+// ✅ Delete a story — returns just the essentials
 export const DELETE_STORY = gql`
   mutation deleteStory($storyId: ID!) {
     deleteStory(storyId: $storyId) {
@@ -100,39 +107,42 @@ export const DELETE_STORY = gql`
   }
 `;
 
-// ✅ Vote for a story
+// ✅ Vote on a story — no unnecessary nesting
 export const VOTE_STORY = gql`
   mutation voteStory($storyId: ID!, $voteType: VoteType) {
     voteStory(storyId: $storyId, voteType: $voteType) {
       _id
       voteType
       user {
+        _id
         username
       }
     }
   }
 `;
 
-// ✅ Optional (not in typedefs, but needed for your profile)
+// ✅ Update profile — defensively returns minimal fields
 export const UPDATE_PROFILE = gql`
   mutation updateProfile($bio: String, $avatar: String) {
     updateProfile(bio: $bio, avatar: $avatar) {
       _id
       bio
       avatar
-      followers {
+      user {
+        _id
         username
       }
-      user {
+      followers {
+        _id
         username
       }
     }
   }
 `;
 
-// ✅ Follow another user
+// ✅ Follow another user — return minimal user info
 export const FOLLOW_USER = gql`
-  mutation FollowUser($targetUserId: ID!) {
+  mutation followUser($targetUserId: ID!) {
     followUser(targetUserId: $targetUserId) {
       _id
       username
@@ -140,9 +150,9 @@ export const FOLLOW_USER = gql`
   }
 `;
 
-// ✅ Unfollow a user
+// ✅ Unfollow a user — same structure as follow
 export const UNFOLLOW_USER = gql`
-  mutation UnfollowUser($targetUserId: ID!) {
+  mutation unfollowUser($targetUserId: ID!) {
     unfollowUser(targetUserId: $targetUserId) {
       _id
       username

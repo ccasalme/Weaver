@@ -19,7 +19,7 @@ const typeDefs = `
 
   type Story {
     _id: ID!
-    title: String!
+    title: String
     content: String!
     author: User!
     likes: Int
