@@ -218,14 +218,43 @@ const Homepage: React.FC = () => {
               <h3>{story.title}</h3>
               <p>{story.content}</p>
 
-              {story.parentStory && (
+              {/* {story.parentStory && (
                 <div className="parent-story-box">
                   <p><strong>Origin Universe 🌌</strong></p>
                   <p><strong>{story.parentStory.title}</strong></p>
                   <p>{story.parentStory.content}</p>
                   <p><em>By: {story.parentStory.author.username}</em></p>
                 </div>
-              )}
+              )} */}
+              <div className="origin-block">
+                <h3>{story.title}</h3>
+                <p>{story.content}</p>
+                <p><strong>By:</strong> {story.author.username}</p>
+
+              {/* If it has a parent origin */}
+                {story.parentStory && (
+                <div className="origin-details">
+                  <h4>🌌 Origin Universe</h4>
+                    <p><strong>{story.parentStory.title}</strong></p>
+                    <p>{story.parentStory.content}</p>
+                    <p><em>By: {story.parentStory.author.username}</em></p>
+              </div>
+                )}
+
+              {/* Branches if they exist */}
+              {story.branches && story.branches.length > 0 && (
+                <div className="origin-branches">
+                    <h4>🌱 Branches</h4>
+                    {story.branches.map((branch) => (
+                    <div key={branch._id} className="branch-entry">
+                    <p><strong>{branch.title}</strong></p>
+                    <p>{branch.content}</p>
+                 </div>
+              ))}
+                </div>
+    )}
+        </div>
+
 
               <p>
                 <strong>By:</strong> {story.author.username}

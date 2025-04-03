@@ -825,3 +825,27 @@ button:hover {
     filter: brightness(0.8);
   }
 }
+
+.origin-block {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  color: white;
+  box-shadow: 0 0 20px rgba(255,255,255,0.1);
+}
+
+.origin-details, .origin-branches {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,255,255,0.1);
+}
+
+.branch-entry {
+  margin-bottom: 1rem;
+  border-left: 2px solid cyan;
+  padding-left: 1rem;
+}
+
