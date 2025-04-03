@@ -14,7 +14,7 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
   onClose,
   onDeleted,
 }) => {
-  const [confirmedOnce, setConfirmedOnce] = useState(false);
+  const [confirmStage, setConfirmStage] = useState<1 | 2>(1);
 
   const [deleteStory, { loading, error }] = useMutation(DELETE_STORY, {
     refetchQueries: [{ query: GET_STORIES }, { query: GET_MY_PROFILE }],
@@ -25,7 +25,7 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
       await deleteStory({ variables: { storyId } });
 
       alert(
-        "🌌 The multiverse has been altered.\n\nThe origin universe is now deleted.\nMay you carry the guilt as a Weaver who unraveled fate itself."
+        "Good job. You just deleted a whole universe. 🌌\n\nA timeline that consisted of worlds... gone. The multiverse is shaken. Branched timelines are damaged. This origin is now wiped from the database.\n\nMay you bear the weight of the consequences of destroying an origin universe.\n\nDo not be surprised if other Weavers like yourself form a Council to overthrow you. 😔"
       );
 
       onDeleted();
@@ -34,125 +34,139 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
     }
   };
 
-  const renderFirstWarning = () => (
-    <>
-      <h2
-        className="modal-title"
+  return (
+    <div
+      className="modal-backdrop"
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "rgba(0, 0, 0, 0.85)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 9999,
+        backgroundImage: `radial-gradient(circle at center, rgba(255, 0, 0, 0.25), transparent 70%), repeating-linear-gradient(0deg, transparent, transparent 49%, rgba(255, 0, 0, 0.25) 50%, transparent 51%)`,
+        backgroundSize: "100% 100%, 4px 100%",
+      }}
+    >
+      <div
+        className="modal"
+        onClick={(e) => e.stopPropagation()}
         style={{
-          fontSize: "1.5rem",
-          fontWeight: "bold",
-          marginBottom: "1rem",
-          color: "#fff",
+          background: "linear-gradient(to right, rgb(159, 171, 174), rgb(59, 77, 77))",
+          padding: "2rem",
+          borderRadius: "12px",
+          width: "90%",
+          maxWidth: "600px",
           textAlign: "center",
-          textTransform: "uppercase",
-          letterSpacing: "1px",
+          color: "white",
+          boxShadow: "0 0 25px rgba(255, 0, 0, 0.5)",
         }}
       >
-        ⚠️ DELETE ORIGIN UNIVERSE
-      </h2>
-      <p style={{ color: "#ffdddd", textAlign: "center", marginBottom: "1.5rem", fontSize: "1.1rem" }}>
-        You’re about to permanently erase a universe from the weave. All branches and threads will vanish.<br /><br />
-        This is the point of no return...
-      </p>
-    </>
-  );
+        <h2
+          style={{
+            fontSize: "1.3rem",
+            fontWeight: "bold",
+            background: "rgba(0, 0, 0, 0.25)",
+            padding: "0.5rem 1rem",
+            borderRadius: "8px",
+            display: "inline-block",
+            marginBottom: "1rem",
+          }}
+        >
+          ⚠️ DELETE ORIGIN UNIVERSE
+        </h2>
 
-  const renderSecondWarning = () => (
-    <p style={{ color: "#ffdddd", textAlign: "center", fontSize: "1.1rem" }}>
-      <strong>Dearest Weaver</strong>, you are about to destroy a whole timeline.<br />
-      There is no going back.<br />
-      <br />
-      <strong>Point of no return.</strong><br />
-      <br />
-      You will now be a destroyer of worlds... and may receive the wrath of other Weavers that helped your universe grow.<br />
-      <br />
-      <strong>Are you absolutely sure?</strong>
-    </p>
-  );
+        {confirmStage === 1 && (
+          <>
+            <p style={{ marginBottom: "1rem", fontSize: "1.1rem" }}>
+              You're about to permanently erase a universe from the weave. All
+              branches and threads will vanish. This is the point of no return...
+            </p>
+            <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
+              <button
+                onClick={() => setConfirmStage(2)}
+                disabled={loading}
+                style={{
+                  padding: "0.5rem 1rem",
+                  backgroundColor: "#fff",
+                  color: "#333",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                }}
+              >
+                {loading ? "Processing..." : "Yes, delete universe"}
+              </button>
+              <button
+                onClick={onClose}
+                style={{
+                  padding: "0.5rem 1rem",
+                  backgroundColor: "#ccc",
+                  color: "#000",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </>
+        )}
 
-  return (
-    <div className="modal-backdrop" onClick={onClose} style={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100vw",
-      height: "100vh",
-      backgroundColor: "rgba(0, 0, 0, 0.85)",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      zIndex: 9999,
-    }}>
-      <div className="modal" onClick={(e) => e.stopPropagation()} style={{
-        background: "linear-gradient(to right, rgb(159, 171, 174), rgb(59, 77, 77))",
-        padding: "2rem",
-        borderRadius: "12px",
-        maxWidth: "600px",
-        width: "90%",
-        maxHeight: "90vh",
-        overflowY: "auto",
-        boxShadow: "0 8px 16px rgba(0,0,0,0.5)",
-      }}>
-        {!confirmedOnce ? renderFirstWarning() : renderSecondWarning()}
-
-        <div className="modal-btn-group" style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "1rem",
-          marginTop: "1.5rem",
-          flexWrap: "wrap",
-        }}>
-          {!confirmedOnce ? (
-            <button
-              onClick={() => setConfirmedOnce(true)}
-              disabled={loading}
+        {confirmStage === 2 && (
+          <>
+            <p
               style={{
-                backgroundColor: "#ff4444",
-                color: "#fff",
-                padding: "0.6rem 1.2rem",
-                border: "none",
-                borderRadius: "4px",
-                fontWeight: "bold",
-                cursor: "pointer",
+                marginTop: "1rem",
+                fontSize: "1.2rem",
+                color: "#fdd",
+                whiteSpace: "pre-line",
               }}
             >
-              Yes, delete this origin 🌌
-            </button>
-          ) : (
-            <button
-              onClick={handleFinalDelete}
-              disabled={loading}
-              style={{
-                backgroundColor: "#8b0000",
-                color: "#fff",
-                padding: "0.6rem 1.2rem",
-                border: "none",
-                borderRadius: "4px",
-                fontWeight: "bold",
-                cursor: "pointer",
-              }}
-            >
-              I understand. Delete it. 🕸️
-            </button>
-          )}
-
-          <button
-            onClick={onClose}
-            style={{
-              backgroundColor: "#444",
-              color: "#fff",
-              padding: "0.6rem 1.2rem",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-          >
-            ❎ Cancel
-          </button>
-        </div>
+              {`Dearest Weaver, you are\nabout to destroy a whole\ntimeline. There is no going\nback.\n\nPoint of no return.\n\nYou will now be a\ndestroyer of worlds... and\nmay receive the wrath of\nother Weavers that helped\nyour universe grow.\n\nAre you absolutely sure?`}
+            </p>
+            <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginTop: "1.5rem" }}>
+              <button
+                onClick={handleFinalDelete}
+                disabled={loading}
+                style={{
+                  padding: "0.5rem 1rem",
+                  backgroundColor: "darkred",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                }}
+              >
+                {loading ? "Deleting..." : "🔥 Yes, destroy it"}
+              </button>
+              <button
+                onClick={onClose}
+                style={{
+                  padding: "0.5rem 1rem",
+                  backgroundColor: "#ccc",
+                  color: "#000",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
+                ❎ Cancel
+              </button>
+            </div>
+          </>
+        )}
 
         {error && (
-          <p style={{ color: "#ffdddd", marginTop: "1rem", textAlign: "center" }}>
+          <p style={{ marginTop: "1rem", color: "#ffdddd" }}>
             Error: {error.message}
           </p>
         )}
