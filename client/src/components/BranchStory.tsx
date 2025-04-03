@@ -1,8 +1,8 @@
-// src/components/BranchStory.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { BRANCH_STORY } from "../graphql/mutations";
 import { GET_STORIES } from "../graphql/queries";
+import { isLoggedIn } from "../utils/auth";
 
 interface BranchStoryProps {
   parentStoryId: string;
@@ -12,10 +12,23 @@ interface BranchStoryProps {
 const BranchStory: React.FC<BranchStoryProps> = ({ parentStoryId, onClose }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [authValid, setAuthValid] = useState(true); // 👀 track login
 
   const [branchStory, { error, loading }] = useMutation(BRANCH_STORY, {
     refetchQueries: [{ query: GET_STORIES }],
   });
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const valid = await isLoggedIn();
+      if (!valid) {
+        alert("You must be logged in to branch a story. ✋");
+        setAuthValid(false);
+        onClose();
+      }
+    };
+    checkAuth();
+  }, [onClose]);
 
   const handleBranch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +41,7 @@ const BranchStory: React.FC<BranchStoryProps> = ({ parentStoryId, onClose }) => 
     try {
       await branchStory({
         variables: {
-          storyId: parentStoryId ?? "", // safety check
+          storyId: parentStoryId ?? "",
           title: title.trim(),
           content: content.trim(),
         },
@@ -42,6 +55,8 @@ const BranchStory: React.FC<BranchStoryProps> = ({ parentStoryId, onClose }) => 
       console.error("Error branching story:", err);
     }
   };
+
+  if (!authValid) return null;
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
