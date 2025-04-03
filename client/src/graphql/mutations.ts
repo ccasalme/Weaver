@@ -77,13 +77,10 @@ export const LIKE_STORY = gql`
   mutation likeStory($storyId: ID!) {
     likeStory(storyId: $storyId) {
       _id
-      likedStories {
-        _id
-      }
+      likes
     }
   }
 `;
-
 
 // ✅ Add a comment — only return what's needed
 export const ADD_COMMENT = gql`

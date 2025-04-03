@@ -1,10 +1,17 @@
 // src/graphql/queries.ts
 import { gql } from "@apollo/client";
 
-// ✅ Get all stories — safe for null branches/parentStory.title
+///////////////////////////////////
+// Cyrl's notes:
+// Prevents crazy re-rendering upon retrieval of stories in real time
+// Limits the number of stories loaded at a time to prevent crashing
+// This is good practice for performance and a safeguard
+///////////////////////////////////
+
+// ✅ Get paginated stories — safe for null branches/parentStory.title
 export const GET_STORIES = gql`
-  query GetStories {
-    getStories {
+  query GetStories($limit: Int, $offset: Int) {
+    getStories(limit: $limit, offset: $offset) {
       _id
       title
       content
@@ -12,8 +19,6 @@ export const GET_STORIES = gql`
       author {
         _id
         username
-        email
-        fullName
       }
       comments {
         _id
@@ -21,21 +26,45 @@ export const GET_STORIES = gql`
         author {
           _id
           username
-          email
-          fullName
         }
       }
       branches {
         _id
-        title  # <- Must exist or be handled gracefully
+        title
+        content
+        likes
+        comments {
+          _id
+          content
+          author {
+            _id
+            username
+          }
+        }
       }
       parentStory {
         _id
-        title  # <- May be null if root origin, so your frontend must check
+        title
+        content
+        likes
+        author {
+          _id
+          username
+        }
+        comments {
+          _id
+          content
+          author {
+            _id
+            username
+          }
+        }
       }
     }
   }
 `;
+
+
 
 // ✅ Get logged-in user basic data
 export const GET_ME = gql`
@@ -56,21 +85,18 @@ export const GET_MY_PROFILE = gql`
       _id
       bio
       avatar
-
       user {
         _id
         username
         email
         fullName
       }
-
       followers {
         _id
         username
         email
         fullName
       }
-
       sharedStories {
         _id
         title
@@ -94,7 +120,6 @@ export const GET_MY_PROFILE = gql`
           title
         }
       }
-
       likedStories {
         _id
         title
@@ -118,7 +143,6 @@ export const GET_MY_PROFILE = gql`
           title
         }
       }
-
       branchedStories {
         _id
         title

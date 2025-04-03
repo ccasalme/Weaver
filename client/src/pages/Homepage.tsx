@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import "./Wireframe.css";
 import Login from "../components/Login";
@@ -18,20 +18,21 @@ interface Story {
   _id: string;
   title: string;
   content: string;
+  likes: number;
   author: {
     _id: string;
     username: string;
   };
-  likes: number;
-  comments: Comment[];
-}
-
-interface Comment {
-  _id: string;
-  content: string;
-  author: {
-    username: string;
-  };
+  comments: {
+    _id: string;
+    content: string;
+    author: {
+      _id: string;
+      username: string;
+    };
+  }[];
+  branches?: Story[];
+  parentStory?: Story | null;
 }
 
 const Homepage: React.FC = () => {
@@ -45,11 +46,17 @@ const Homepage: React.FC = () => {
   const [storyToDelete, setStoryToDelete] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
+  const [stories, setStories] = useState<Story[]>([]);
 
-  const { loading, error, data, refetch } = useQuery<{ getStories: Story[] }>(GET_STORIES);
-  const { data: meData } = useQuery(GET_ME, {
-    skip: !isLoggedIn(),
+  const storyContainerRef = useRef<HTMLDivElement>(null);
+
+  const { data, fetchMore, refetch } = useQuery(GET_STORIES, {
+    variables: { offset: 0, limit: 6 },
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
   });
+
+  const { data: meData } = useQuery(GET_ME, { skip: !isLoggedIn() });
 
   const [createStory] = useMutation(CREATE_STORY, {
     onCompleted: () => {
@@ -66,31 +73,42 @@ const Homepage: React.FC = () => {
   const isAuthenticated = !!meData?.me?._id;
   const currentUserId = meData?.me?._id || null;
 
-  const handleLikeClick = async (storyId: string) => {
-    if (!isAuthenticated) {
-      setShowOopsModal(true);
-      return;
+  useEffect(() => {
+    if (data?.getStories) {
+      setStories((prev) => {
+        const merged = [...prev, ...data.getStories];
+        const unique = Array.from(new Map(merged.map((s) => [s._id, s])).values());
+        return unique;
+      });
     }
+  }, [data]);
+
+  const handleLikeClick = async (storyId: string) => {
+    if (!isAuthenticated) return setShowOopsModal(true);
     try {
       await likeStory({ variables: { storyId } });
-    } catch (error) {
-      console.error("Error liking story:", error);
+    } catch (err) {
+      console.error("Error liking:", err);
+    }
+  };
+
+  const handleQuickCreateStory = async () => {
+    if (!isAuthenticated) return setShowOopsModal(true);
+    if (!newTitle.trim() || !newContent.trim()) return;
+    try {
+      await createStory({ variables: { title: newTitle, content: newContent } });
+    } catch (err) {
+      console.error("Error creating:", err);
     }
   };
 
   const openAddCommentModal = (storyId: string) => {
-    if (!isAuthenticated) {
-      setShowOopsModal(true);
-      return;
-    }
+    if (!isAuthenticated) return setShowOopsModal(true);
     setActiveStoryId(storyId);
   };
 
   const openBranchModal = (storyId: string) => {
-    if (!isAuthenticated) {
-      setShowOopsModal(true);
-      return;
-    }
+    if (!isAuthenticated) return setShowOopsModal(true);
     setBranchStoryId(storyId);
   };
 
@@ -99,24 +117,31 @@ const Homepage: React.FC = () => {
     setShowDeleteModal(true);
   };
 
-  const handleQuickCreateStory = async () => {
-    if (!isAuthenticated) {
-      setShowOopsModal(true);
-      return;
-    }
-    if (!newTitle.trim() || !newContent.trim()) return;
-    try {
-      await createStory({ variables: { title: newTitle, content: newContent } });
-    } catch (err) {
-      console.error("Error creating story:", err);
-    }
-  };
+  const handleScroll = useCallback(() => {
+    if (!storyContainerRef.current) return;
 
-  if (loading) return <p>Loading stories... 📚</p>;
-  if (error) return <p>Error loading stories: {error.message}</p>;
+    const { scrollTop, scrollHeight, clientHeight } = storyContainerRef.current;
+    if (scrollTop + clientHeight >= scrollHeight - 100) {
+      fetchMore({
+        variables: {
+          offset: stories.length,
+          limit: 6,
+        },
+      }).then((res) => {
+        const newStories = res.data.getStories;
+        setStories((prev) => {
+          const all = [...prev, ...newStories];
+          const unique = Array.from(new Map(all.map((s) => [s._id, s])).values());
+          return unique;
+        });
+      }).catch((err) => {
+        console.error("Scroll Fetch Error:", err);
+      });
+    }
+  }, [fetchMore, stories]);
 
   return (
-    <div className="page-container">
+    <div className="page-container" ref={storyContainerRef} onScroll={handleScroll}>
       <div className="banner-container">
         <img src={HeroBanner} alt="Weaver Banner" className="hero-banner" />
         <img src={SecondBanner} alt="Weaver Banner 2" className="hero-banner-2" />
@@ -174,10 +199,29 @@ const Homepage: React.FC = () => {
           Recent Stories 📚
         </h2>
 
-        {data?.getStories?.length ? data.getStories.map((story) => (
+        {stories.length ? stories.map((story) => (
           <div key={story._id} className="story-card">
             <h3>{story.title}</h3>
             <p>{story.content}</p>
+
+            {/* 👇 If this story is a branch, show the original universe */}
+            {story.parentStory && (
+              <div style={{
+                marginTop: "1rem",
+                padding: "1rem",
+                background: "rgba(255,255,255,0.05)",
+                border: "1px dashed rgba(255,255,255,0.2)",
+                borderRadius: "8px",
+                color: "white",
+                fontSize: "0.9rem"
+              }}>
+                <p style={{ marginBottom: "0.5rem", fontWeight: "bold", fontStyle: "italic" }}>
+                  Origin Universe 🌌
+                </p>
+                <p><strong>{story.parentStory.title}</strong></p>
+              </div>
+            )}
+
             <p><strong>By:</strong> {story.author.username}</p>
             <div className="action-btn-group">
               <button onClick={() => handleLikeClick(story._id)} className="like-btn">
@@ -195,6 +239,8 @@ const Homepage: React.FC = () => {
                 </button>
               )}
             </div>
+
+            {/* Threads */}
             <div className="comments-section">
               {story.comments?.length ? (
                 story.comments.map((comment) => (
@@ -206,6 +252,31 @@ const Homepage: React.FC = () => {
                 <p style={{ color: "white" }}>No threads yet. Be the first to thread! 💬</p>
               )}
             </div>
+
+            {/* Show branches under this story */}
+            {story.branches?.length ? (
+              <div style={{ marginTop: "1rem" }}>
+                <p style={{
+                  color: "#ccc",
+                  fontWeight: "bold",
+                  marginBottom: "0.5rem"
+                }}>
+                  🌱 Branches:
+                </p>
+                {story.branches.map((branch) => (
+                  <div key={branch._id} className="branch-card" style={{
+                    backgroundColor: "#1f1f1f",
+                    marginBottom: "0.5rem",
+                    padding: "0.5rem",
+                    borderRadius: "6px",
+                    border: "1px solid rgba(255, 255, 255, 0.1)"
+                  }}>
+                    <p style={{ color: "white" }}><strong>{branch.title}</strong></p>
+                    <p style={{ color: "#aaa", fontSize: "0.9rem" }}>{branch.content}</p>
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         )) : (
           <p style={{
@@ -227,26 +298,18 @@ const Homepage: React.FC = () => {
         )}
       </div>
 
-      {/* 🔐 Modals */}
-      {showLogin && (
-        <Login onClose={() => setShowLogin(false)} switchToJoinUs={() => {
-          setShowLogin(false); setShowJoinUs(true);
-        }} />
-      )}
-      {showJoinUs && (
-        <JoinUs onClose={() => setShowJoinUs(false)} switchToLogin={() => {
-          setShowJoinUs(false); setShowLogin(true);
-        }} />
-      )}
+      {/* Modals */}
+      {showLogin && <Login onClose={() => setShowLogin(false)} switchToJoinUs={() => {
+        setShowLogin(false); setShowJoinUs(true);
+      }} />}
+      {showJoinUs && <JoinUs onClose={() => setShowJoinUs(false)} switchToLogin={() => {
+        setShowJoinUs(false); setShowLogin(true);
+      }} />}
       {showOopsModal && (
         <OOPSModal
           onClose={() => setShowOopsModal(false)}
-          switchToLogin={() => {
-            setShowOopsModal(false); setShowLogin(true);
-          }}
-          switchToJoinUs={() => {
-            setShowOopsModal(false); setShowJoinUs(true);
-          }}
+          switchToLogin={() => { setShowOopsModal(false); setShowLogin(true); }}
+          switchToJoinUs={() => { setShowOopsModal(false); setShowJoinUs(true); }}
         />
       )}
       {activeStoryId && (

@@ -64,7 +64,7 @@ const typeDefs = `
     me: User
     myProfile: Profile
     getPrompts: [Prompt]
-    getStories: [Story]
+    getStories(offset: Int, limit: Int): [Story]
   }
 
   type Mutation {

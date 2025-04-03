@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { DELETE_STORY } from "../graphql/mutations";
-import { GET_STORIES, GET_MY_PROFILE } from "../graphql/queries";
+import { GET_STORIES } from "../graphql/queries";
 
 interface DeleteStoryModalProps {
   storyId: string;
@@ -17,8 +17,31 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
   const [confirmStage, setConfirmStage] = useState<1 | 2 | 3>(1);
   const [showCollapse, setShowCollapse] = useState(false);
 
+
   const [deleteStory, { loading, error }] = useMutation(DELETE_STORY, {
-    refetchQueries: [{ query: GET_STORIES }, { query: GET_MY_PROFILE }],
+    update(cache, { data }) {
+      if (!data?.deleteStory) return;
+
+      // Get existing data from cache
+      const existingStories = cache.readQuery<{
+        getStories: { _id: string }[];
+      }>({
+        query: GET_STORIES,
+        variables: { limit: 6, offset: 0 },
+      });
+
+      if (existingStories?.getStories) {
+        const updatedStories = existingStories.getStories.filter(
+          (story: { _id: string }) => story._id !== storyId
+        );
+
+        cache.writeQuery({
+          query: GET_STORIES,
+          variables: { limit: 6, offset: 0 },
+          data: { getStories: updatedStories },
+        });
+      }
+    },
   });
 
   const handleFinalDelete = async () => {
@@ -31,7 +54,7 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
       } catch (err) {
         console.error("Failed to delete story:", err);
       }
-    }, 3000); // allow ripple effect to play out
+    }, 3000);
   };
 
   return (
@@ -199,7 +222,7 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
         </div>
       </div>
 
-      {/* RIPPLE + COLLAPSE EFFECT */}
+      {/* 🔥 Visual Drama Effect */}
       {showCollapse && (
         <div
           style={{

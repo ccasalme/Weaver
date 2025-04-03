@@ -1,7 +1,7 @@
 import { signToken } from "../utils/auth.js";
 import mongoose from "mongoose";
 import { User, Story, Profile, Comment, Vote, Prompt } from "../models/index.js";
-import type { Types } from "mongoose";
+
 
 
 const resolvers = {
@@ -38,18 +38,48 @@ const resolvers = {
       return await Prompt.find();
     },
 
+///////////////////////////////////
+//Cyrl's notes: this addition prevents the negative count
+//prevents crazy re-rendering upon retrieval of stories in real time
+//limits the number of stories loaded at a time to prevent crashing
+//this is a good practice for performance and safeguard additional feature
+///////////////////////////////////
+
+
     // Retrieve all stories, including author and comments
-    getStories: async () => {
+    getStories: async (_: any, { offset = 0, limit = 10 }: { offset: number; limit: number }) => {
       return await Story.find()
+        .sort({ createdAt: -1 })
+        .skip(offset)
+        .limit(limit)
         .populate("author")
         .populate({
           path: "comments",
           populate: { path: "author" }, // populates comment authors
         })
-        .populate("branches") // populates branched stories
-        .populate("parentStory"); // populates parent stories
+        .populate({
+          path: "branches",
+          populate: [
+            { path: "author" }, // populates branch authors
+            {
+              path: "comments",
+              populate: { path: "author" }, // populates branch comment authors
+            },
+          ],
+        }) // populates branched stories
+        .populate({
+          path: "parentStory",
+          populate: [
+            { path: "author" }, // populates parent story author
+            {
+              path: "comments",
+              populate: { path: "author" }, // populates parent story comment authors
+            },
+          ],
+        }); // populates parent stories
     },
   },
+  
   Mutation: {
     // Login an existing user and return a JWT token
     login: async (
@@ -140,7 +170,7 @@ const resolvers = {
     },
 
 
-// Like a story and add/remove it from the user's liked stories
+//////////////////////////////////////////
 //Cyrl's notes: this change prevents the negative count
   //prevents spam likes
   //ensures that the user can only like a story once
@@ -149,7 +179,9 @@ const resolvers = {
   //if the user already liked the story, it will be unliked
   //if the user has not liked the story, it will be liked
   //if not logged in, it will throw an error
-  
+//////////////////////////////////////////
+
+  // Like a story and add/remove it from the user's liked stories
   likeStory: async (
     _: any,
     { storyId }: { storyId: string },
