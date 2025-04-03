@@ -216,20 +216,27 @@ const Homepage: React.FC = () => {
           stories.map((story) => (
             <div key={story._id} className="story-card">
               <h3>{story.title}</h3>
+              <p>
+                <strong>By:</strong> {story.author.username}
+                {isUserLoggedIn && story.author._id !== currentUserId && (
+                  <span style={{ marginLeft: "10px" }}>
+                    {followingIds.includes(story.author._id) ? (
+                      <span style={{ color: "limegreen" }}>✅ Following</span>
+                    ) : (
+                      <button onClick={() => handleFollowClick(story.author._id)}>
+                        ➕ Follow
+                      </button>
+                    )}
+                  </span>
+                )}
+              </p>
               <p>{story.content}</p>
-
-              {/* {story.parentStory && (
-                <div className="parent-story-box">
-                  <p><strong>Origin Universe 🌌</strong></p>
-                  <p><strong>{story.parentStory.title}</strong></p>
-                  <p>{story.parentStory.content}</p>
-                  <p><em>By: {story.parentStory.author.username}</em></p>
-                </div>
-              )} */}
               <div className="origin-block">
                 <h3>{story.title}</h3>
                 <p>{story.content}</p>
                 <p><strong>By:</strong> {story.author.username}</p>
+
+              
 
               {/* If it has a parent origin */}
                 {story.parentStory && (
@@ -254,22 +261,6 @@ const Homepage: React.FC = () => {
                 </div>
     )}
         </div>
-
-
-              <p>
-                <strong>By:</strong> {story.author.username}
-                {isUserLoggedIn && story.author._id !== currentUserId && (
-                  <span style={{ marginLeft: "10px" }}>
-                    {followingIds.includes(story.author._id) ? (
-                      <span style={{ color: "limegreen" }}>✅ Following</span>
-                    ) : (
-                      <button onClick={() => handleFollowClick(story.author._id)}>
-                        ➕ Follow
-                      </button>
-                    )}
-                  </span>
-                )}
-              </p>
 
               <div className="action-btn-group">
                 <button onClick={() => handleLikeClick(story._id)}
