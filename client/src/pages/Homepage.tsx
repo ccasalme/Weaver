@@ -247,7 +247,19 @@ const Homepage: React.FC = () => {
                 <button onClick={() => handleBranch(story._id)}>🌱 Branch</button>
                 <button onClick={() => handleThread(story._id)}>💬 Thread</button>
                 {isUserLoggedIn && currentUserId === story.author._id && (
-                  <button onClick={() => handleDelete(story._id)}>🗑️ Delete</button>
+                  <button onClick={() => handleDelete(story._id)}
+                  style={{
+                    padding: "0.5rem 1rem",
+                    backgroundColor: "#ccc",
+                    color: "#333",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                    fontSize: "1.5rem",
+                    boxShadow: "0 0 10px rgba(246, 32, 32, 0.4)",
+                    transition: "background-color 0.3s ease"
+                  }}>🗑️ Delete</button>
                 )}
               </div>
 
