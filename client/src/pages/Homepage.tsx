@@ -13,7 +13,6 @@ import HeroBanner from "../assets/weaverBanner.png";
 import SecondBanner from "../assets/weaverBanner2.png";
 import { GET_STORIES, GET_ME } from "../graphql/queries";
 import { CREATE_STORY, LIKE_STORY } from "../graphql/mutations";
-import { isLoggedIn } from "../utils/auth";
 
 interface Story {
   _id: string;
@@ -45,14 +44,14 @@ const Homepage: React.FC = () => {
 
   const storyContainerRef = useRef<HTMLDivElement>(null);
 
+  const { data: meData } = useQuery(GET_ME);
+  const isUserLoggedIn = !!meData?.me;
+  const currentUserId = meData?.me?._id || null;
+
   const { data, fetchMore, refetch } = useQuery(GET_STORIES, {
     variables: { offset: 0, limit: 6 },
     fetchPolicy: "network-only",
   });
-
-  const { data: meData } = useQuery(GET_ME, { skip: !isLoggedIn() });
-  const isAuthenticated = !!meData?.me?._id;
-  const currentUserId = meData?.me?._id || null;
 
   const [createStory] = useMutation(CREATE_STORY, {
     onCompleted: () => {
@@ -86,10 +85,7 @@ const Homepage: React.FC = () => {
 
     if (scrollTop + clientHeight >= scrollHeight - 100) {
       fetchMore({
-        variables: {
-          offset: stories.length,
-          limit: 6,
-        },
+        variables: { offset: stories.length, limit: 6 },
       })
         .then((res) => {
           const newStories = res.data.getStories;
@@ -108,7 +104,7 @@ const Homepage: React.FC = () => {
   }, [fetchMore, stories]);
 
   const handleLikeClick = async (storyId: string) => {
-    if (!isAuthenticated) return setShowOopsModal(true);
+    if (!isUserLoggedIn) return setShowOopsModal(true);
     try {
       await likeStory({ variables: { storyId } });
     } catch (err) {
@@ -117,7 +113,7 @@ const Homepage: React.FC = () => {
   };
 
   const handleQuickCreateStory = async () => {
-    if (!isAuthenticated) return setShowOopsModal(true);
+    if (!isUserLoggedIn) return setShowOopsModal(true);
     if (!newTitle.trim() || !newContent.trim()) return;
 
     try {
@@ -133,17 +129,17 @@ const Homepage: React.FC = () => {
   };
 
   const handleThread = (id: string) => {
-    if (!isAuthenticated) return setShowOopsModal(true);
+    if (!isUserLoggedIn) return setShowOopsModal(true);
     setActiveStoryId(id);
   };
 
   const handleBranch = (id: string) => {
-    if (!isAuthenticated) return setShowOopsModal(true);
+    if (!isUserLoggedIn) return setShowOopsModal(true);
     setBranchStoryId(id);
   };
 
   const handleDelete = (id: string) => {
-    if (!isAuthenticated) return setShowOopsModal(true);
+    if (!isUserLoggedIn) return setShowOopsModal(true);
     setStoryToDelete(id);
     setShowDeleteModal(true);
   };
@@ -155,7 +151,7 @@ const Homepage: React.FC = () => {
         <img src={SecondBanner} alt="Weaver Banner 2" className="hero-banner-2" />
       </div>
 
-      {!isAuthenticated && (
+      {!isUserLoggedIn && (
         <div className="auth-container">
           <h2 className="auth-title">Welcome to Weaver!</h2>
           <p className="auth-text">Join us to explore, create, and engage with stories.</p>
@@ -204,7 +200,7 @@ const Homepage: React.FC = () => {
                 <button onClick={() => handleLikeClick(story._id)}>❤️ Vote ({story.likes || 0})</button>
                 <button onClick={() => handleBranch(story._id)}>🌱 Branch</button>
                 <button onClick={() => handleThread(story._id)}>💬 Thread</button>
-                {isAuthenticated && currentUserId === story.author._id && (
+                {isUserLoggedIn && currentUserId === story.author._id && (
                   <button onClick={() => handleDelete(story._id)}>🗑️ Delete</button>
                 )}
               </div>

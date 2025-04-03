@@ -4,11 +4,11 @@ import { GET_MY_PROFILE } from "../graphql/queries";
 import { UPDATE_PROFILE } from "../graphql/mutations";
 import fallbackAvatar from "../assets/fallbackAvatar.png";
 import DeleteStoryModal from "../components/DeleteStoryModal";
-import CreateStory from "../components/CreateStory"; // ✅ important!
+import CreateStory from "../components/CreateStory";
 import "./Wireframe.css";
 import HeroBanner from "../assets/weaverBanner.png";
 
-// Interfaces
+// Types
 interface User {
   _id: string;
   username: string;
@@ -17,27 +17,30 @@ interface User {
 
 interface Comment {
   _id: string;
-  author: User;
   content: string;
+  author: User;
 }
 
-interface StoryType {
+interface Story {
   _id: string;
   title: string;
   content: string;
+  likes: number;
   comments?: Comment[];
+  branches?: { _id: string; title: string }[];
+  parentStory?: { _id: string; title: string } | null;
 }
 
 interface ProfileData {
   myProfile: {
-    user: User;
+    _id: string;
     avatar?: string;
     bio?: string;
+    user: User;
     followers?: User[];
-    following?: User[];
-    sharedStories: StoryType[];
-    branchedStories: StoryType[];
-    likedStories: StoryType[];
+    sharedStories: Story[];
+    likedStories: Story[];
+    branchedStories: Story[];
   };
 }
 
@@ -46,17 +49,18 @@ const Profile: React.FC = () => {
   const [updateProfile] = useMutation(UPDATE_PROFILE);
 
   const [activeTab, setActiveTab] = useState<"stories" | "branches" | "likes">("stories");
-  const [expandedThreads, setExpandedThreads] = useState<Record<string, boolean>>({});
   const [editing, setEditing] = useState(false);
-  const [showFollowers, setShowFollowers] = useState(false);
-  const [showFollowing, setShowFollowing] = useState(false);
   const [newBio, setNewBio] = useState("");
   const [newAvatarFile, setNewAvatarFile] = useState<File | null>(null);
+  const [showFollowers, setShowFollowers] = useState(false);
+  const [showFollowing, setShowFollowing] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [storyToDelete, setStoryToDelete] = useState<string | null>(null);
-  const [showCreateModal, setShowCreateModal] = useState(false); // ✅ for modal
+  const [expandedThreads, setExpandedThreads] = useState<Record<string, boolean>>({});
 
   if (loading) return <p className="loading">Loading profile... 🧵</p>;
   const profile = data?.myProfile;
+
   if (!profile) {
     return (
       <div className="profile-container">
@@ -82,7 +86,7 @@ const Profile: React.FC = () => {
     }
   };
 
-  const renderStoryList = (stories: StoryType[]) => (
+  const renderStoryList = (stories: Story[]) => (
     <div className="story-feed">
       {stories.map((story) => (
         <div key={story._id} className="story-card">
@@ -90,7 +94,12 @@ const Profile: React.FC = () => {
           <p>{story.content}</p>
           {story.comments && story.comments.length > 0 && (
             <button
-              onClick={() => setExpandedThreads((prev) => ({ ...prev, [story._id]: !prev[story._id] }))}
+              onClick={() =>
+                setExpandedThreads((prev) => ({
+                  ...prev,
+                  [story._id]: !prev[story._id],
+                }))
+              }
               className="see-threads-btn"
             >
               {expandedThreads[story._id] ? "🔽 Hide Threads" : "🧵 See Threads"}
@@ -98,14 +107,17 @@ const Profile: React.FC = () => {
           )}
           {expandedThreads[story._id] && (
             <ul className="comment-thread">
-              {(story.comments ?? []).map((comment) => (
+              {story.comments?.map((comment) => (
                 <li key={comment._id}>
                   <strong>{comment.author.username}:</strong> {comment.content}
                 </li>
               ))}
             </ul>
           )}
-          <button onClick={() => setStoryToDelete(story._id)} className="delete-btn">
+          <button
+            onClick={() => setStoryToDelete(story._id)}
+            className="delete-btn"
+          >
             🗑️ Delete Origin
           </button>
         </div>
@@ -120,14 +132,27 @@ const Profile: React.FC = () => {
       </div>
 
       <div className="profile-header">
-        <img src={profile.avatar || fallbackAvatar} alt="Profile" className="profile-pic" />
+        <img
+          src={profile.avatar || fallbackAvatar}
+          alt="Profile"
+          className="profile-pic"
+        />
         <div>
           <h2 className="username-heading">@{profile.user.username}</h2>
           <p className="profile-fullname">{profile.user.fullName}</p>
+
           {editing ? (
             <>
-              <textarea placeholder="New bio" value={newBio} onChange={(e) => setNewBio(e.target.value)} />
-              <input type="file" accept="image/*" onChange={(e) => setNewAvatarFile(e.target.files?.[0] || null)} />
+              <textarea
+                placeholder="New bio"
+                value={newBio}
+                onChange={(e) => setNewBio(e.target.value)}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setNewAvatarFile(e.target.files?.[0] || null)}
+              />
               <button onClick={handleProfileUpdate}>Save</button>
               <button onClick={() => setEditing(false)}>Cancel</button>
             </>
@@ -135,8 +160,14 @@ const Profile: React.FC = () => {
             <>
               <p className="profile-bio">{profile.bio || "No bio yet."}</p>
               <p className="profile-followers">
-                👥 <button onClick={() => setShowFollowers(!showFollowers)}>{profile.followers?.length || 0} Followers</button> |{" "}
-                <button onClick={() => setShowFollowing(!showFollowing)}>{profile.following?.length || 0} Following</button>
+                👥{" "}
+                <button onClick={() => setShowFollowers(!showFollowers)}>
+                  {profile.followers?.length ?? 0} Followers
+                </button>{" "}
+                |{" "}
+                <button onClick={() => setShowFollowing(!showFollowing)}>
+                  {profile.followers?.length ?? 0} Following
+                </button>
               </p>
               <button onClick={() => setEditing(true)}>Edit Profile</button>
             </>
@@ -145,31 +176,63 @@ const Profile: React.FC = () => {
           {showFollowers && (
             <div className="follower-modal">
               <h4>Followers</h4>
-              <ul>{profile.followers?.map((f) => <li key={f._id}>@{f.username}</li>)}</ul>
+              <ul>
+                {profile.followers?.map((f) => (
+                  <li key={f._id}>@{f.username}</li>
+                ))}
+              </ul>
             </div>
           )}
           {showFollowing && (
             <div className="following-modal">
               <h4>Following</h4>
-              <ul>{profile.following?.map((f) => <li key={f._id}>@{f.username}</li>) ?? <li>No following yet.</li>}</ul>
+              <ul>
+                {/* Placeholder — following list logic can go here */}
+                <li>(Following logic coming soon)</li>
+              </ul>
             </div>
           )}
         </div>
       </div>
 
       <div className="tab-group">
-        <button onClick={() => setActiveTab("stories")} className={activeTab === "stories" ? "active-tab" : ""}>📚 Stories</button>
-        <button onClick={() => setActiveTab("branches")} className={activeTab === "branches" ? "active-tab" : ""}>🌱 Branches</button>
-        <button onClick={() => setActiveTab("likes")} className={activeTab === "likes" ? "active-tab" : ""}>❤️ Likes</button>
+        <button
+          onClick={() => setActiveTab("stories")}
+          className={activeTab === "stories" ? "active-tab" : ""}
+        >
+          📚 Stories
+        </button>
+        <button
+          onClick={() => setActiveTab("branches")}
+          className={activeTab === "branches" ? "active-tab" : ""}
+        >
+          🌱 Branches
+        </button>
+        <button
+          onClick={() => setActiveTab("likes")}
+          className={activeTab === "likes" ? "active-tab" : ""}
+        >
+          ❤️ Likes
+        </button>
       </div>
 
       {activeTab === "stories" && (
         <>
           <div style={{ textAlign: "center", marginTop: "30px" }}>
-            <button onClick={() => setShowCreateModal(true)} style={{
-              background: "#fff", padding: "0.75rem 1.5rem", fontSize: "1rem", borderRadius: "6px",
-              border: "none", cursor: "pointer", fontWeight: "bold"
-            }}>+ Create a New Origin</button>
+            <button
+              onClick={() => setShowCreateModal(true)}
+              style={{
+                background: "#fff",
+                padding: "0.75rem 1.5rem",
+                fontSize: "1rem",
+                borderRadius: "6px",
+                border: "none",
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
+            >
+              + Create a New Origin
+            </button>
           </div>
           {renderStoryList(profile.sharedStories)}
         </>

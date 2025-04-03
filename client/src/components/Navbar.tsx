@@ -1,31 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 import "./Navbar.css";
 import Login from "./Login";
 import JoinUs from "./JoinUs";
-import { isLoggedIn, logout } from "../utils/auth"; // ✅ import auth utils
+import { logout } from "../utils/auth";
+import { GET_ME } from "../graphql/queries"; // 👈 Make sure this exists
 
 const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isFloating, setIsFloating] = useState<boolean>(false);
-  const [showLogin, setShowLogin] = useState<boolean>(false);
-  const [showJoinUs, setShowJoinUs] = useState<boolean>(false);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isFloating, setIsFloating] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showJoinUs, setShowJoinUs] = useState(false);
+
+  const { data: meData, refetch } = useQuery(GET_ME);
+  const isAuthenticated = !!meData?.me;
 
   const navigate = useNavigate();
 
-  // ✅ Check with GraphQL if token is valid
-  useEffect(() => {
-    const checkAuth = async () => {
-      const valid = await isLoggedIn(); // checks server-side
-      setIsAuthenticated(valid);
-    };
-    checkAuth();
-  }, []);
-
   const handleLogout = () => {
-    logout(); // ✅ uses the shared logout function
-    setIsAuthenticated(false);
+    logout(); // Clears token/localStorage
+    refetch(); // Refresh Apollo cache to clear user
     alert("Logged out successfully! ❎");
     navigate("/");
   };
