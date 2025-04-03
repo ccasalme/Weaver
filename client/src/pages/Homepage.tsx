@@ -267,9 +267,17 @@ const Homepage: React.FC = () => {
                 {story.parentStory && (
                 <div className="origin-details">
                   <h4 style={{color:"whitesmoke"}}>🌌 Origin Universe</h4>
-                    <p><strong>{story.parentStory.title}</strong></p>
-                    <p>{story.parentStory.content}</p>
-                    <p><em>By: {story.parentStory.author.username}</em></p>
+                    <p><strong>{story.parentStory.title}, 
+                      <br></br>
+                      <em>By: {story.parentStory.author.username}</em></strong>
+                      <br></br>
+                      <br></br>
+                      🕸️🕸️🕸️
+                      <br></br>
+                      <br></br>
+                      {story.parentStory.content}
+                      </p>
+
               </div>
                 )}
 
@@ -279,7 +287,7 @@ const Homepage: React.FC = () => {
                     <h4 style={{color:"whitesmoke"}}>🌱 Branches</h4>
                     {story.branches.map((branch) => (
                     <div key={branch._id} className="branch-entry">
-                    <p><strong>{branch.title}</strong></p>
+                    <p><strong>{branch.title}, By: {story.parentStory?.author?.username || "Unknown"}</strong></p>
                     <p>{branch.content}</p>
                  </div>
               ))}
@@ -352,25 +360,19 @@ const Homepage: React.FC = () => {
                 {story.comments.length ? (
                   story.comments.map((c) => (
                     <div key={c._id} className="comment-card">
-                      <p><strong>{c.author.username}:</strong> {c.content}</p>
+                      <p><strong>By: @{c.author.username}:</strong>
+                      <br></br>
+                      <br></br> 
+                      🕸️🕸️🕸️
+                      <br></br>
+                      <br></br>
+                      {c.content}</p>
                     </div>
                   ))
                 ) : (
                   <p style={{ color: "#ccc" }}>No threads yet.</p>
                 )}
               </div>
-
-              {story.branches?.length ? (
-                <div className="branches-list">
-                  <p><strong>🌱 Branches:</strong></p>
-                  {story.branches.map((branch) => (
-                    <div key={branch._id} className="branch-card">
-                      <p><strong>{branch.title}</strong></p>
-                      <p>{branch.content}</p>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
             </div>
           ))
         ) : (
