@@ -1,14 +1,21 @@
+// src/pages/Profile.tsx
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { GET_MY_PROFILE } from "../graphql/queries";
-import { UPDATE_PROFILE, LIKE_STORY } from "../graphql/mutations";
+import {
+  GET_MY_PROFILE
+} from "../graphql/queries";
+import {
+  UPDATE_PROFILE,
+  LIKE_STORY,
+  // FOLLOW_USER,
+  UNFOLLOW_USER
+} from "../graphql/mutations";
 import fallbackAvatar from "../assets/fallbackAvatar.png";
 import DeleteStoryModal from "../components/DeleteStoryModal";
 import CreateStory from "../components/CreateStory";
 import "./Wireframe.css";
 import HeroBanner from "../assets/weaverBanner.png";
 
-// Types
 interface User {
   _id: string;
   username: string;
@@ -38,6 +45,7 @@ interface ProfileData {
     bio?: string;
     user: User;
     followers?: User[];
+    following?: User[];
     sharedStories: Story[];
     likedStories: Story[];
     branchedStories: Story[];
@@ -48,8 +56,11 @@ const Profile: React.FC = () => {
   const { loading, data, refetch } = useQuery<ProfileData>(GET_MY_PROFILE, {
     fetchPolicy: "network-only",
   });
+
   const [updateProfile] = useMutation(UPDATE_PROFILE);
   const [toggleLike] = useMutation(LIKE_STORY, { onCompleted: () => refetch() });
+  // const [followUser] = useMutation(FOLLOW_USER, { onCompleted: () => refetch() });
+  const [unfollowUser] = useMutation(UNFOLLOW_USER, { onCompleted: () => refetch() });
 
   const [activeTab, setActiveTab] = useState<"stories" | "branches" | "likes">("stories");
   const [editing, setEditing] = useState(false);
@@ -63,15 +74,7 @@ const Profile: React.FC = () => {
 
   if (loading) return <p className="loading">Loading profile... 🧵</p>;
   const profile = data?.myProfile;
-
-  if (!profile) {
-    return (
-      <div className="profile-container">
-        <h2>Failed to load profile</h2>
-        <p>Something went wrong. Please try again later.</p>
-      </div>
-    );
-  }
+  if (!profile) return <div>Profile not found.</div>;
 
   const handleProfileUpdate = async () => {
     try {
@@ -99,6 +102,22 @@ const Profile: React.FC = () => {
     }
   };
 
+  // const handleFollow = async (userId: string) => {
+  //   try {
+  //     await followUser({ variables: { targetUserId: userId } });
+  //   } catch (err) {
+  //     console.error("Follow failed:", err);
+  //   }
+  // };
+
+  const handleUnfollow = async (userId: string) => {
+    try {
+      await unfollowUser({ variables: { targetUserId: userId } });
+    } catch (err) {
+      console.error("Unfollow failed:", err);
+    }
+  };
+
   const renderStoryList = (stories: Story[], isLikedTab = false) => (
     <div className="story-feed">
       {stories.map((story) => (
@@ -120,9 +139,9 @@ const Profile: React.FC = () => {
             </button>
           )}
 
-          {expandedThreads[story._id] && Array.isArray(story.comments) && (
+          {expandedThreads[story._id] && (
             <ul className="comment-thread">
-              {story.comments.map((comment) => (
+              {story.comments?.map((comment) => (
                 <li key={comment._id}>
                   <strong>{comment.author.username}:</strong> {comment.content}
                 </li>
@@ -147,7 +166,7 @@ const Profile: React.FC = () => {
   return (
     <div className="page-container">
       <div className="banner-container">
-        <img src={HeroBanner} alt="Weaver Banner" className="hero-banner" style={{ height: "500px" }} />
+        <img src={HeroBanner} alt="Weaver Banner" className="hero-banner" />
       </div>
 
       <div className="profile-header">
@@ -181,7 +200,7 @@ const Profile: React.FC = () => {
                 </button>{" "}
                 |{" "}
                 <button onClick={() => setShowFollowing(!showFollowing)}>
-                  {profile.followers?.length ?? 0} Following
+                  {profile.following?.length ?? 0} Following
                 </button>
               </p>
               <button onClick={() => setEditing(true)}>Edit Profile</button>
@@ -193,7 +212,10 @@ const Profile: React.FC = () => {
               <h4>Followers</h4>
               <ul>
                 {profile.followers?.map((f) => (
-                  <li key={f._id}>@{f.username}</li>
+                  <li key={f._id}>
+                    @{f.username}{" "}
+                    <button onClick={() => handleUnfollow(f._id)}>Unfollow</button>
+                  </li>
                 ))}
               </ul>
             </div>
@@ -203,7 +225,12 @@ const Profile: React.FC = () => {
             <div className="following-modal">
               <h4>Following</h4>
               <ul>
-                <li>(Following logic coming soon)</li>
+                {profile.following?.map((f) => (
+                  <li key={f._id}>
+                    @{f.username}{" "}
+                    <button onClick={() => handleUnfollow(f._id)}>Unfollow</button>
+                  </li>
+                ))}
               </ul>
             </div>
           )}
@@ -211,22 +238,13 @@ const Profile: React.FC = () => {
       </div>
 
       <div className="tab-group">
-        <button
-          onClick={() => setActiveTab("stories")}
-          className={activeTab === "stories" ? "active-tab" : ""}
-        >
+        <button onClick={() => setActiveTab("stories")} className={activeTab === "stories" ? "active-tab" : ""}>
           📚 Stories
         </button>
-        <button
-          onClick={() => setActiveTab("branches")}
-          className={activeTab === "branches" ? "active-tab" : ""}
-        >
+        <button onClick={() => setActiveTab("branches")} className={activeTab === "branches" ? "active-tab" : ""}>
           🌱 Branches
         </button>
-        <button
-          onClick={() => setActiveTab("likes")}
-          className={activeTab === "likes" ? "active-tab" : ""}
-        >
+        <button onClick={() => setActiveTab("likes")} className={activeTab === "likes" ? "active-tab" : ""}>
           ❤️ Likes
         </button>
       </div>

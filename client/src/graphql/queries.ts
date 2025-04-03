@@ -1,14 +1,6 @@
 // src/graphql/queries.ts
 import { gql } from "@apollo/client";
 
-///////////////////////////////////
-// Cyrl's notes:
-// Prevents crazy re-rendering upon retrieval of stories in real time
-// Limits the number of stories loaded at a time to prevent crashing
-// This is good practice for performance and a safeguard
-///////////////////////////////////
-
-// ✅ Get paginated stories — safe for null branches/parentStory.title
 export const GET_STORIES = gql`
   query GetStories($limit: Int, $offset: Int) {
     getStories(limit: $limit, offset: $offset) {

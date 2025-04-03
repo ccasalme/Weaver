@@ -35,6 +35,10 @@ const resolvers = {
           select: "_id username email fullName"
         })
         .populate({
+          path: "following",
+          select: "_id username email fullName"
+        })
+        .populate({
           path: "sharedStories",
           populate: [
             {
@@ -383,6 +387,48 @@ const resolvers = {
 
       return newVote;
     },
+
+    // Follow and Unfollow a user
+// In your resolvers.ts
+
+followUser: async (_: any, { targetUserId }: { targetUserId: string }, context: any) => {
+  if (!context.user) throw new Error("You must be logged in to follow users.");
+
+  const myProfile = await Profile.findOne({ user: context.user._id });
+  const targetProfile = await Profile.findOne({ user: targetUserId });
+
+  if (!myProfile || !targetProfile) throw new Error("Profile not found.");
+
+  // Prevent duplicates using $addToSet
+  await Profile.updateOne(
+    { user: targetUserId },
+    { $addToSet: { followers: context.user._id } }
+  );
+
+  await Profile.updateOne(
+    { user: context.user._id },
+    { $addToSet: { following: targetUserId } }
+  );
+
+  return await User.findById(targetUserId);
+},
+
+unfollowUser: async (_: any, { targetUserId }: { targetUserId: string }, context: any) => {
+  if (!context.user) throw new Error("You must be logged in to unfollow users.");
+
+  await Profile.updateOne(
+    { user: targetUserId },
+    { $pull: { followers: context.user._id } }
+  );
+
+  await Profile.updateOne(
+    { user: context.user._id },
+    { $pull: { following: targetUserId } }
+  );
+
+  return await User.findById(targetUserId);
+},
+
   },
 };
 

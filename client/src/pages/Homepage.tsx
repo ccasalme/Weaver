@@ -11,8 +11,8 @@ import CreateStory from "../components/CreateStory";
 import DeleteStoryModal from "../components/DeleteStoryModal";
 import HeroBanner from "../assets/weaverBanner.png";
 import SecondBanner from "../assets/weaverBanner2.png";
-import { GET_STORIES, GET_ME } from "../graphql/queries";
-import { LIKE_STORY } from "../graphql/mutations";
+import { GET_STORIES, GET_ME, GET_MY_PROFILE } from "../graphql/queries";
+import { LIKE_STORY, FOLLOW_USER } from "../graphql/mutations";
 
 interface Story {
   _id: string;
@@ -38,23 +38,49 @@ const Homepage: React.FC = () => {
   const [showCreateStory, setShowCreateStory] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [storyToDelete, setStoryToDelete] = useState<string | null>(null);
-
   const [stories, setStories] = useState<Story[]>([]);
 
   const storyContainerRef = useRef<HTMLDivElement>(null);
 
   const { data: meData } = useQuery(GET_ME);
+  const { data: profileData } = useQuery(GET_MY_PROFILE);
   const isUserLoggedIn = !!meData?.me;
   const currentUserId = meData?.me?._id || null;
+  const followingIds = profileData?.myProfile?.following?.map((f: { _id: string }) => f._id) || [];
 
   const { data, fetchMore, refetch } = useQuery(GET_STORIES, {
     variables: { offset: 0, limit: 6 },
     fetchPolicy: "network-only",
   });
 
-
   const [likeStory] = useMutation(LIKE_STORY, {
     onCompleted: () => refetch(),
+  });
+
+  const [followUser] = useMutation(FOLLOW_USER, {
+    update(cache, { data }) {
+      const existing = cache.readQuery<{ myProfile: { following: { _id: string }[] } }>({
+        query: GET_MY_PROFILE,
+      });
+
+      if (existing && data?.followUser) {
+        const alreadyFollowing = existing.myProfile.following.some(
+          (f) => f._id === data.followUser._id
+        );
+
+        if (!alreadyFollowing) {
+          cache.writeQuery({
+            query: GET_MY_PROFILE,
+            data: {
+              myProfile: {
+                ...existing.myProfile,
+                following: [...existing.myProfile.following, data.followUser],
+              },
+            },
+          });
+        }
+      }
+    },
   });
 
   useEffect(() => {
@@ -104,6 +130,14 @@ const Homepage: React.FC = () => {
     }
   };
 
+  const handleFollowClick = async (userId: string) => {
+    if (!isUserLoggedIn) return setShowOopsModal(true);
+    try {
+      await followUser({ variables: { targetUserId: userId } });
+    } catch (err) {
+      console.error("Follow failed:", err);
+    }
+  };
 
   const handleThread = (id: string) => {
     if (!isUserLoggedIn) return setShowOopsModal(true);
@@ -136,7 +170,7 @@ const Homepage: React.FC = () => {
           <button onClick={() => setShowJoinUs(true)} className="join-btn">Join Us</button>
         </div>
       )}
-      {/* ✨ Replace input with button to trigger CreateStory modal */}
+
       <div style={{ textAlign: "center", margin: "2rem 0" }}>
         <button
           onClick={() => {
@@ -174,7 +208,20 @@ const Homepage: React.FC = () => {
                 </div>
               )}
 
-              <p><strong>By:</strong> {story.author.username}</p>
+              <p>
+                <strong>By:</strong> {story.author.username}
+                {isUserLoggedIn && story.author._id !== currentUserId && (
+                  <span style={{ marginLeft: "10px" }}>
+                    {followingIds.includes(story.author._id) ? (
+                      <span style={{ color: "limegreen" }}>✅ Following</span>
+                    ) : (
+                      <button onClick={() => handleFollowClick(story.author._id)}>
+                        ➕ Follow
+                      </button>
+                    )}
+                  </span>
+                )}
+              </p>
 
               <div className="action-btn-group">
                 <button onClick={() => handleLikeClick(story._id)}>❤️ Vote ({story.likes || 0})</button>
