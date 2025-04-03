@@ -104,7 +104,7 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
           zIndex: 9999,
           backgroundImage: `radial-gradient(circle at center, rgba(18, 194, 213, 0.25), transparent 70%),
           repeating-linear-gradient(0deg, transparent, transparent 49%, rgba(0, 191, 255, 0.25) 50%, transparent 51%)`,
-        backgroundSize: "100% 100%, 4px 100%",
+          backgroundSize: "100% 100%, 4px 100%",
         }}
       >
         <div
