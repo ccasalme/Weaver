@@ -1,8 +1,7 @@
-// src/components/CreateStory.tsx
 import React, { useState, useRef, useEffect } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { CREATE_STORY } from "../graphql/mutations";
-import { GET_MY_PROFILE, GET_STORIES } from "../graphql/queries";
+import { GET_MY_PROFILE, GET_STORIES, GET_PROMPTS } from "../graphql/queries";
 import { isLoggedIn } from "../utils/auth";
 import confetti from "canvas-confetti";
 
@@ -17,8 +16,12 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
   const [showRipple, setShowRipple] = useState(false);
   const [storySuccess, setStorySuccess] = useState(false);
   const [authValid, setAuthValid] = useState(true);
+  const [showPrompts, setShowPrompts] = useState(false);
 
   const titleRef = useRef<HTMLInputElement>(null);
+
+  const { data: promptData } = useQuery(GET_PROMPTS);
+  const prompts = promptData?.getPrompts || [];
 
   const [createStory, { error, loading }] = useMutation(CREATE_STORY, {
     refetchQueries: [{ query: GET_STORIES }, { query: GET_MY_PROFILE }],
@@ -128,6 +131,57 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
             📖 Weave a New Origin
           </h2>
 
+          <button
+            onClick={() => setShowPrompts(!showPrompts)}
+            style={{
+              marginBottom: "1rem",
+              backgroundColor: "#444",
+              color: "#fff",
+              padding: "0.5rem 1rem",
+              borderRadius: "6px",
+              border: "none",
+              cursor: "pointer",
+              fontWeight: "bold",
+            }}
+          >
+            ✨ Suggest Prompt
+          </button>
+
+          {showPrompts && (
+            <div style={{
+              background: "rgba(0,0,0,0.3)",
+              padding: "1rem",
+              borderRadius: "8px",
+              maxHeight: "200px",
+              overflowY: "auto",
+              marginBottom: "1rem",
+              textAlign: "left",
+              color: "#fff",
+            }}>
+              {prompts.map((prompt: { _id: string; text: string; category: string; theme: string; tone: string }) => (
+                <div
+                  key={prompt._id}
+                  onClick={() => {
+                    setContent(prompt.text);
+                    setShowPrompts(false);
+                  }}
+                  style={{
+                    marginBottom: "0.75rem",
+                    cursor: "pointer",
+                    background: "#1c1c1c",
+                    padding: "0.5rem",
+                    borderRadius: "5px",
+                  }}
+                >
+                  <p style={{ fontSize: "0.9rem", fontStyle: "italic" }}>{prompt.text}</p>
+                  <small style={{ color: "#aaa" }}>
+                    {prompt.category} | {prompt.theme} | {prompt.tone}
+                  </small>
+                </div>
+              ))}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit}>
             <input
               type="text"
@@ -197,7 +251,6 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
         </div>
       </div>
 
-      {/* Ripple/Glitch Effect */}
       {showRipple && (
         <div
           style={{
