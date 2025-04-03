@@ -179,12 +179,16 @@ const Homepage: React.FC = () => {
           }}
           style={{
             background: "#fff",
-            padding: "0.75rem 1.5rem",
-            fontSize: "1rem",
+            padding: "3.5rem 2.5rem",
             borderRadius: "6px",
             border: "none",
             cursor: "pointer",
             fontWeight: "bold",
+            backgroundColor: "#ccc",
+            color: "#333",
+            fontSize: "1.5rem",
+            boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+            transition: "background-color 0.3s ease"
           }}
         >
           + Create a New Origin

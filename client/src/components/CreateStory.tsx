@@ -102,6 +102,9 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
           justifyContent: "center",
           alignItems: "center",
           zIndex: 9999,
+          backgroundImage: `radial-gradient(circle at center, rgba(18, 194, 213, 0.25), transparent 70%),
+          repeating-linear-gradient(0deg, transparent, transparent 49%, rgba(0, 191, 255, 0.25) 50%, transparent 51%)`,
+        backgroundSize: "100% 100%, 4px 100%",
         }}
       >
         <div
@@ -120,12 +123,13 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
         >
           <h2
             style={{
-              fontSize: "1.5rem",
+              fontSize: "1.9rem",
               fontWeight: "bold",
               marginBottom: "1rem",
               background: "rgba(0, 0, 0, 0.25)",
               padding: "0.5rem 1rem",
               borderRadius: "8px",
+              color: "#fff"
             }}
           >
             📖 Weave a New Origin
@@ -136,12 +140,15 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
             style={{
               marginBottom: "1rem",
               backgroundColor: "#444",
-              color: "#fff",
+              color: "#333",
               padding: "0.5rem 1rem",
               borderRadius: "6px",
               border: "none",
               cursor: "pointer",
               fontWeight: "bold",
+              fontSize: "1.5rem",
+              boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+              transition: "background-color 0.3s ease"
             }}
           >
             ✨ Suggest Prompt
@@ -149,14 +156,15 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
 
           {showPrompts && (
             <div style={{
-              background: "rgba(0,0,0,0.3)",
+              background: "rgba(235, 227, 227, 0.3)",
               padding: "1rem",
               borderRadius: "8px",
               maxHeight: "200px",
               overflowY: "auto",
               marginBottom: "1rem",
               textAlign: "left",
-              color: "#fff",
+              color: "white",
+              
             }}>
               {prompts.map((prompt: { _id: string; text: string; category: string; theme: string; tone: string }) => (
                 <div
@@ -171,9 +179,11 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
                     background: "#1c1c1c",
                     padding: "0.5rem",
                     borderRadius: "5px",
+                    color: "#fff",
+                    fontSize: "1.5rem",
                   }}
                 >
-                  <p style={{ fontSize: "0.9rem", fontStyle: "italic" }}>{prompt.text}</p>
+                  <p style={{ fontSize: "1.5rem", fontStyle: "italic", color: "white" }}>{prompt.text}</p>
                   <small style={{ color: "#aaa" }}>
                     {prompt.category} | {prompt.theme} | {prompt.tone}
                   </small>
@@ -216,6 +226,9 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
                   borderRadius: "4px",
                   cursor: "pointer",
                   fontWeight: "bold",
+                  fontSize: "1.5rem",
+                  boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                  transition: "background-color 0.3s ease"
                 }}
               >
                 {loading ? "Creating..." : "Submit Origin ✨"}
@@ -226,10 +239,14 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
                 style={{
                   padding: "0.5rem 1rem",
                   backgroundColor: "#ccc",
-                  color: "#000",
+                  color: "#333",
                   border: "none",
                   borderRadius: "4px",
                   cursor: "pointer",
+                  fontWeight: "bold",
+                  fontSize: "1.5rem",
+                  boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                  transition: "background-color 0.3s ease"
                 }}
               >
                 ❎ Cancel
