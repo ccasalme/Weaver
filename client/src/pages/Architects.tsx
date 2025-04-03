@@ -103,7 +103,7 @@ const Architects: React.FC = () => {
             a sneaky bug can break the whole magic. 
             <br></br>
             <br></br>
-            With Cyrl and Stella teaming up to create the Multiverses for you, Corey made sure that the chaos is controlled.
+            With Cyrl and Stella teaming up to create the Multiverses for you, Corey made sure that their chaos is controlled.
             <br></br>
             <br></br>
             He is the one who makes sure that things are working as they should, and that nothing breaks this illusion for you. <br></br>
