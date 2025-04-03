@@ -729,3 +729,36 @@ button:hover {
     transform: scale(1);
   }
 }
+
+
+
+/* ========================== */
+/* Sparkle Animation */
+
+.sparkle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  animation: sparkleFade 1.5s ease-out forwards;
+  pointer-events: none;
+  color: gold;
+  text-shadow: 0 0 10px #fff, 0 0 20px gold, 0 0 30px #ffcc00;
+}
+
+@keyframes sparkleFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translate(-50%, -50%);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9) translate(-50%, -50%);
+  }
+}
+
