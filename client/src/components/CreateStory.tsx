@@ -200,7 +200,15 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
               onChange={(e) => setTitle(e.target.value)}
               ref={titleRef}
               required
-              style={{ marginBottom: "1rem", padding: "0.5rem", width: "100%" }}
+              style={{ 
+                  marginBottom: "1rem", 
+                  padding: "0.3rem", 
+                  width: "100%",
+                  fontSize: "1.2rem",
+                  boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                  borderRadius: "6px",
+                  border: "none",
+              }}
             />
             <textarea
               placeholder="Start weaving your origin... (Max 280 chars)"
@@ -208,7 +216,16 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
               onChange={(e) => setContent(e.target.value)}
               maxLength={280}
               required
-              style={{ marginBottom: "1rem", padding: "0.5rem", width: "100%", height: "120px" }}
+              style={{ 
+                marginBottom: "1rem", 
+                padding: "0.3rem 0.5rem", 
+                width: "100%", 
+                height: "120px", 
+                fontSize: "1.5rem",
+                boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                borderRadius: "6px",
+                border: "none",
+               }}
             />
             <p style={{ color: "#ccc", marginBottom: "1rem" }}>
               {`${(title + content).length} / 280 characters`}

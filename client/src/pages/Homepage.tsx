@@ -196,7 +196,22 @@ const Homepage: React.FC = () => {
       </div>
 
       <div className="story-feed">
-        <h2 className="story-feed-title">Recent Stories 📚</h2>
+        <h2 className="story-feed-title"
+          style={{
+            color: "white",
+            background: "linear-gradient(to right, #3e5151,rgb(150, 137, 113))",
+            padding: "1rem 2rem",
+            borderRadius: "12px",
+            textAlign: "center",
+            fontSize: "3rem",
+            fontWeight: "bold",
+            textTransform: "uppercase",
+            textShadow: "1px 1px 5px black",
+            letterSpacing: "0.1em",
+            marginBottom: "2.5rem",
+            boxShadow: "0 0 20px rgba(255,255,255,0.2)",
+          }}
+        >Recent Stories 📚</h2>
         {stories.length ? (
           stories.map((story) => (
             <div key={story._id} className="story-card">
