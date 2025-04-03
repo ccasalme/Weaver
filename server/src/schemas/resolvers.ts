@@ -1,5 +1,8 @@
-import { User, Profile, Prompt, Story, Comment, Vote } from "../models/index.js";
 import { signToken } from "../utils/auth.js";
+import mongoose from "mongoose";
+import { User, Story, Profile, Comment, Vote, Prompt } from "../models/index.js";
+import type { Types } from "mongoose";
+
 
 const resolvers = {
   Query: {
@@ -136,28 +139,57 @@ const resolvers = {
       return branchedStory;
     },
 
-    // Like a story and add it to the user's liked stories
-    likeStory: async (
-      _: any,
-      { storyId }: { storyId: string },
-      context: any
-    ) => {
-      if (!context.user) throw new Error("You need to be logged in!");
 
-      const story = await Story.findById(storyId);
-      if (!story) throw new Error("Story not found");
-
-      story.likes++;
+// Like a story and add/remove it from the user's liked stories
+//Cyrl's notes: this change prevents the negative count
+  //prevents spam likes
+  //ensures that the user can only like a story once
+  //ensures that the user can unlike a story
+  //ensures that it gets saved to the database and profile
+  //if the user already liked the story, it will be unliked
+  //if the user has not liked the story, it will be liked
+  //if not logged in, it will throw an error
+  
+  likeStory: async (
+    _: any,
+    { storyId }: { storyId: string },
+    context: any
+  ) => {
+    if (!context.user) throw new Error("You need to be logged in!");
+  
+    const story = await Story.findById(storyId);
+    if (!story) throw new Error("Story not found");
+  
+    const profile = await Profile.findOne({ user: context.user._id });
+    if (!profile) throw new Error("Profile not found");
+  
+    const hasLiked = profile.likedStories.some(
+      (likedId) => likedId.toString() === (story._id as mongoose.Types.ObjectId).toString()
+    );
+  
+    if (hasLiked) {
+      // ✅ Unlike logic
+      story.likes = Math.max(0, (story.likes || 0) - 1);
       await story.save();
-
-      await Profile.findOneAndUpdate(
+  
+      await Profile.updateOne(
+        { user: context.user._id },
+        { $pull: { likedStories: story._id } }
+      );
+    } else {
+      // ✅ Like logic
+      story.likes = (story.likes || 0) + 1;
+      await story.save();
+  
+      await Profile.updateOne(
         { user: context.user._id },
         { $addToSet: { likedStories: story._id } }
       );
-
-      return story;
-    },
-
+    }
+  
+    return story;
+  },
+  
     // Add a comment to a story
     addComment: async (
       _: any,

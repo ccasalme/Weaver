@@ -1,8 +1,8 @@
-// src/components/LikeButton.tsx
-import React, { useState, useEffect } from "react";
-import { useMutation } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
 import { LIKE_STORY } from "../graphql/mutations";
-import { GET_STORIES } from "../graphql/queries";
+import { GET_MY_PROFILE, GET_STORIES } from "../graphql/queries";
+import { isLoggedIn } from "../utils/auth";
 
 interface LikeButtonProps {
   storyId: string;
@@ -10,41 +10,35 @@ interface LikeButtonProps {
   onShowOopsModal?: () => void;
 }
 
-const LikeButton: React.FC<LikeButtonProps> = ({ storyId, initialLikes = 0, onShowOopsModal }) => {
+const LikeButton: React.FC<LikeButtonProps> = ({
+  storyId,
+  initialLikes = 0,
+  onShowOopsModal,
+}) => {
   const [likes, setLikes] = useState<number>(initialLikes);
   const [hasLiked, setHasLiked] = useState<boolean>(false);
-  const [likeCooldown, setLikeCooldown] = useState<boolean>(false);
-  const [likeStory, { loading, error }] = useMutation(LIKE_STORY, {
-    refetchQueries: [{ query: GET_STORIES }],
+
+  // 🔐 Load user's liked stories from profile
+  const { data: profileData, refetch: refetchProfile } = useQuery(GET_MY_PROFILE, {
+    skip: !isLoggedIn(),
+    fetchPolicy: "cache-and-network",
   });
 
+  const [likeStory, { loading, error }] = useMutation(LIKE_STORY, {
+    refetchQueries: [{ query: GET_STORIES }, { query: GET_MY_PROFILE }],
+  });
+
+  // ✅ Sync local liked state from profile data
   useEffect(() => {
-    const likedKey = `liked_${storyId}`;
-    const lastLikedTime = localStorage.getItem(`${likedKey}_timestamp`);
-    const likedStatus = localStorage.getItem(likedKey);
-
-    if (likedStatus === "true") setHasLiked(true);
-
-    if (lastLikedTime) {
-      const timeElapsed = Date.now() - parseInt(lastLikedTime, 10);
-      if (timeElapsed < 15 * 60 * 1000) {
-        setLikeCooldown(true);
-        const remaining = 15 * 60 * 1000 - timeElapsed;
-        const timeout = setTimeout(() => setLikeCooldown(false), remaining);
-        return () => clearTimeout(timeout);
-      }
+    if (profileData?.myProfile?.likedStories) {
+      const likedIds = profileData.myProfile.likedStories.map((s: { _id: string }) => s._id);
+      setHasLiked(likedIds.includes(storyId));
     }
-  }, [storyId]);
+  }, [profileData, storyId]);
 
   const handleLike = async () => {
-    const token = localStorage.getItem("id_token");
-    if (!token) {
+    if (!isLoggedIn()) {
       onShowOopsModal?.();
-      return;
-    }
-
-    if (likeCooldown) {
-      alert("You must wait 15 minutes before liking this again.");
       return;
     }
 
@@ -54,26 +48,11 @@ const LikeButton: React.FC<LikeButtonProps> = ({ storyId, initialLikes = 0, onSh
 
       if (typeof updatedLikes === "number") {
         setLikes(updatedLikes);
-        const likedKey = `liked_${storyId}`;
-
-        if (hasLiked) {
-          // Unliking
-          localStorage.removeItem(likedKey);
-          localStorage.removeItem(`${likedKey}_timestamp`);
-          setHasLiked(false);
-        } else {
-          // Liking
-          localStorage.setItem(likedKey, "true");
-          localStorage.setItem(`${likedKey}_timestamp`, Date.now().toString());
-          setHasLiked(true);
-          setLikeCooldown(true);
-
-          // Set timer to clear cooldown
-          setTimeout(() => setLikeCooldown(false), 15 * 60 * 1000);
-        }
+        setHasLiked((prev) => !prev);
+        await refetchProfile(); // 🔄 keep user data in sync
       }
     } catch (err) {
-      console.error("Error liking/unliking story:", err);
+      console.error("❌ Error toggling like:", err);
     }
   };
 
@@ -82,14 +61,14 @@ const LikeButton: React.FC<LikeButtonProps> = ({ storyId, initialLikes = 0, onSh
       <button
         className="like-btn"
         onClick={handleLike}
-        disabled={loading || likeCooldown}
+        disabled={loading}
         style={{
           padding: "0.5rem 1rem",
           backgroundColor: hasLiked ? "#ffc0cb" : "#ffcccb",
           color: "#333",
           border: "1px solid #ff9999",
           borderRadius: "4px",
-          cursor: loading || likeCooldown ? "not-allowed" : "pointer",
+          cursor: loading ? "not-allowed" : "pointer",
           fontWeight: "bold",
         }}
       >
