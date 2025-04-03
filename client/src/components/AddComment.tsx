@@ -1,4 +1,3 @@
-// src/components/AddComment.tsx
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_COMMENT } from "../graphql/mutations";
@@ -15,15 +14,17 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
   const [commentSuccess, setCommentSuccess] = useState(false);
 
   const [addComment, { error, loading }] = useMutation(ADD_COMMENT, {
-    update(cache, { data: { addComment } }) {
+    update(cache, { data }) {
+      if (!data?.addComment) return;
+
       cache.modify({
         fields: {
-          getStories(existingStoryRefs = []) {
-            return existingStoryRefs.map((storyRef: { __ref?: string; comments?: { id: string; content: string }[] }) => {
+          getStories(existingStories = []) {
+            return existingStories.map((storyRef: { __ref?: string; comments?: { __ref: string }[] }) => {
               if (storyRef.__ref?.includes(storyId)) {
                 return {
                   ...storyRef,
-                  comments: [...(storyRef.comments || []), addComment],
+                  comments: [...(storyRef.comments || []), { __ref: `Comment:${data.addComment._id}` }],
                 };
               }
               return storyRef;
@@ -54,7 +55,7 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
       try {
         await addComment({
           variables: {
-            storyId: storyId ?? "",
+            storyId,
             content: `**${title.trim()}**\n\n${content.trim()}`,
           },
         });
@@ -65,10 +66,12 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
         setShowRipple(false);
 
         setTimeout(() => {
+          setCommentSuccess(false);
           onClose();
         }, 2000);
       } catch (err) {
         console.error("Error adding comment:", err);
+        setShowRipple(false);
       }
     }, 2000);
   };
@@ -105,10 +108,16 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
             boxShadow: "0 0 25px rgba(0, 255, 255, 0.4)",
           }}
         >
-          <h2 style={{
-            fontSize: "1.5rem", fontWeight: "bold", marginBottom: "1rem",
-            background: "rgba(0, 0, 0, 0.25)", padding: "0.5rem 1rem", borderRadius: "8px",
-          }}>
+          <h2
+            style={{
+              fontSize: "1.5rem",
+              fontWeight: "bold",
+              marginBottom: "1rem",
+              background: "rgba(0, 0, 0, 0.25)",
+              padding: "0.5rem 1rem",
+              borderRadius: "8px",
+            }}
+          >
             🧵 Add a Thread to the Origin
           </h2>
 

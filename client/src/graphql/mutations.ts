@@ -37,7 +37,7 @@ export const ADD_USER = gql`
   }
 `;
 
-// ✅ Create a new story (origin/thread) — returns basic fields to avoid null crash
+// 💡 Safe version — avoids null crash from empty or malformed comments
 export const CREATE_STORY = gql`
   mutation createStory($title: String!, $content: String!) {
     createStory(title: $title, content: $content) {
@@ -45,10 +45,6 @@ export const CREATE_STORY = gql`
       title
       content
       likes
-      comments {
-        _id
-        content
-      }
     }
   }
 `;

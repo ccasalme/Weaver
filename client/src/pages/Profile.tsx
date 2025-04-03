@@ -1,3 +1,4 @@
+// src/pages/Profile.tsx
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_MY_PROFILE } from "../graphql/queries";
@@ -26,7 +27,7 @@ interface Story {
   title: string;
   content: string;
   likes: number;
-  comments?: Comment[];
+  comments?: Comment[] | null;
   branches?: { _id: string; title: string }[];
   parentStory?: { _id: string; title: string } | null;
 }
@@ -45,7 +46,9 @@ interface ProfileData {
 }
 
 const Profile: React.FC = () => {
-  const { loading, data, refetch } = useQuery<ProfileData>(GET_MY_PROFILE);
+  const { loading, data, refetch } = useQuery<ProfileData>(GET_MY_PROFILE, {
+    fetchPolicy: "network-only",
+  });
   const [updateProfile] = useMutation(UPDATE_PROFILE);
 
   const [activeTab, setActiveTab] = useState<"stories" | "branches" | "likes">("stories");
@@ -74,12 +77,14 @@ const Profile: React.FC = () => {
     try {
       let avatar = profile.avatar;
       if (newAvatarFile) avatar = URL.createObjectURL(newAvatarFile);
+
       await updateProfile({
         variables: {
           bio: newBio.trim() || profile.bio || "",
           avatar: avatar || fallbackAvatar,
         },
       });
+
       window.location.reload();
     } catch (err) {
       console.error("Profile update failed", err);
@@ -92,7 +97,8 @@ const Profile: React.FC = () => {
         <div key={story._id} className="story-card">
           <h3>{story.title}</h3>
           <p>{story.content}</p>
-          {story.comments && story.comments.length > 0 && (
+
+          {Array.isArray(story.comments) && story.comments.length > 0 && (
             <button
               onClick={() =>
                 setExpandedThreads((prev) => ({
@@ -105,15 +111,17 @@ const Profile: React.FC = () => {
               {expandedThreads[story._id] ? "🔽 Hide Threads" : "🧵 See Threads"}
             </button>
           )}
-          {expandedThreads[story._id] && (
+
+          {expandedThreads[story._id] && Array.isArray(story.comments) && (
             <ul className="comment-thread">
-              {story.comments?.map((comment) => (
+              {story.comments.map((comment) => (
                 <li key={comment._id}>
                   <strong>{comment.author.username}:</strong> {comment.content}
                 </li>
               ))}
             </ul>
           )}
+
           <button
             onClick={() => setStoryToDelete(story._id)}
             className="delete-btn"
@@ -132,11 +140,7 @@ const Profile: React.FC = () => {
       </div>
 
       <div className="profile-header">
-        <img
-          src={profile.avatar || fallbackAvatar}
-          alt="Profile"
-          className="profile-pic"
-        />
+        <img src={profile.avatar || fallbackAvatar} alt="Profile" className="profile-pic" />
         <div>
           <h2 className="username-heading">@{profile.user.username}</h2>
           <p className="profile-fullname">{profile.user.fullName}</p>
@@ -183,11 +187,11 @@ const Profile: React.FC = () => {
               </ul>
             </div>
           )}
+
           {showFollowing && (
             <div className="following-modal">
               <h4>Following</h4>
               <ul>
-                {/* Placeholder — following list logic can go here */}
                 <li>(Following logic coming soon)</li>
               </ul>
             </div>
@@ -237,6 +241,7 @@ const Profile: React.FC = () => {
           {renderStoryList(profile.sharedStories)}
         </>
       )}
+
       {activeTab === "branches" && renderStoryList(profile.branchedStories)}
       {activeTab === "likes" && renderStoryList(profile.likedStories)}
 

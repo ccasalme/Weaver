@@ -30,7 +30,7 @@ const typeDefs = `
 
   type Comment {
     _id: ID!
-    content: String!
+    content: String
     author: User!
     story: Story!
   }

@@ -53,7 +53,6 @@ export const GET_STORIES = gql`
         }
         comments {
           _id
-          content
           author {
             _id
             username
@@ -90,13 +89,11 @@ export const GET_MY_PROFILE = gql`
         _id
         username
         email
-        fullName
       }
       followers {
         _id
         username
         email
-        fullName
       }
       sharedStories {
         _id
@@ -105,11 +102,9 @@ export const GET_MY_PROFILE = gql`
         likes
         comments {
           _id
-          content
           author {
             _id
             username
-            fullName
           }
         }
         branches {
@@ -128,11 +123,9 @@ export const GET_MY_PROFILE = gql`
         likes
         comments {
           _id
-          content
           author {
             _id
             username
-            fullName
           }
         }
         branches {
@@ -155,7 +148,6 @@ export const GET_MY_PROFILE = gql`
           author {
             _id
             username
-            fullName
           }
         }
         branches {

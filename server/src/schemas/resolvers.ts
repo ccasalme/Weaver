@@ -24,12 +24,81 @@ const resolvers = {
       if (!context.user) {
         throw new Error("You need to be logged in!");
       }
+    
       const profile = await Profile.findOne({ user: context.user._id })
-        .populate("user")
-        .populate("followers")
-        .populate("sharedStories")
-        .populate("branchedStories")
-        .populate("likedStories");
+        .populate({
+          path: "user",
+          select: "_id username email fullName"
+        })
+        .populate({
+          path: "followers",
+          select: "_id username email fullName"
+        })
+        .populate({
+          path: "sharedStories",
+          populate: [
+            {
+              path: "comments",
+              populate: {
+                path: "author",
+                select: "_id username fullName"
+              }
+            },
+            {
+              path: "branches",
+              select: "_id title"
+            },
+            {
+              path: "parentStory",
+              select: "_id title"
+            }
+          ]
+        })
+        .populate({
+          path: "likedStories",
+          populate: [
+            {
+              path: "comments",
+              populate: {
+                path: "author",
+                select: "_id username fullName"
+              }
+            },
+            {
+              path: "branches",
+              select: "_id title"
+            },
+            {
+              path: "parentStory",
+              select: "_id title"
+            }
+          ]
+        })
+        .populate({
+          path: "branchedStories",
+          populate: [
+            {
+              path: "comments",
+              populate: {
+                path: "author",
+                select: "_id username fullName"
+              }
+            },
+            {
+              path: "branches",
+              select: "_id title"
+            },
+            {
+              path: "parentStory",
+              select: "_id title"
+            }
+          ]
+        });
+    
+      if (!profile) {
+        throw new Error("Profile not found. Something went wrong.");
+      }
+    
       return profile;
     },
 
@@ -229,6 +298,11 @@ const resolvers = {
       context: any
     ) => {
       if (!context.user) throw new Error("You need to be logged in!");
+
+        // Safety check to prevent null/empty comments from being saved
+      if (!content || content.trim().length === 0) {
+        throw new Error("Comment content cannot be empty.");
+      }
 
       const comment = await Comment.create({
         content,
