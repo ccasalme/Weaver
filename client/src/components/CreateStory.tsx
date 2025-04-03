@@ -158,7 +158,7 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
 
           {showPrompts && (
             <div style={{
-              background: "rgba(235, 227, 227, 0.3)",
+              background: "rgba(152, 137, 137, 0.3)",
               padding: "1rem",
               borderRadius: "8px",
               maxHeight: "200px",
@@ -186,9 +186,9 @@ const CreateStory: React.FC<CreateStoryProps> = ({ onClose, onCreated }) => {
                   }}
                 >
                   <p style={{ fontSize: "1.5rem", fontStyle: "italic", color: "white" }}>{prompt.text}</p>
-                  <small style={{ color: "#aaa" }}>
+                  <span style={{ color: "#aaa" }}>
                     {prompt.category} | {prompt.theme} | {prompt.tone}
-                  </small>
+                  </span>
                 </div>
               ))}
             </div>
