@@ -76,6 +76,9 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
           backgroundImage: `radial-gradient(circle at center, rgba(255, 0, 0, 0.25), transparent 70%),
             repeating-linear-gradient(0deg, transparent, transparent 49%, rgba(255, 0, 0, 0.25) 50%, transparent 51%)`,
           backgroundSize: "100% 100%, 4px 100%",
+          backdropFilter: "blur(2px)",
+          animation: showCollapse ? "fadeOut 0.5s ease-out forwards" : "none",
+          transition: "background-color 0.5s ease-out",
         }}
       >
         <div
@@ -94,13 +97,16 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
         >
           <h2
             style={{
-              fontSize: "1.3rem",
+              fontSize: "1.9rem",
               fontWeight: "bold",
-              background: "rgba(0, 0, 0, 0.25)",
+              background: "rgba(43, 37, 37, 0.25)",
+              border: "1px solid #ff0000",
+              textShadow: "0 0 5px #ff0000",
               padding: "0.5rem 1rem",
               borderRadius: "8px",
               display: "inline-block",
               marginBottom: "1rem",
+              color: "#fff"
             }}
           >
             ⚠️ DELETE ORIGIN UNIVERSE
@@ -108,9 +114,20 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
 
           {confirmStage === 1 && (
             <>
-              <p style={{ marginBottom: "1rem", fontSize: "1.1rem" }}>
+              <p style={{ 
+                marginBottom: "1rem", 
+                fontSize: "1.9rem", 
+                textAlign: "center",
+                color: "#fff",
+                textShadow: "0 0 5px #ff0000",
+                lineHeight: "1.5",
+                whiteSpace: "pre-line",
+                fontWeight: "bold",
+                background: "rgba(33, 26, 26, 0.25)",
+                }}>
                 You're about to permanently erase a universe from the weave. All
-                branches and threads will vanish. This is the point of no return...
+                branches and threads will vanish. 
+                This is the point of no return...
               </p>
               <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
                 <button
@@ -118,12 +135,15 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
                   disabled={loading}
                   style={{
                     padding: "0.5rem 1rem",
-                    backgroundColor: "#fff",
+                    backgroundColor: "#ccc",
                     color: "#333",
                     border: "none",
                     borderRadius: "4px",
                     cursor: "pointer",
                     fontWeight: "bold",
+                    fontSize: "1.5rem",
+                    boxShadow: "0 0 50px rgba(246, 32, 32, 0.4)",
+                    transition: "background-color 0.3s ease"
                   }}
                 >
                   {loading ? "Processing..." : "Yes, delete universe"}
@@ -133,10 +153,14 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
                   style={{
                     padding: "0.5rem 1rem",
                     backgroundColor: "#ccc",
-                    color: "#000",
+                    color: "#333",
                     border: "none",
                     borderRadius: "4px",
                     cursor: "pointer",
+                    fontWeight: "bold",
+                    fontSize: "1.5rem",
+                    boxShadow: "0 0 50px rgba(246, 32, 32, 0.4)",
+                    transition: "background-color 0.3s ease"
                   }}
                 >
                   Cancel
@@ -148,14 +172,19 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
           {confirmStage === 2 && (
             <>
               <p
-                style={{
-                  marginTop: "1rem",
-                  fontSize: "1.2rem",
-                  color: "#fdd",
-                  whiteSpace: "pre-line",
+              style={{ 
+                marginBottom: "1rem", 
+                fontSize: "1.9rem", 
+                textAlign: "center",
+                color: "#fff",
+                textShadow: "0 0 5px #ff0000",
+                lineHeight: "1.5",
+                whiteSpace: "pre-line",
+                fontWeight: "bold",
+                background: "rgba(33, 26, 26, 0.25)",
                 }}
               >
-                {`Dearest Weaver, you are\nabout to destroy a whole\ntimeline. There is no going\nback.\n\nPoint of no return.\n\nYou will now be a\ndestroyer of worlds... and\nmay receive the wrath of\nother Weavers that helped\nyour universe grow.\n\nAre you absolutely sure?`}
+                {`Dearest Weaver, this is the \nFINAL WARNING \nfrom us, the Architects. \n \nYou are\nabout to destroy a whole\ntimeline. There is no going\nback.\n\nPoint of no return.\n\nYou will now be a\nDestroyer of Worlds...and\nmay receive the wrath of\nother Weavers that helped\nyour universe grow.\n\nARE YOU ABSOLUTELY SURE?`}
               </p>
               <div
                 style={{
@@ -170,12 +199,15 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
                   disabled={loading}
                   style={{
                     padding: "0.5rem 1rem",
-                    backgroundColor: "darkred",
-                    color: "white",
+                    backgroundColor: "#ccc",
+                    color: "#333",
                     border: "none",
                     borderRadius: "4px",
                     cursor: "pointer",
                     fontWeight: "bold",
+                    fontSize: "1.5rem",
+                    boxShadow: "0 0 50px rgba(246, 32, 32, 0.4)",
+                    transition: "background-color 0.3s ease"
                   }}
                 >
                   {loading ? "Deleting..." : "🔥 Yes, destroy it"}
@@ -185,10 +217,14 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
                   style={{
                     padding: "0.5rem 1rem",
                     backgroundColor: "#ccc",
-                    color: "#000",
+                    color: "#333",
                     border: "none",
                     borderRadius: "4px",
                     cursor: "pointer",
+                    fontWeight: "bold",
+                    fontSize: "1.5rem",
+                    boxShadow: "0 0 50px rgba(246, 32, 32, 0.4)",
+                    transition: "background-color 0.3s ease"
                   }}
                 >
                   ❎ Cancel
@@ -199,11 +235,16 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
 
           {confirmStage === 3 && (
             <p
-              style={{
-                fontSize: "1.1rem",
-                color: "#ffcccc",
-                marginTop: "1.5rem",
-                lineHeight: "1.6",
+            style={{ 
+              marginBottom: "1rem", 
+              fontSize: "1.9rem", 
+              textAlign: "center",
+              color: "#fff",
+              textShadow: "0 0 5px #ff0000",
+              lineHeight: "1.5",
+              whiteSpace: "pre-line",
+              fontWeight: "bold",
+              background: "rgba(33, 26, 26, 0.25)",
               }}
             >
               Good job. You just deleted a whole universe. 🌌<br />
