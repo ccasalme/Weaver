@@ -12,7 +12,7 @@ import DeleteStoryModal from "../components/DeleteStoryModal";
 import HeroBanner from "../assets/weaverBanner.png";
 import SecondBanner from "../assets/weaverBanner2.png";
 import { GET_STORIES, GET_ME } from "../graphql/queries";
-import { CREATE_STORY, LIKE_STORY } from "../graphql/mutations";
+import { LIKE_STORY } from "../graphql/mutations";
 
 interface Story {
   _id: string;
@@ -38,8 +38,7 @@ const Homepage: React.FC = () => {
   const [showCreateStory, setShowCreateStory] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [storyToDelete, setStoryToDelete] = useState<string | null>(null);
-  const [newTitle, setNewTitle] = useState("");
-  const [newContent, setNewContent] = useState("");
+
   const [stories, setStories] = useState<Story[]>([]);
 
   const storyContainerRef = useRef<HTMLDivElement>(null);
@@ -53,13 +52,6 @@ const Homepage: React.FC = () => {
     fetchPolicy: "network-only",
   });
 
-  const [createStory] = useMutation(CREATE_STORY, {
-    onCompleted: () => {
-      setNewTitle("");
-      setNewContent("");
-      refetch();
-    },
-  });
 
   const [likeStory] = useMutation(LIKE_STORY, {
     onCompleted: () => refetch(),
@@ -112,21 +104,6 @@ const Homepage: React.FC = () => {
     }
   };
 
-  const handleQuickCreateStory = async () => {
-    if (!isUserLoggedIn) return setShowOopsModal(true);
-    if (!newTitle.trim() || !newContent.trim()) return;
-
-    try {
-      await createStory({
-        variables: {
-          title: newTitle.trim(),
-          content: newContent.trim(),
-        },
-      });
-    } catch (err) {
-      console.error("Error creating:", err);
-    }
-  };
 
   const handleThread = (id: string) => {
     if (!isUserLoggedIn) return setShowOopsModal(true);
@@ -159,22 +136,25 @@ const Homepage: React.FC = () => {
           <button onClick={() => setShowJoinUs(true)} className="join-btn">Join Us</button>
         </div>
       )}
-
-      <div className="quick-create-story">
-        <h3 style={{ color: "white" }}>Quick Origin Submission</h3>
-        <input
-          type="text"
-          placeholder="Story Title"
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-        />
-        <textarea
-          placeholder="What's your origin story?"
-          value={newContent}
-          onChange={(e) => setNewContent(e.target.value)}
-          rows={4}
-        />
-        <button onClick={handleQuickCreateStory}>🚀 Submit Origin</button>
+      {/* ✨ Replace input with button to trigger CreateStory modal */}
+      <div style={{ textAlign: "center", margin: "2rem 0" }}>
+        <button
+          onClick={() => {
+            if (!isUserLoggedIn) return setShowOopsModal(true);
+            setShowCreateStory(true);
+          }}
+          style={{
+            background: "#fff",
+            padding: "0.75rem 1.5rem",
+            fontSize: "1rem",
+            borderRadius: "6px",
+            border: "none",
+            cursor: "pointer",
+            fontWeight: "bold",
+          }}
+        >
+          + Create a New Origin
+        </button>
       </div>
 
       <div className="story-feed">
