@@ -184,7 +184,7 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
                 background: "rgba(33, 26, 26, 0.25)",
                 }}
               >
-                {`Dearest Weaver, this is the \nFINAL WARNING \nfrom us, the Architects. \n \nYou are\nabout to destroy a whole\ntimeline. There is no going\nback.\n\nPoint of no return.\n\nYou will now be a\nDestroyer of Worlds...and\nmay receive the wrath of\nother Weavers that helped\nyour universe grow.\n\nARE YOU ABSOLUTELY SURE?`}
+                {`Dearest Weaver, this is the \nFINAL WARNING \nfrom us, the Architects. \n \nYou are\nabout to destroy a whole\ntimeline. There is no going\nback.\n\nPoint of no return.\n\nYou will now be a\nDestroyer of Worlds...and\nyou may receive the wrath of\nother Weavers that helped\nyour universe grow.\n\nARE YOU ABSOLUTELY SURE?`}
               </p>
               <div
                 style={{
