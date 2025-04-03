@@ -200,7 +200,7 @@ const Homepage: React.FC = () => {
           style={{
             color: "white",
             background: "linear-gradient(to right, #3e5151,rgb(150, 137, 113))",
-            padding: "1rem 2rem",
+            padding: "1rem 1.5rem",
             borderRadius: "12px",
             textAlign: "center",
             fontSize: "3rem",
@@ -210,14 +210,39 @@ const Homepage: React.FC = () => {
             letterSpacing: "0.1em",
             marginBottom: "2.5rem",
             boxShadow: "0 0 20px rgba(255,255,255,0.2)",
+            
           }}
         >Recent Stories 📚</h2>
         {stories.length ? (
           stories.map((story) => (
-            <div key={story._id} className="story-card">
-              <h3>{story.title}</h3>
-              <p>
-                <strong>By:</strong> {story.author.username}
+            <div key={story._id} 
+            className="story-card"
+            style={{
+                color: "white",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                borderRadius: "12px",
+                justifyContent: "center",
+                alignItems: "center",
+                display: "block",
+                padding: "2rem 2rem",
+                textAlign: "center",
+                fontSize: "2rem",
+                fontWeight: "bold",
+                textTransform: "uppercase",
+                textShadow: "1px 1px 5px black",
+                letterSpacing: "0.1em",
+                marginBottom: "0rem",
+                marginTop: "0rem",
+                width: "100%",
+                backgroundColor: "#444",
+                boxShadow: "0 0 20px rgba(255,255,255,0.2)",
+                margin: "5rem 5rem",
+              }}>
+              <h3>
+                <strong>Most Recent Post:</strong> 
+                <br></br> 
+                <br></br>{story.title} || <strong>By:</strong> @{story.author.username}</h3>
                 {isUserLoggedIn && story.author._id !== currentUserId && (
                   <span style={{ marginLeft: "10px" }}>
                     {followingIds.includes(story.author._id) ? (
@@ -229,14 +254,14 @@ const Homepage: React.FC = () => {
                     )}
                   </span>
                 )}
-              </p>
-              <p>{story.content}</p>
+              <p
+              style={{
+                boxShadow: "0 0 20px rgba(255,255,255,0.2)",
+              }}>{story.content}</p>
               <div className="origin-block">
-                <h3>{story.title}</h3>
+                <h3>{story.title} || <strong>By:</strong> {story.author.username}</h3>
                 <p>{story.content}</p>
-                <p><strong>By:</strong> {story.author.username}</p>
 
-              
 
               {/* If it has a parent origin */}
                 {story.parentStory && (
@@ -325,7 +350,27 @@ const Homepage: React.FC = () => {
               <div className="comments-section">
                 {story.comments.length ? (
                   story.comments.map((c) => (
-                    <div key={c._id} className="comment-card">
+                    <div key={c._id} className="comment-card"
+                    style={{
+                      color: "white",
+                      background: "linear-gradient(to right, #3e5151, #decba4)",
+                      borderRadius: "12px",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      display: "block",
+                      padding: "1rem 1rem",
+                      textAlign: "center",
+                      fontSize: "2rem",
+                      fontWeight: "bold",
+                      textTransform: "uppercase",
+                      textShadow: "1px 1px 5px black",
+                      letterSpacing: "0.1em",
+                      marginBottom: "0rem",
+                      marginTop: "0rem",
+                      width: "100%",
+                      backgroundColor: "#444",
+                      boxShadow: "0 0 20px rgba(255,255,255,0.2)",
+                    }}>
                       <p><strong>{c.author.username}:</strong> {c.content}</p>
                     </div>
                   ))
