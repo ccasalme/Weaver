@@ -78,6 +78,16 @@ export const LIKE_STORY = gql`
   }
 `;
 
+export const UNLIKE_STORY = gql`
+  mutation unlikeStory($storyId: ID!) {
+    unlikeStory(storyId: $storyId) {
+      _id
+      title
+    }
+  }
+`;
+
+
 // ✅ Add a comment — only return what's needed
 export const ADD_COMMENT = gql`
   mutation addComment($storyId: ID!, $content: String!) {

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_MY_PROFILE } from "../graphql/queries";
-import { UPDATE_PROFILE } from "../graphql/mutations";
+import { UPDATE_PROFILE, LIKE_STORY } from "../graphql/mutations";
 import fallbackAvatar from "../assets/fallbackAvatar.png";
 import DeleteStoryModal from "../components/DeleteStoryModal";
 import CreateStory from "../components/CreateStory";
@@ -50,6 +50,7 @@ const Profile: React.FC = () => {
     fetchPolicy: "network-only",
   });
   const [updateProfile] = useMutation(UPDATE_PROFILE);
+  const [toggleLike] = useMutation(LIKE_STORY, { onCompleted: () => refetch() });
 
   const [activeTab, setActiveTab] = useState<"stories" | "branches" | "likes">("stories");
   const [editing, setEditing] = useState(false);
@@ -91,7 +92,15 @@ const Profile: React.FC = () => {
     }
   };
 
-  const renderStoryList = (stories: Story[]) => (
+  const handleUnlike = async (storyId: string) => {
+    try {
+      await toggleLike({ variables: { storyId } });
+    } catch (err) {
+      console.error("Failed to unlike story:", err);
+    }
+  };
+
+  const renderStoryList = (stories: Story[], isLikedTab = false) => (
     <div className="story-feed">
       {stories.map((story) => (
         <div key={story._id} className="story-card">
@@ -122,12 +131,21 @@ const Profile: React.FC = () => {
             </ul>
           )}
 
-          <button
-            onClick={() => setStoryToDelete(story._id)}
-            className="delete-btn"
-          >
-            🗑️ Delete Origin
-          </button>
+          {isLikedTab ? (
+            <button
+              onClick={() => handleUnlike(story._id)}
+              className="delete-btn"
+            >
+              ❌ Remove from Likes
+            </button>
+          ) : (
+            <button
+              onClick={() => setStoryToDelete(story._id)}
+              className="delete-btn"
+            >
+              🗑️ Delete Origin
+            </button>
+          )}
         </div>
       ))}
     </div>
@@ -243,7 +261,7 @@ const Profile: React.FC = () => {
       )}
 
       {activeTab === "branches" && renderStoryList(profile.branchedStories)}
-      {activeTab === "likes" && renderStoryList(profile.likedStories)}
+      {activeTab === "likes" && renderStoryList(profile.likedStories, true)}
 
       {showCreateModal && (
         <CreateStory

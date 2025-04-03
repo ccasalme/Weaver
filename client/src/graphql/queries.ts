@@ -123,6 +123,7 @@ export const GET_MY_PROFILE = gql`
         likes
         comments {
           _id
+          content
           author {
             _id
             username

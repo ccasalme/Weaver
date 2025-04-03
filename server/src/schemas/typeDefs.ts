@@ -73,6 +73,7 @@ const typeDefs = `
     createStory(title: String!, content: String!): Story!
     branchStory(storyId: ID!, title: String!, content: String!): Story!
     likeStory(storyId: ID!): Story!
+    unlikeStory(storyId: ID!): Story!
     addComment(storyId: ID!, content: String!): Comment!
     deleteStory(storyId: ID!): Story!
     voteStory(storyId: ID!, voteType: VoteType): Vote!
