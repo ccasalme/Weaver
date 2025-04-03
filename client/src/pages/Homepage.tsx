@@ -1,3 +1,4 @@
+// Homepage.tsx
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import "./Wireframe.css";
@@ -147,11 +148,11 @@ const Homepage: React.FC = () => {
         <img src={SecondBanner} alt="Weaver Banner 2" className="hero-banner-2" />
       </div>
 
+      {/* Auth UI */}
       {!isAuthenticated && (
         <div className="auth-container">
           <h2 style={{
-            color: "white",
-            textAlign: "center",
+            color: "white", textAlign: "center",
             background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
             padding: "10px", borderRadius: "5px"
           }}>
@@ -165,7 +166,7 @@ const Homepage: React.FC = () => {
         </div>
       )}
 
-      {/* 🔥 Quick Create */}
+      {/* Quick Create */}
       <div className="quick-create-story" style={{ textAlign: "center", marginTop: "30px" }}>
         <h3 style={{ color: "white" }}>Quick Origin Submission</h3>
         <input
@@ -189,10 +190,10 @@ const Homepage: React.FC = () => {
         </button>
       </div>
 
+      {/* Story Feed */}
       <div className="story-feed">
         <h2 style={{
-          color: "white",
-          textAlign: "center",
+          color: "white", textAlign: "center",
           background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
           padding: "10px", borderRadius: "5px"
         }}>
@@ -204,21 +205,21 @@ const Homepage: React.FC = () => {
             <h3>{story.title}</h3>
             <p>{story.content}</p>
 
-            {/* 👇 If this story is a branch, show the original universe */}
+            {/* 👇 Full parent origin universe for branches */}
             {story.parentStory && (
               <div style={{
-                marginTop: "1rem",
-                padding: "1rem",
+                marginTop: "1rem", padding: "1rem",
                 background: "rgba(255,255,255,0.05)",
                 border: "1px dashed rgba(255,255,255,0.2)",
-                borderRadius: "8px",
-                color: "white",
+                borderRadius: "8px", color: "white",
                 fontSize: "0.9rem"
               }}>
                 <p style={{ marginBottom: "0.5rem", fontWeight: "bold", fontStyle: "italic" }}>
                   Origin Universe 🌌
                 </p>
-                <p><strong>{story.parentStory.title}</strong></p>
+                <p style={{ fontWeight: "bold" }}>{story.parentStory.title}</p>
+                <p>{story.parentStory.content}</p>
+                <p><strong>By:</strong> {story.parentStory.author.username}</p>
               </div>
             )}
 
@@ -253,13 +254,11 @@ const Homepage: React.FC = () => {
               )}
             </div>
 
-            {/* Show branches under this story */}
+            {/* Branches */}
             {story.branches?.length ? (
               <div style={{ marginTop: "1rem" }}>
                 <p style={{
-                  color: "#ccc",
-                  fontWeight: "bold",
-                  marginBottom: "0.5rem"
+                  color: "#ccc", fontWeight: "bold", marginBottom: "0.5rem"
                 }}>
                   🌱 Branches:
                 </p>
@@ -280,18 +279,12 @@ const Homepage: React.FC = () => {
           </div>
         )) : (
           <p style={{
-            color: "white",
-            padding: "10px",
-            borderRadius: "5px",
+            color: "white", padding: "10px", borderRadius: "5px",
             background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
-            textAlign: "center",
-            marginTop: "20px",
-            marginBottom: "20px",
-            fontSize: "2.5em",
-            fontWeight: "bold",
-            lineHeight: "1.5em",
-            letterSpacing: "0.05em",
-            textTransform: "uppercase"
+            textAlign: "center", marginTop: "20px",
+            marginBottom: "20px", fontSize: "2.5em",
+            fontWeight: "bold", lineHeight: "1.5em",
+            letterSpacing: "0.05em", textTransform: "uppercase"
           }}>
             No Origin Multiverses available. Start by creating one! 📚
           </p>
