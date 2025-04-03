@@ -90,8 +90,7 @@ export const ADD_COMMENT = gql`
       content
       author {
         _id
-        username
-        fullName
+        username 
       }
     }
   }

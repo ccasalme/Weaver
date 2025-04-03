@@ -240,7 +240,9 @@ const resolvers = {
         $push: { comments: comment._id },
       });
 
-      return comment;
+      const populatedComment = await comment.populate({path: "author", select: "_id username"});
+
+      return populatedComment;
     },
 
      // Delete a story and related comments (but not branched stories)

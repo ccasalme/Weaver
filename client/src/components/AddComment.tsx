@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_COMMENT } from "../graphql/mutations";
-import { GET_STORIES } from "../graphql/queries";
 
 interface AddCommentProps {
   storyId: string;
@@ -16,18 +15,33 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
   const [commentSuccess, setCommentSuccess] = useState(false);
 
   const [addComment, { error, loading }] = useMutation(ADD_COMMENT, {
-    refetchQueries: [{ query: GET_STORIES }],
+    update(cache, { data: { addComment } }) {
+      cache.modify({
+        fields: {
+          getStories(existingStoryRefs = []) {
+            return existingStoryRefs.map((storyRef: { __ref?: string; comments?: { id: string; content: string }[] }) => {
+              if (storyRef.__ref?.includes(storyId)) {
+                return {
+                  ...storyRef,
+                  comments: [...(storyRef.comments || []), addComment],
+                };
+              }
+              return storyRef;
+            });
+          },
+        },
+      });
+    },
   });
 
   const handleComment = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const trimmed = `${title.trim()} ${content.trim()}`;
+
     if (!title.trim() || !content.trim()) {
       alert("Thread title and content cannot be empty.");
       return;
     }
-    
 
     if (trimmed.length > 280) {
       alert("Thread too long! Please keep it under 280 characters total.");
@@ -91,16 +105,10 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
             boxShadow: "0 0 25px rgba(0, 255, 255, 0.4)",
           }}
         >
-          <h2
-            style={{
-              fontSize: "1.5rem",
-              fontWeight: "bold",
-              marginBottom: "1rem",
-              background: "rgba(0, 0, 0, 0.25)",
-              padding: "0.5rem 1rem",
-              borderRadius: "8px",
-            }}
-          >
+          <h2 style={{
+            fontSize: "1.5rem", fontWeight: "bold", marginBottom: "1rem",
+            background: "rgba(0, 0, 0, 0.25)", padding: "0.5rem 1rem", borderRadius: "8px",
+          }}>
             🧵 Add a Thread to the Origin
           </h2>
 
@@ -111,11 +119,7 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
-              style={{
-                marginBottom: "1rem",
-                padding: "0.5rem",
-                width: "100%",
-              }}
+              style={{ marginBottom: "1rem", padding: "0.5rem", width: "100%" }}
             />
             <textarea
               placeholder="Weave your story... (Max 280 chars)"
@@ -123,12 +127,7 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
               onChange={(e) => setContent(e.target.value)}
               maxLength={280}
               required
-              style={{
-                marginBottom: "1rem",
-                padding: "0.5rem",
-                width: "100%",
-                height: "100px",
-              }}
+              style={{ marginBottom: "1rem", padding: "0.5rem", width: "100%", height: "100px" }}
             />
             <p style={{ color: "#ccc", marginBottom: "1rem" }}>
               {`${(title + content).length} / 280 characters`}
@@ -168,13 +167,7 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
           </form>
 
           {commentSuccess && (
-            <p
-              style={{
-                color: "#aff",
-                marginTop: "1rem",
-                fontSize: "1.1rem",
-              }}
-            >
+            <p style={{ color: "#aff", marginTop: "1rem", fontSize: "1.1rem" }}>
               ✨ Thread woven successfully into the universe!
             </p>
           )}
@@ -187,7 +180,7 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
         </div>
       </div>
 
-      {/* Glitch/Ripple Effect */}
+      {/* Ripple/Glitch Effect */}
       {showRipple && (
         <div
           style={{
@@ -207,21 +200,9 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
       <style>
         {`
           @keyframes rippleGlitch {
-            0% {
-              opacity: 0.3;
-              transform: scale(1);
-              filter: brightness(1);
-            }
-            50% {
-              opacity: 1;
-              transform: scale(1.2) rotate(1deg);
-              filter: contrast(1.5) brightness(1.2);
-            }
-            100% {
-              opacity: 0;
-              transform: scale(2);
-              filter: brightness(0.8);
-            }
+            0% { opacity: 0.3; transform: scale(1); filter: brightness(1); }
+            50% { opacity: 1; transform: scale(1.2) rotate(1deg); filter: contrast(1.5) brightness(1.2); }
+            100% { opacity: 0; transform: scale(2); filter: brightness(0.8); }
           }
         `}
       </style>
