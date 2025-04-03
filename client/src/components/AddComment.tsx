@@ -92,6 +92,9 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
           justifyContent: "center",
           alignItems: "center",
           zIndex: 9999,
+          backgroundImage: `radial-gradient(circle at center, rgba(18, 194, 213, 0.25), transparent 70%),
+          repeating-linear-gradient(0deg, transparent, transparent 49%, rgba(0, 191, 255, 0.25) 50%, transparent 51%)`,
+          backgroundSize: "100% 100%, 4px 100%",
         }}
       >
         <div
@@ -109,14 +112,15 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
           }}
         >
           <h2
-            style={{
-              fontSize: "1.5rem",
-              fontWeight: "bold",
-              marginBottom: "1rem",
-              background: "rgba(0, 0, 0, 0.25)",
-              padding: "0.5rem 1rem",
-              borderRadius: "8px",
-            }}
+              style={{ 
+                color: "#fff",
+                marginBottom: "1rem", 
+                padding: "0.5rem", 
+                width: "100%",
+                boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                borderRadius: "6px",
+                border: "none",
+               }}
           >
             🧵 Add a Thread to the Origin
           </h2>
@@ -128,7 +132,14 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
-              style={{ marginBottom: "1rem", padding: "0.5rem", width: "100%" }}
+              style={{ 
+                marginBottom: "1rem", 
+                padding: "0.5rem", 
+                width: "100%",
+                boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                borderRadius: "6px",
+                border: "none",
+               }}
             />
             <textarea
               placeholder="Weave your story... (Max 280 chars)"
@@ -136,7 +147,16 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
               onChange={(e) => setContent(e.target.value)}
               maxLength={280}
               required
-              style={{ marginBottom: "1rem", padding: "0.5rem", width: "100%", height: "100px" }}
+              style={{ 
+                marginBottom: "1rem", 
+                padding: "0.5rem", 
+                width: "100%", 
+                height: "120px", 
+                fontSize: "1.5rem",
+                boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                borderRadius: "6px",
+                border: "none",
+               }}
             />
             <p style={{ color: "#ccc", marginBottom: "1rem" }}>
               {`${(title + content).length} / 280 characters`}
@@ -147,13 +167,17 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
                 type="submit"
                 disabled={loading}
                 style={{
-                  padding: "0.5rem 1rem",
-                  backgroundColor: "#fff",
+                  marginBottom: "1rem",
+                  backgroundColor: "#444",
                   color: "#333",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "6px",
                   border: "none",
-                  borderRadius: "4px",
                   cursor: "pointer",
                   fontWeight: "bold",
+                  fontSize: "1.5rem",
+                  boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                  transition: "background-color 0.3s ease"
                 }}
               >
                 {loading ? "Submitting..." : "Submit Thread"}
@@ -162,12 +186,17 @@ const AddComment: React.FC<AddCommentProps> = ({ storyId, onClose }) => {
                 type="button"
                 onClick={onClose}
                 style={{
+                  marginBottom: "1rem",
+                  backgroundColor: "#444",
+                  color: "#333",
                   padding: "0.5rem 1rem",
-                  backgroundColor: "#ccc",
-                  color: "#000",
+                  borderRadius: "6px",
                   border: "none",
-                  borderRadius: "4px",
                   cursor: "pointer",
+                  fontWeight: "bold",
+                  fontSize: "1.5rem",
+                  boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                  transition: "background-color 0.3s ease"
                 }}
               >
                 ❎ Cancel
