@@ -266,7 +266,7 @@ const Homepage: React.FC = () => {
               {/* If it has a parent origin */}
                 {story.parentStory && (
                 <div className="origin-details">
-                  <h4>🌌 Origin Universe</h4>
+                  <h4 style={{color:"whitesmoke"}}>🌌 Origin Universe</h4>
                     <p><strong>{story.parentStory.title}</strong></p>
                     <p>{story.parentStory.content}</p>
                     <p><em>By: {story.parentStory.author.username}</em></p>
@@ -276,7 +276,7 @@ const Homepage: React.FC = () => {
               {/* Branches if they exist */}
               {story.branches && story.branches.length > 0 && (
                 <div className="origin-branches">
-                    <h4>🌱 Branches</h4>
+                    <h4 style={{color:"whitesmoke"}}>🌱 Branches</h4>
                     {story.branches.map((branch) => (
                     <div key={branch._id} className="branch-entry">
                     <p><strong>{branch.title}</strong></p>
@@ -348,29 +348,10 @@ const Homepage: React.FC = () => {
               </div>
 
               <div className="comments-section">
+                <h3>🧵🕸️Threads🕷️🕸️🧵</h3>
                 {story.comments.length ? (
                   story.comments.map((c) => (
-                    <div key={c._id} className="comment-card"
-                    style={{
-                      color: "white",
-                      background: "linear-gradient(to right, #3e5151, #decba4)",
-                      borderRadius: "12px",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      display: "block",
-                      padding: "1rem 1rem",
-                      textAlign: "center",
-                      fontSize: "2rem",
-                      fontWeight: "bold",
-                      textTransform: "uppercase",
-                      textShadow: "1px 1px 5px black",
-                      letterSpacing: "0.1em",
-                      marginBottom: "0rem",
-                      marginTop: "0rem",
-                      width: "100%",
-                      backgroundColor: "#444",
-                      boxShadow: "0 0 20px rgba(255,255,255,0.2)",
-                    }}>
+                    <div key={c._id} className="comment-card">
                       <p><strong>{c.author.username}:</strong> {c.content}</p>
                     </div>
                   ))
