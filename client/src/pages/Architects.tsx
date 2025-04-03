@@ -149,7 +149,7 @@ const Architects: React.FC = () => {
                   marginBottom: "1rem",
                 }}
               />
-              <h3 style={{ fontSize: "1.4rem", marginBottom: "0.5rem" }}>
+              <h3 style={{ fontSize: "1.4rem", marginBottom: "0.5rem", color: "white" }}>
                 {arch.name}
               </h3>
               <a
