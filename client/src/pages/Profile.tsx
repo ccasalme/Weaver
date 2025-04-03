@@ -1,4 +1,3 @@
-// src/pages/Profile.tsx
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_MY_PROFILE } from "../graphql/queries";
@@ -132,17 +131,11 @@ const Profile: React.FC = () => {
           )}
 
           {isLikedTab ? (
-            <button
-              onClick={() => handleUnlike(story._id)}
-              className="delete-btn"
-            >
+            <button onClick={() => handleUnlike(story._id)} className="delete-btn">
               ❌ Remove from Likes
             </button>
           ) : (
-            <button
-              onClick={() => setStoryToDelete(story._id)}
-              className="delete-btn"
-            >
+            <button onClick={() => setStoryToDelete(story._id)} className="delete-btn">
               🗑️ Delete Origin
             </button>
           )}
