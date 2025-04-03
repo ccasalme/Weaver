@@ -35,7 +35,7 @@ const WeaverInfo: React.FC = () => {
 
             <br></br>
             <br></br>
-            
+
             As others join in, the story grows — branching into new directions,
             deepening its roots, and stretching toward endless skies.
           </em>
@@ -49,6 +49,9 @@ const WeaverInfo: React.FC = () => {
 
           It's designed for creators of all kinds to build, share, and evolve stories together — one thread at a time.
      
+          <br></br>
+          <br></br>
+          
           At its core, Weaver is about community-driven storytelling. Weavers (that's you!)
           can write short story prompts, add to others' stories, or explore alternate storylines by branching off
           with your own creative twists.
