@@ -696,6 +696,67 @@ button:hover {
   resize: vertical;
 }
 
+/* ========================== */
+/* 📱 Responsive Modal Styling */
+/* ========================== */
+
+/* 📱 Small Devices - Mobile First (max-width: 480px) */
+@media (max-width: 480px) {
+  .modal-backdrop {
+    padding: 1rem;
+    align-items: flex-start; /* push modal down a bit on super small screens */
+  }
+
+  .modal {
+    padding: 1rem;
+    max-width: 95%;
+    font-size: 0.95rem;
+    border-radius: 10px;
+  }
+
+  .modal-backdrop h2 {
+    font-size: 1.5rem;
+  }
+
+  .modal-input,
+  .modal-textarea {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .modal-backdrop button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .modal-textarea {
+    min-height: 120px;
+  }
+}
+
+/* 📱 Medium Devices - Tablets and Small Laptops (max-width: 768px) */
+@media (max-width: 768px) {
+  .modal {
+    max-width: 90%;
+    padding: 1.5rem;
+  }
+
+  .modal-backdrop h2 {
+    font-size: 1.75rem;
+  }
+
+  .modal-textarea {
+    min-height: 150px;
+  }
+}
+
+/* For ultra-wide screens */
+@media (min-width: 1440px) {
+  .modal {
+    max-width: 600px;
+  }
+}
+
 
 /* ========================== */
 /* 📱 Responsive Delete Modal Styling */
@@ -756,6 +817,9 @@ button:hover {
 }
 
 
+/* ========================== */
+/* 👀 Profile Actions */
+/* ========================== */
 .action-btn-group {
   display: flex;
   justify-content: space-between; /* Equal spacing */
