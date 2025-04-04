@@ -165,72 +165,73 @@ const Homepage: React.FC = () => {
       {!isUserLoggedIn && (
         <div className="auth-container">
           <h2 className="auth-title"
-                      style={{
-                        color: "white",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        display: "block",
-                        padding: "2rem 2rem",
-                        textAlign: "center",
-                        fontSize: "2rem",
-                        fontWeight: "bold",
-                        textTransform: "uppercase",
-                        textShadow: "0 0 20px rgba(18, 44, 55, 0.2)",
-                        letterSpacing: "0.1em",
-                        marginBottom: "0rem",
-                        marginTop: "0rem",
-                        width: "100%",
-                        boxShadow: "0 0 20px rgba(255,255,255,0.2)",
-                        margin: "5rem 5rem",
-                      }}
+                      // style={{
+                      //   color: "white",
+                      //   justifyContent: "center",
+                      //   alignItems: "center",
+                      //   display: "block",
+                      //   padding: "2rem 2rem",
+                      //   textAlign: "center",
+                      //   fontSize: "2rem",
+                      //   fontWeight: "bold",
+                      //   textTransform: "uppercase",
+                      //   textShadow: "0 0 20px rgba(18, 44, 55, 0.2)",
+                      //   letterSpacing: "0.1em",
+                      //   marginBottom: "0rem",
+                      //   marginTop: "0rem",
+                      //   width: "100%",
+                      //   boxShadow: "0 0 20px rgba(255,255,255,0.2)",
+                      //   margin: "5rem 5rem",
+                      // }}
           >Welcome to Weaver!</h2>
           <p className="auth-text"
-                                style={{
-                                  color: "white",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  display: "block",
-                                  padding: "2rem 2rem",
-                                  textAlign: "center",
-                                  fontSize: "2rem",
-                                  fontWeight: "bold",
-                                  textTransform: "uppercase",
-                                  letterSpacing: "0.1em",
-                                  marginBottom: "0rem",
-                                  marginTop: "0rem",
-                                  width: "100%",
-                                  margin: "5rem 5rem",
-                                  textShadow: "0 0 20px rgba(18, 44, 55, 0.2)",
-                                }}>Join us to explore, create, and engage with stories.</p>
+                                // style={{
+                                //   color: "white",
+                                //   justifyContent: "center",
+                                //   alignItems: "center",
+                                //   display: "block",
+                                //   padding: "2rem 2rem",
+                                //   textAlign: "center",
+                                //   fontSize: "2rem",
+                                //   fontWeight: "bold",
+                                //   textTransform: "uppercase",
+                                //   letterSpacing: "0.1em",
+                                //   marginBottom: "0rem",
+                                //   marginTop: "0rem",
+                                //   width: "100%",
+                                //   margin: "5rem 5rem",
+                                //   textShadow: "0 0 20px rgba(18, 44, 55, 0.2)",
+                                // }}
+                                >Join us to explore, create, and engage with stories.</p>
           <button onClick={() => setShowLogin(true)} className="login-btn"
-                                              style={{
-                                                marginBottom: "1rem",
-                                                backgroundColor: "#444",
-                                                color: "#333",
-                                                padding: "1rem 1rem",
-                                                borderRadius: "6px",
-                                                border: "none",
-                                                cursor: "pointer",
-                                                fontWeight: "bold",
-                                                fontSize: "1.5rem",
-                                                boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                                                transition: "background-color 0.3s ease"
-                                              }}
+                                              // style={{
+                                              //   marginBottom: "1rem",
+                                              //   backgroundColor: "#444",
+                                              //   color: "#333",
+                                              //   padding: "1rem 1rem",
+                                              //   borderRadius: "6px",
+                                              //   border: "none",
+                                              //   cursor: "pointer",
+                                              //   fontWeight: "bold",
+                                              //   fontSize: "1.5rem",
+                                              //   boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                                              //   transition: "background-color 0.3s ease"
+                                              // }}
             >Login</button>
           <button onClick={() => setShowJoinUs(true)} className="join-btn"
-                                              style={{
-                                                marginBottom: "1rem",
-                                                backgroundColor: "#444",
-                                                color: "#333",
-                                                padding: "1rem 1rem",
-                                                borderRadius: "6px",
-                                                border: "none",
-                                                cursor: "pointer",
-                                                fontWeight: "bold",
-                                                fontSize: "1.5rem",
-                                                boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                                                transition: "background-color 0.3s ease"
-                                              }}
+                                              // style={{
+                                              //   marginBottom: "1rem",
+                                              //   backgroundColor: "#444",
+                                              //   color: "#333",
+                                              //   padding: "1rem 1rem",
+                                              //   borderRadius: "6px",
+                                              //   border: "none",
+                                              //   cursor: "pointer",
+                                              //   fontWeight: "bold",
+                                              //   fontSize: "1.5rem",
+                                              //   boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                                              //   transition: "background-color 0.3s ease"
+                                              // }}
             >Join Us</button>
         </div>
       )}

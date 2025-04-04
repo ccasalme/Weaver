@@ -659,14 +659,56 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  margin: 5rem auto;
+  padding: 2rem;
+  text-align: center;
+  max-width: 800px;
   background-image: url("../assets/PopupBackground.png");
-  padding: 40px;
+  padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 600px;
   margin-top: 20px;
+}
+
+.auth-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 20px rgba(18, 44, 55, 0.2);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 20px rgba(255,255,255,0.2);
+  padding: 1rem 2rem;
+  font-family: 'Bebas Neue', cursive;
+  letter-spacing: 1px;
+}
+
+.auth-text {
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+  text-shadow: 0 0 20px rgba(18, 44, 55, 0.2);
+}
+
+.login-btn,
+.join-btn {
+  background-color: #444;
+  color: #333;
+  padding: 0.8rem 1.5rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.25rem;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+  transition: background-color 0.3s ease;
 }
 
 /* ✅ Button Styles */
@@ -738,6 +780,38 @@ button:hover {
   }
 }
 
+@media (max-width: 768px) {
+  .auth-title {
+    font-size: 2rem;
+  }
+
+  .auth-text {
+    font-size: 1.1rem;
+  }
+
+  .login-btn,
+  .join-btn {
+    font-size: 1.1rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-title {
+    font-size: 1.6rem;
+    padding: 1rem;
+  }
+
+  .auth-text {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .auth-container {
+    margin: 3rem 1rem;
+    padding: 1rem;
+  }
+}
 
 
 /* ========================== */
