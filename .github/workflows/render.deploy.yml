@@ -1,0 +1,44 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - main # Only runs when code is pushed/merged into main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧾 Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: 🧰 Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+
+      - name: 📦 Install Client & Server Dependencies
+        run: |
+          npm --prefix client install
+          npm --prefix server install
+
+      # OPTIONAL: Uncomment to run Vitest if you have it setup
+      # - name: 🧪 Run Client Tests with Vitest
+      #   run: npm --prefix client run test:client
+
+      - name: 📢 Log Deployment Trigger
+        run: echo "✅ Code pushed to main — triggering Render deploy."
+
+      - name: 🚀 Trigger Render Deploy Hook
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+
+      - name: 📍 Mark GitHub Deployment (Optional Visual Badge)
+        uses: bobheadxi/deployments@v1
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: production
+          status: success
+          desc: Render deploy triggered successfully
