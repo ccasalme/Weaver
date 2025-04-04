@@ -1169,19 +1169,6 @@ button:hover {
   box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
 }
 
-@media (max-width: 768px) {
-  .action-btn-group {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .action-btn-group button {
-    width: 100%;
-    max-width: 300px;
-    font-size: 1rem;
-  }
-}
-
 .create-origin-btn {
   background-color: #ccc;
   background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
@@ -1203,28 +1190,6 @@ button:hover {
   transform: scale(1.02);
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
 }
-
-@media (max-width: 768px) {
-  .create-origin-btn {
-    font-size: 1.2rem;
-    padding: 1.25rem 2.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .create-origin-btn {
-    font-size: 1.1rem;
-    padding: 1rem 2rem;
-  }
-}
-
-@media (min-width: 1440px) {
-  .create-origin-btn {
-    font-size: 1.6rem;
-    padding: 1.75rem 3.5rem;
-  }
-}
-
 
 
 /* ========================== */
@@ -1300,6 +1265,42 @@ button:hover {
     right: 18px;
   }
 }
+
+@media (max-width: 768px) {
+  .action-btn-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .action-btn-group button {
+    width: 100%;
+    max-width: 300px;
+    font-size: 1rem;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .create-origin-btn {
+    font-size: 1.2rem;
+    padding: 1.25rem 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-origin-btn {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .create-origin-btn {
+    font-size: 1.6rem;
+    padding: 1.75rem 3.5rem;
+  }
+}
+
 
 /* ========================== */
 /* Profile Styling */
