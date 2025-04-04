@@ -178,22 +178,15 @@ const Homepage: React.FC = () => {
 
       <div style={{ textAlign: "center", margin: "2rem 0" }}>
         <button
+          className="create-story-btn"
           onClick={() => {
             if (!isUserLoggedIn) return setShowOopsModal(true);
             setShowCreateStory(true);
           }}
           style={{
-            background: "#fff",
-            padding: "3.5rem 2.5rem",
-            borderRadius: "6px",
-            border: "none",
-            cursor: "pointer",
+            padding: "2.5rem 2.5rem",
             fontWeight: "bold",
-            backgroundColor: "#ccc",
-            color: "#333",
-            fontSize: "1.5rem",
             boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-            transition: "background-color 0.3s ease"
           }}
         >
           + Create a New Origin

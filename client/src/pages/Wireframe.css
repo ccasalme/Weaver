@@ -1182,10 +1182,53 @@ button:hover {
   }
 }
 
+.create-origin-btn {
+  background-color: #ccc;
+  background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
+  color: #333;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.create-origin-btn:hover {
+  background-color: #bbb;
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+}
+
+@media (max-width: 768px) {
+  .create-origin-btn {
+    font-size: 1.2rem;
+    padding: 1.25rem 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-origin-btn {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .create-origin-btn {
+    font-size: 1.6rem;
+    padding: 1.75rem 3.5rem;
+  }
+}
+
 
 
 /* ========================== */
-/* 📱 Responsive Profile Actions */
+/* 📱 Responsive Action Buttons */
 /* ========================== */
 
 /* 🌸 Small Devices - Mobile (max-width: 480px) */
