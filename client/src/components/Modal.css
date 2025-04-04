@@ -16,7 +16,7 @@
     z-index: 3000;
     overflow: hidden;
     animation: fadeIn 0.3s ease-out;
-    background-image: url('../assets/PopUpBackground.png');
+    background-image: url('../assets/PopupBackground.png');
 }
 
 /* 🕶️ Modal Backdrop */
