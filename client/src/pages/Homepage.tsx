@@ -204,7 +204,7 @@ const Homepage: React.FC = () => {
               <h3>
                 <strong>Most Recent Post:</strong> 
                 <br></br> 
-                <br></br>{story.title} 
+                <br></br>Title: {story.title} 
                 <br></br>
                 <strong>By:</strong> @{story.author.username}</h3>
                 {isUserLoggedIn && story.author._id !== currentUserId && (
