@@ -261,48 +261,12 @@ const Homepage: React.FC = () => {
 
       <div className="story-feed">
         <h2 className="story-feed-title"
-          style={{
-            color: "white",
-            background: "linear-gradient(to right, #3e5151,rgb(150, 137, 113))",
-            padding: "1rem 1.5rem",
-            borderRadius: "12px",
-            textAlign: "center",
-            fontSize: "3rem",
-            fontWeight: "bold",
-            textTransform: "uppercase",
-            textShadow: "1px 1px 5px black",
-            letterSpacing: "0.1em",
-            marginBottom: "2.5rem",
-            boxShadow: "0 0 20px rgba(255,255,255,0.2)",
-            
-          }}
         >Recent Stories 📚</h2>
         {stories.length ? (
           stories.map((story) => (
             <div key={story._id} 
             className="story-card"
-            style={{
-                color: "white",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                borderRadius: "12px",
-                justifyContent: "center",
-                alignItems: "center",
-                display: "block",
-                padding: "2rem 2rem",
-                textAlign: "center",
-                fontSize: "2rem",
-                fontWeight: "bold",
-                textTransform: "uppercase",
-                textShadow: "1px 1px 5px black",
-                letterSpacing: "0.1em",
-                marginBottom: "0rem",
-                marginTop: "0rem",
-                width: "100%",
-                backgroundColor: "#444",
-                boxShadow: "0 0 20px rgba(255,255,255,0.2)",
-                margin: "5rem 5rem",
-              }}>
+              >
               <h3>
                 <strong>Most Recent Post:</strong> 
                 <br></br> 

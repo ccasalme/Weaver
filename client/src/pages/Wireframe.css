@@ -164,10 +164,11 @@ body {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
+  margin: 0 auto;
   height: auto;
-  margin-top: 20px;
-  padding: 240px;
+  margin-top: 2rem;
+  padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(84, 110, 162, 0.1);
   background-image: url("../assets/storycardBackground.png");
@@ -180,39 +181,89 @@ body {
 
 .story-card {
   background-color: rgba(255, 255, 255, 0.95);
-  padding: 100px;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin: 3rem auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 10px;
-  background-size: contain;
-  margin: 20px auto;
+  max-width: 800px;
   width: 100%;
-  max-width: 700px;
   background-image: url("../assets/PopupBackground.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+.story-card h3,
+.story-card p {
+  margin-bottom: 1rem;
+}
+
+/* 🔤 Typography Standards */
+h2.story-feed-title {
+  font-size: 2rem;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  background: linear-gradient(to right, #3e5151, #968971);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 .story-card h3 {
-  font-size: 2rem;
-  margin-bottom: 10px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.5rem 1rem;
   color: white;
-  background: linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%);
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  margin: 0.5rem auto;
+  max-width: 90%;
+  word-break: break-word;
+  background: linear-gradient(to right, #3e5151,rgb(150, 137, 113));
 }
 
 .story-card p {
   font-size: 1rem;
-  color: white;
-  margin: 0 10px;
-  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  background: rgba(50, 50, 50, 0.8);
+  border-radius: 10px;
+  margin: 1rem auto;
+  color: #f0f0f0;
   text-align: center;
-  background: linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  line-height: 1.5;
+  max-width: 95%;
+  word-break: break-word;
+  background: linear-gradient(to right, #3e5151,rgb(150, 137, 113));
 }
+
+/* 💬 Threads styling */
+.comments-section {
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+.comment-card {
+  background: rgba(60, 60, 60, 0.8);
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 1rem auto;
+  color: #ddd;
+  font-size: 1rem;
+  text-align: center;
+  width: 100%;
+  max-width: 90%;
+}
+
 
 
 /* ========================== */
@@ -268,6 +319,21 @@ body {
   }
 }
 
+@media (max-width: 480px) {
+  .story-card {
+    padding: 1rem;
+    margin: 1.5rem auto;
+  }
+
+  .story-card h3 {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .story-card p {
+    font-size: 0.85rem;
+  }
+}
 
 /* ========================== */
 /* 💬 Comment Section */
@@ -370,12 +436,17 @@ textarea:focus {
 }
 
 .comment-card {
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 12px;
-  margin-top: 8px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: rgba(40, 40, 40, 0.85);
+  padding: 1.5rem;
+  margin: 1.5rem auto;
+  border-radius: 12px;
+  color: white;
+  max-width: 700px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
+
 
 
 /* ========================== */
@@ -1108,7 +1179,20 @@ button:hover {
     font-size: 0.85rem;
     padding: 0 1rem;
   }
+
+  .profile-header img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  textarea.bio-textarea {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+  
 }
+
+
 
 @media (max-width: 480px) {
   .tab-group {
