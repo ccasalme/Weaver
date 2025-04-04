@@ -987,8 +987,6 @@ button:hover {
   }
 }
 
-
-
 /* ========================== */
 /* Profile Styling */
 /* ========================== */
@@ -1002,14 +1000,16 @@ button:hover {
 
 .profile-header {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   align-items: center;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 .profile-pic {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid white;
@@ -1018,32 +1018,36 @@ button:hover {
 .profile-bio {
   margin: 0.5rem 0;
   color: #ccc;
+  font-size: 1.1rem;
 }
 
 .profile-followers {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #aaa;
 }
 
 .tab-group {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
   margin-bottom: 1.5rem;
 }
 
 .tab-group button {
-  background: transparent;
+  background: #d2dce3;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 12px 20px;
   font-size: 1rem;
-  color: #aaa;
-  border-bottom: 2px solid transparent;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background 0.2s ease;
+  font-weight: bold;
 }
 
 .tab-group .active-tab {
-  color: white;
-  border-color: white;
+  background: #a6b8c4;
+  color: #000;
 }
 
 .see-threads-btn {
@@ -1053,6 +1057,7 @@ button:hover {
   color: #7ed6df;
   cursor: pointer;
   font-size: 0.9rem;
+  text-decoration: underline;
 }
 
 .comment-thread {
@@ -1074,59 +1079,63 @@ button:hover {
 /* 🌸 Mobile & Responsive Styling */
 /* ========================== */
 @media (max-width: 768px) {
-  .page-container {
-    padding: 0 10px;
+  .profile-container {
+    padding: 1rem;
   }
 
-  .banner-container {
-    width: 100%;
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
   }
 
-  .hero-banner,
-  .hero-banner-2 {
-    height: 250px; /* ✅ Adjusted for mobile view */
+  .profile-pic {
+    width: 80px;
+    height: 80px;
   }
 
-  .story-feed {
-    width: 100%;
-    padding: 15px;
+  .tab-group button {
+    padding: 10px 14px;
+    font-size: 0.9rem;
   }
 
-  .story-card {
-    width: 100%;
+  .profile-bio {
+    font-size: 1rem;
+    padding: 0 1rem;
   }
 
-  .auth-container {
-    width: 100%;
-    padding: 20px;
-  }
-
-  .modal {
-    width: 90%;
-  }
-
-  button {
-    width: 100%;
+  .profile-followers {
+    font-size: 0.85rem;
+    padding: 0 1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .story-card h3 {
-    font-size: 1.5rem;
+  .tab-group {
+    flex-direction: column;
+    gap: 8px;
   }
 
-  .story-card p {
-    font-size: 1rem;
+  .tab-group button {
+    width: 100%;
   }
 
-  .comment-input {
-    font-size: 0.9rem;
+  .profile-bio,
+  .profile-followers {
+    text-align: center;
+    font-size: 0.95rem;
   }
 
-  button {
+  .see-threads-btn {
+    font-size: 0.85rem;
+  }
+
+  .comment-thread {
     font-size: 0.9rem;
   }
 }
+
+
 
 /* ========================== */
 /* 🌌 Center Modal Backdrop */
@@ -1279,7 +1288,6 @@ button:hover {
     transform: scale(1);
   }
 }
-
 
 
 /* ========================== */
@@ -1447,7 +1455,6 @@ button:hover {
     padding: 0.4rem 0.6rem;
   }
 }
-
 
 
 /* ========================== */
