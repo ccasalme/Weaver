@@ -204,7 +204,9 @@ const Homepage: React.FC = () => {
               <h3>
                 <strong>Most Recent Post:</strong> 
                 <br></br> 
-                <br></br>{story.title} || <strong>By:</strong> @{story.author.username}</h3>
+                <br></br>{story.title} 
+                <br></br>
+                <strong>By:</strong> @{story.author.username}</h3>
                 {isUserLoggedIn && story.author._id !== currentUserId && (
                   <span style={{ marginLeft: "10px" }}>
                     {followingIds.includes(story.author._id) ? (
@@ -221,7 +223,9 @@ const Homepage: React.FC = () => {
                 boxShadow: "0 0 20px rgba(255,255,255,0.2)",
               }}>{story.content}</p>
               <div className="origin-block">
-                <h3>{story.title} || <strong>By:</strong> {story.author.username}</h3>
+                <h3>Origin Title: {story.title}
+                  <br></br>
+                  <strong>By:</strong> {story.author.username}</h3>
                 <p>{story.content}</p>
 
 
@@ -249,7 +253,11 @@ const Homepage: React.FC = () => {
                     <h4 style={{color:"whitesmoke"}}>🌱 Branches</h4>
                     {story.branches.map((branch) => (
                     <div key={branch._id} className="branch-entry">
-                    <p><strong>{branch.title}, By: {story.parentStory?.author?.username || "Unknown"}</strong></p>
+                    <p><strong> 🌱 Branched Universe 🌱 
+                       <br></br>
+                        <em>Title: {branch.title}</em>
+                        <br></br>
+                         By: {story.parentStory?.author?.username || "Unknown"}</strong></p>
                     <p>{branch.content}</p>
                  </div>
               ))}
