@@ -33,12 +33,3 @@ jobs:
 
       - name: 🚀 Trigger Render Deploy Hook
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-
-      - name: 📍 Mark GitHub Deployment (Optional Visual Badge)
-        uses: bobheadxi/deployments@v1
-        with:
-          step: finish
-          token: ${{ secrets.GITHUB_TOKEN }}
-          env: production
-          status: success
-          desc: Render deploy triggered successfully
