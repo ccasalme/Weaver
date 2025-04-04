@@ -10,9 +10,15 @@ body {
   overflow: auto;
   overflow-x: hidden;
   font-family: Arial, sans-serif;
+  box-sizing: border-box;
 }
 
-/* Core container that fills the viewport properly */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 #root {
   display: flex;
   flex-direction: column;
@@ -23,7 +29,33 @@ body {
   background: url("../assets/WireFrameBackground.png") center center / cover
     no-repeat fixed;
   overflow-x: hidden;
+  padding: 0 1rem; /* Small side padding for small devices */
 }
+
+/* ========================== */
+/* Media Queries */
+/* ========================== */
+
+@media (max-width: 480px) {
+  #root {
+    background-position: center top;
+    background-size: cover;
+    padding: 0 0.5rem;
+  }
+
+  html,
+  body {
+    font-size: 15px; /* Slightly smaller text base */
+  }
+}
+
+@media (max-width: 375px) {
+  #root {
+    background-attachment: scroll; /* fix janky "fixed" behavior on mobile Safari */
+  }
+}
+
+
 
 /* ========================== */
 /* 🎉 Page Container */
@@ -867,3 +899,105 @@ button:hover {
   padding-left: 1rem;
 }
 
+
+
+/* ========================== */
+/* 📱 Responsive Enhancements */
+/* ========================== */
+
+/* iPad Pro, Surface Pro, Medium Tablets */
+@media (max-width: 1024px) {
+  .story-feed {
+    padding: 60px;
+  }
+
+  .story-card h3 {
+    font-size: 1.75rem;
+  }
+
+  .modal {
+    max-width: 90%;
+  }
+}
+
+/* iPhone XR, iPhone 12 Pro, Pixel 7, Galaxy S20 */
+@media (max-width: 768px) {
+  .hero-banner,
+  .hero-banner-2 {
+    height: 220px;
+  }
+
+  .story-feed {
+    padding: 30px;
+  }
+
+  .story-card {
+    padding: 30px;
+  }
+
+  .modal {
+    padding: 1.5rem;
+  }
+
+  .tab-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* iPhone SE, Galaxy S8+, Folded Phones */
+@media (max-width: 480px) {
+  .story-feed {
+    padding: 15px;
+  }
+
+  .story-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .story-card p {
+    font-size: 0.95rem;
+  }
+
+  .modal {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+
+  button {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
+  .origin-block {
+    padding: 1rem;
+  }
+
+  .comment-card {
+    font-size: 0.9rem;
+  }
+}
+
+/* Ultra Small Screens (iPhone SE, Nest Hub Mini) */
+@media (max-width: 375px) {
+  .modal-title {
+    font-size: 1.2rem;
+  }
+
+  .modal-textarea {
+    font-size: 0.85rem;
+  }
+
+  .floating-create-btn {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+
+  .modal-backdrop h2 {
+    font-size: 1.4rem;
+  }
+
+  .story-card {
+    padding: 20px;
+  }
+}
