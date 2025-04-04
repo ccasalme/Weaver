@@ -437,7 +437,7 @@ textarea:focus {
 /* ========================== */
 /* 🌟 Modal Container */
 /* ========================== */
-/* 🌟 Modal Container */
+
 .add-comment-container,
 .branch-story-modal {
   display: flex;
@@ -482,7 +482,11 @@ textarea:focus {
   background-color: #45a049;
 }
 
+
+/* ========================== */
 /* 🌸 Mobile Responsiveness */
+/* ========================== */
+
 @media (max-width: 480px) {
   .add-comment-container,
   .branch-story-modal {
@@ -542,6 +546,56 @@ button:hover {
   background-color: #ddd;
   transform: translateY(-2px);
 }
+
+/* ========================== */
+/* 🌸 Mobile Responsiveness */
+/* ========================== */
+
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+
+  button {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 25px;
+    max-width: 90%;
+    margin-top: 15px;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 11px 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  .auth-container {
+    padding: 15px;
+  }
+
+  button {
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+}
+
+@media (hover: none) {
+  button:active {
+    transform: scale(0.98);
+  }
+}
+
+
 
 /* ========================== */
 /* 🌟 Modal Styles */
@@ -1185,10 +1239,6 @@ button:hover {
     filter: brightness(0.8);
   }
 }
-
-
-
-
 
 /* ========================== */
 /* 📱 Responsive DeleteStoryModal */
