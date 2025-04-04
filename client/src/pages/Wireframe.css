@@ -30,6 +30,7 @@ body {
     no-repeat fixed;
   overflow-x: hidden;
   padding: 0 1rem; /* Small side padding for small devices */
+  
 }
 
 /* ========================== */
@@ -55,8 +56,6 @@ body {
   }
 }
 
-
-
 /* ========================== */
 /* 🎉 Page Container */
 /* ========================== */
@@ -72,7 +71,31 @@ body {
   padding-top: 0;
   padding-bottom: 50px;
   margin: 0 auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
+
+
+/* ========================== */
+/* 🎉 Media Queries */
+/* ========================== */
+
+@media (max-width: 768px) {
+  .page-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-bottom: 20px;
+  }
+}
+
 
 /* ========================== */
 /* 🎯 Banner Styling - Full Width and Height Fix */
@@ -82,21 +105,55 @@ body {
   flex-direction: column;
   gap: 0px;
   width: 100%;
-  max-width: 1400px; /* ✅ Full width */
+  max-width: 1400px;
   height: auto;
   margin-bottom: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
 }
 
-/* Banners now take up full width properly */
 .hero-banner,
 .hero-banner-2 {
   width: 100%;
-  height: 400px; /* ✅ Increased height for better impact */
+  height: 400px;
   object-fit: cover;
-  border-radius: 12px; /* ✅ No rounded corners for full coverage */
+  border-radius: 12px;
 }
+
+
+/* ========================== */
+/* 🎉 Media Queries */
+/* ========================== */
+@media (max-width: 768px) {
+  .banner-container {
+    margin-bottom: 16px;
+    border-radius: 10px;
+  }
+
+  .hero-banner,
+  .hero-banner-2 {
+    height: 250px;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-container {
+    margin-bottom: 12px;
+    border-radius: 8px;
+  }
+
+  .hero-banner,
+  .hero-banner-2 {
+    height: 180px;
+    border-radius: 8px;
+  }
+}
+
+
+
 
 /* ========================== */
 /* 📚 Story Feed Styles */
@@ -107,28 +164,26 @@ body {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  max-width: 800px; /* ✅ Increased width for better readability */
+  max-width: 800px;
   height: auto;
   margin-top: 20px;
-  padding: 240px; /* ✅ Increased padding for breathing room */
+  padding: 240px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(84, 110, 162, 0.1);
   background-image: url("../assets/storycardBackground.png");
-  background-size: cover; /* ✅ Ensure full coverage */
-  background-repeat: no-repeat; /* ✅ Stop that repeat */
-  background-position: center; /* ✅ Center the background */
-  position: relative; /* ✅ To avoid weird scroll issues */
-  overflow: hidden; /* ✅ Hide overflow */
-
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
 }
 
-/* 🎯 Individual Story Card */
 .story-card {
   background-color: rgba(255, 255, 255, 0.95);
   padding: 100px;
   margin-bottom: 12px;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -137,14 +192,11 @@ body {
   gap: 10px;
   background-size: contain;
   margin: 20px auto;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 700px;
   background-image: url("../assets/PopupBackground.png");
 }
 
-/* Larger titles for better accessibility */
 .story-card h3 {
   font-size: 2rem;
   margin-bottom: 10px;
@@ -155,16 +207,67 @@ body {
 .story-card p {
   font-size: 1rem;
   color: white;
-  margin-left: 10px;
-  margin-right: 10px;
-  background: linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%);
+  margin: 0 10px;
   border-radius: 12px;
-  background-size: contain;
-  justify-content: center;
-  align-items: center;
   text-align: center;
+  background: linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%);
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
+
+
+/* ========================== */
+/* 🎉 Media Queries */
+/* ========================== */
+@media (max-width: 1024px) {
+  .story-feed {
+    padding: 120px;
+  }
+
+  .story-card {
+    padding: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .story-feed {
+    padding: 60px 20px;
+    margin-top: 10px;
+  }
+
+  .story-card {
+    padding: 40px 20px;
+    gap: 8px;
+  }
+
+  .story-card h3 {
+    font-size: 1.5rem;
+  }
+
+  .story-card p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .story-feed {
+    padding: 30px 15px;
+  }
+
+  .story-card {
+    padding: 30px 16px;
+    border-radius: 6px;
+  }
+
+  .story-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .story-card p {
+    font-size: 0.9rem;
+    padding: 5px;
+  }
+}
+
 
 /* ========================== */
 /* 💬 Comment Section */
@@ -187,6 +290,50 @@ body {
   font-size: 1rem;
 }
 
+
+/* ========================== */
+/* 🫧 Focus & Interaction Enhancements */
+/* ========================== */
+.comment-input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #00ffff;
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.comment-btn:active {
+  transform: scale(0.98);
+  background-color: #3fa03f;
+}
+
+/* Optional Ripple Glow for Submit Buttons */
+.comment-btn::after {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  animation: ripple-flash 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes ripple-flash {
+  0% {
+    box-shadow: 0 0 0px rgba(0, 255, 255, 0.6);
+    opacity: 1;
+  }
+  100% {
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0);
+    opacity: 0;
+  }
+}
+
+
 .comment-btn {
   padding: 12px 16px;
   background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
@@ -202,6 +349,20 @@ body {
   background-color: #45a049;
 }
 
+
+.comment-btn {
+  position: relative; /* 👈 Required for ripple animation */
+  padding: 12px 16px;
+  background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(66, 64, 64, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
 .comments-section {
   margin-top: 15px;
   width: 100%;
@@ -216,6 +377,66 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+
+/* ========================== */
+/* 🎉 Media Queries */
+/* ========================== */
+
+@media (max-width: 480px) {
+  .comment-input {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .comment-btn {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .comment-input-section {
+    padding: 0 10px;
+  }
+
+  .comment-input {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  .comment-btn {
+    font-size: 0.95rem;
+    padding: 10px 14px;
+  }
+
+  .comment-card {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .comment-input {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .comment-btn {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  .comment-card {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+
+
+/* ========================== */
+/* 🌟 Modal Container */
+/* ========================== */
 /* 🌟 Modal Container */
 .add-comment-container,
 .branch-story-modal {
@@ -240,6 +461,7 @@ body {
   border-radius: 8px;
   border: 1px solid #ccc;
   resize: none;
+  font-size: 1rem;
 }
 
 /* 🎉 Submit Button */
@@ -252,12 +474,36 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-size: 1rem;
 }
 
 .add-comment-container button:hover,
 .branch-story-modal button:hover {
   background-color: #45a049;
 }
+
+/* 🌸 Mobile Responsiveness */
+@media (max-width: 480px) {
+  .add-comment-container,
+  .branch-story-modal {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .add-comment-container textarea,
+  .branch-story-modal textarea,
+  .branch-story-modal input {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .add-comment-container button,
+  .branch-story-modal button {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+}
+
 
 /* ========================== */
 /* 🎯 Auth/Feed Container */
@@ -395,6 +641,66 @@ button:hover {
   min-height: 180px;
   resize: vertical;
 }
+
+
+/* ========================== */
+/* 📱 Responsive Delete Modal Styling */
+/* ========================== */
+@media (max-width: 768px) {
+  .modal-backdrop {
+    padding: 1rem;
+    align-items: flex-start; /* shift slightly up on mobile */
+  }
+
+  .modal {
+    width: 95% !important;
+    padding: 1.5rem !important;
+    font-size: 0.95rem;
+  }
+
+  .modal h2 {
+    font-size: 1.5rem !important;
+    padding: 0.5rem !important;
+  }
+
+  .modal p {
+    font-size: 1.1rem !important;
+    line-height: 1.4 !important;
+    white-space: pre-line;
+  }
+
+  .modal button {
+    font-size: 1rem !important;
+    padding: 0.6rem 0.9rem !important;
+    flex: 1;
+    width: 100%;
+  }
+
+  .modal div[style*="display: flex"] {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 1rem !important;
+  }
+
+  .modal h2 {
+    font-size: 1.2rem !important;
+  }
+
+  .modal p {
+    font-size: 1rem !important;
+  }
+
+  .modal button {
+    font-size: 0.95rem !important;
+    padding: 0.5rem !important;
+  }
+}
+
 
 .action-btn-group {
   display: flex;
@@ -844,10 +1150,14 @@ button:hover {
   left: 0;
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: radial-gradient(ellipse at center, rgba(255, 0, 0, 0.3), rgba(0, 0, 0, 0.95));
   backdrop-filter: blur(3px);
   z-index: 99999;
-  animation: multiverseCollapse 2.5s ease-out forwards;
+  animation: multiverseCollapse 10s ease-out forwards;
+  animation-fill-mode: forwards;
   pointer-events: none;
 }
 
@@ -875,6 +1185,84 @@ button:hover {
     filter: brightness(0.8);
   }
 }
+
+
+
+
+
+/* ========================== */
+/* 📱 Responsive DeleteStoryModal */
+/* ========================== */
+@media (max-width: 1024px) {
+  .modal {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .modal h2 {
+    font-size: 1.7rem;
+  }
+
+  .modal p {
+    font-size: 1.3rem;
+  }
+
+  .modal button {
+    font-size: 1.2rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal {
+    max-width: 95%;
+    padding: 1.2rem;
+  }
+
+  .modal h2 {
+    font-size: 1.5rem;
+  }
+
+  .modal p {
+    font-size: 1.1rem;
+  }
+
+  .modal button {
+    font-size: 1.1rem;
+    flex: 1 1 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .modal div {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 1rem;
+  }
+
+  .modal h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal p {
+    font-size: 1rem;
+  }
+
+  .modal button {
+    font-size: 1rem;
+    padding: 0.4rem 0.6rem;
+  }
+}
+
+
+
+/* ========================== */
+/* Origin */
+/** ========================== */
 
 .origin-block {
   background: rgba(0, 0, 0, 0.6);
