@@ -1,6 +1,7 @@
-// src/components/JoinUs.tsx
 import React, { useState } from "react";
-import "./Modal.css"; // Modal styles
+import { useMutation } from "@apollo/client";
+import { ADD_USER } from "../graphql/mutations";
+import "./Modal.css";
 
 interface JoinUsProps {
   onClose: () => void;
@@ -8,17 +9,20 @@ interface JoinUsProps {
 }
 
 const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
-  const [email, setEmail] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [fullName, setFullName] = useState<string>("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const [error, setError] = useState<string | null>(null);
+
+  const [addUser] = useMutation(ADD_USER);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email || !username || !password || !confirmPassword || !fullName) {
+    // Basic input validation
+    if (!email.trim() || !username.trim() || !password || !confirmPassword || !fullName.trim()) {
       setError("Please fill in all fields.");
       return;
     }
@@ -29,18 +33,30 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
     }
 
     try {
-      const userData = {
-        fullName,
-        username,
-        email,
-        password,
-      };
+      const { data } = await addUser({
+        variables: {
+          fullName: fullName.trim(),
+          username: username.trim(),
+          email: email.trim(),
+          password: password,
+        },
+      });
 
-      console.log("Saving user to the database:", userData);
-      alert("Account created successfully! 🎉");
-      onClose();
-    } catch {
-      setError("Error while creating account. Please try again.");
+      const token = data?.addUser?.token;
+      if (token) {
+        localStorage.setItem("id_token", token);
+        alert("Account created successfully! 🎉");
+        window.location.reload();
+      } else {
+        setError("Signup failed. No token returned.");
+      }
+    } catch (err: unknown) {
+      console.error("Signup error:", err);
+      if (err instanceof Error) {
+        setError(err.message || "Error while creating account. Please try again.");
+      } else {
+        setError("An unknown error occurred. Please try again.");
+      }
     }
   };
 
@@ -51,7 +67,7 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
           className="close-btn"
           type="button"
           aria-label="Close" 
-         onClick={onClose}
+          onClick={onClose}
           style={{
             background: "none",
             border: "none",
@@ -59,18 +75,27 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
             outline: "none",
             padding: 0,
             zIndex: 99999,
-        }}>
+          }}
+        >
           ❎
         </button>
+
         <h2
-          style={{color: "white", 
-          textAlign: "center",
-          background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
-          filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
-          padding: "10px",
-          borderRadius: "5px"}}>Join Weaver</h2>
-        {error && <p className="error">{error}</p>}
-        <form onSubmit={handleSignup}>
+          style={{
+            color: "white", 
+            textAlign: "center",
+            background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
+            filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e6262',endColorstr='#667a7e',GradientType=1)",
+            padding: "10px",
+            borderRadius: "5px"
+          }}
+        >
+          Join Weaver
+        </h2>
+
+        {error && <p className="error" role="alert" style={{ color: "salmon", textAlign: "center" }}>{error}</p>}
+
+        <form onSubmit={handleSignup} noValidate>
           <input
             type="text"
             placeholder="Full Name (First and Last)"
@@ -106,6 +131,7 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
+
           <button 
             type="submit"
             style={{
@@ -116,19 +142,26 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
               borderRadius: "50px",
               border: "none",
               cursor: "pointer"
-            }}>Sign Up</button>
+            }}
+          >
+            Sign Up
+          </button>
         </form>
+
         <p 
-        className="bottom-section"
-        style={{ 
-          color: "white",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "8px",
-          marginTop: "10px"}}>
+          className="bottom-section"
+          style={{ 
+            color: "white",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "8px",
+            marginTop: "10px"
+          }}
+        >
           Already have an account?{" "}
-          <button type="button" 
+          <button 
+            type="button" 
             onClick={switchToLogin}
             style={{
               background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
@@ -138,7 +171,8 @@ const JoinUs: React.FC<JoinUsProps> = ({ onClose, switchToLogin }) => {
               borderRadius: "50px",
               border: "none",
               cursor: "pointer"
-            }}>
+            }}
+          >
             Log in here.
           </button>
         </p>

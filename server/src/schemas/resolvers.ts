@@ -1,5 +1,8 @@
-import { User, Profile, Prompt, Story, Comment, Vote } from "../models/index.js";
 import { signToken } from "../utils/auth.js";
+import mongoose from "mongoose";
+import { User, Story, Profile, Comment, Vote, Prompt } from "../models/index.js";
+
+
 
 const resolvers = {
   Query: {
@@ -21,12 +24,85 @@ const resolvers = {
       if (!context.user) {
         throw new Error("You need to be logged in!");
       }
+    
       const profile = await Profile.findOne({ user: context.user._id })
-        .populate("user")
-        .populate("followers")
-        .populate("sharedStories")
-        .populate("branchedStories")
-        .populate("likedStories");
+        .populate({
+          path: "user",
+          select: "_id username email fullName"
+        })
+        .populate({
+          path: "followers",
+          select: "_id username email fullName"
+        })
+        .populate({
+          path: "following",
+          select: "_id username email fullName"
+        })
+        .populate({
+          path: "sharedStories",
+          populate: [
+            {
+              path: "comments",
+              populate: {
+                path: "author",
+                select: "_id username fullName"
+              }
+            },
+            {
+              path: "branches",
+              select: "_id title"
+            },
+            {
+              path: "parentStory",
+              select: "_id title"
+            }
+          ]
+        })
+        .populate({
+          path: "likedStories",
+          populate: [
+            {
+              path: "comments",
+              populate: {
+                path: "author",
+                select: "_id username fullName"
+              }
+            },
+            {
+              path: "branches",
+              select: "_id title"
+            },
+            {
+              path: "parentStory",
+              select: "_id title"
+            }
+          ]
+        })
+        .populate({
+          path: "branchedStories",
+          populate: [
+            {
+              path: "comments",
+              populate: {
+                path: "author",
+                select: "_id username fullName"
+              }
+            },
+            {
+              path: "branches",
+              select: "_id title"
+            },
+            {
+              path: "parentStory",
+              select: "_id title"
+            }
+          ]
+        });
+    
+      if (!profile) {
+        throw new Error("Profile not found. Something went wrong.");
+      }
+    
       return profile;
     },
 
@@ -35,12 +111,48 @@ const resolvers = {
       return await Prompt.find();
     },
 
+///////////////////////////////////
+//Cyrl's notes: this addition prevents the negative count
+//prevents crazy re-rendering upon retrieval of stories in real time
+//limits the number of stories loaded at a time to prevent crashing
+//this is a good practice for performance and safeguard additional feature
+///////////////////////////////////
+
+
     // Retrieve all stories, including author and comments
-    getStories: async () => {
-      return await Story.find().populate("author").populate("comments");
+    getStories: async (_: any, { offset = 0, limit = 10 }: { offset: number; limit: number }) => {
+      return await Story.find()
+        .sort({ createdAt: -1 })
+        .skip(offset)
+        .limit(limit)
+        .populate("author")
+        .populate({
+          path: "comments",
+          populate: { path: "author" }, // populates comment authors
+        })
+        .populate({
+          path: "branches",
+          populate: [
+            { path: "author" }, // populates branch authors
+            {
+              path: "comments",
+              populate: { path: "author" }, // populates branch comment authors
+            },
+          ],
+        }) // populates branched stories
+        .populate({
+          path: "parentStory",
+          populate: [
+            { path: "author" }, // populates parent story author
+            {
+              path: "comments",
+              populate: { path: "author" }, // populates parent story comment authors
+            },
+          ],
+        }); // populates parent stories
     },
   },
-
+  
   Mutation: {
     // Login an existing user and return a JWT token
     login: async (
@@ -130,28 +242,59 @@ const resolvers = {
       return branchedStory;
     },
 
-    // Like a story and add it to the user's liked stories
-    likeStory: async (
-      _: any,
-      { storyId }: { storyId: string },
-      context: any
-    ) => {
-      if (!context.user) throw new Error("You need to be logged in!");
 
-      const story = await Story.findById(storyId);
-      if (!story) throw new Error("Story not found");
+//////////////////////////////////////////
+//Cyrl's notes: this change prevents the negative count
+  //prevents spam likes
+  //ensures that the user can only like a story once
+  //ensures that the user can unlike a story
+  //ensures that it gets saved to the database and profile
+  //if the user already liked the story, it will be unliked
+  //if the user has not liked the story, it will be liked
+  //if not logged in, it will throw an error
+//////////////////////////////////////////
 
-      story.likes++;
+  // Like a story and add/remove it from the user's liked stories
+  likeStory: async (
+    _: any,
+    { storyId }: { storyId: string },
+    context: any
+  ) => {
+    if (!context.user) throw new Error("You need to be logged in!");
+  
+    const story = await Story.findById(storyId);
+    if (!story) throw new Error("Story not found");
+  
+    const profile = await Profile.findOne({ user: context.user._id });
+    if (!profile) throw new Error("Profile not found");
+  
+    const hasLiked = profile.likedStories.some(
+      (likedId) => likedId.toString() === (story._id as mongoose.Types.ObjectId).toString()
+    );
+  
+    if (hasLiked) {
+      // ✅ Unlike logic
+      story.likes = Math.max(0, (story.likes || 0) - 1);
       await story.save();
-
-      await Profile.findOneAndUpdate(
+  
+      await Profile.updateOne(
+        { user: context.user._id },
+        { $pull: { likedStories: story._id } }
+      );
+    } else {
+      // ✅ Like logic
+      story.likes = (story.likes || 0) + 1;
+      await story.save();
+  
+      await Profile.updateOne(
         { user: context.user._id },
         { $addToSet: { likedStories: story._id } }
       );
-
-      return story;
-    },
-
+    }
+  
+    return story;
+  },
+  
     // Add a comment to a story
     addComment: async (
       _: any,
@@ -159,6 +302,11 @@ const resolvers = {
       context: any
     ) => {
       if (!context.user) throw new Error("You need to be logged in!");
+
+        // Safety check to prevent null/empty comments from being saved
+      if (!content || content.trim().length === 0) {
+        throw new Error("Comment content cannot be empty.");
+      }
 
       const comment = await Comment.create({
         content,
@@ -170,7 +318,9 @@ const resolvers = {
         $push: { comments: comment._id },
       });
 
-      return comment;
+      const populatedComment = await comment.populate({path: "author", select: "_id username"});
+
+      return populatedComment;
     },
 
      // Delete a story and related comments (but not branched stories)
@@ -237,6 +387,48 @@ const resolvers = {
 
       return newVote;
     },
+
+    // Follow and Unfollow a user
+// In your resolvers.ts
+
+followUser: async (_: any, { targetUserId }: { targetUserId: string }, context: any) => {
+  if (!context.user) throw new Error("You must be logged in to follow users.");
+
+  const myProfile = await Profile.findOne({ user: context.user._id });
+  const targetProfile = await Profile.findOne({ user: targetUserId });
+
+  if (!myProfile || !targetProfile) throw new Error("Profile not found.");
+
+  // Prevent duplicates using $addToSet
+  await Profile.updateOne(
+    { user: targetUserId },
+    { $addToSet: { followers: context.user._id } }
+  );
+
+  await Profile.updateOne(
+    { user: context.user._id },
+    { $addToSet: { following: targetUserId } }
+  );
+
+  return await User.findById(targetUserId);
+},
+
+unfollowUser: async (_: any, { targetUserId }: { targetUserId: string }, context: any) => {
+  if (!context.user) throw new Error("You must be logged in to unfollow users.");
+
+  await Profile.updateOne(
+    { user: targetUserId },
+    { $pull: { followers: context.user._id } }
+  );
+
+  await Profile.updateOne(
+    { user: context.user._id },
+    { $pull: { following: targetUserId } }
+  );
+
+  return await User.findById(targetUserId);
+},
+
   },
 };
 

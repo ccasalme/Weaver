@@ -12,6 +12,7 @@ const typeDefs = `
     bio: String
     avatar: String
     followers: [User]
+    following: [User]
     sharedStories: [Story]
     branchedStories: [Story]
     likedStories: [Story]
@@ -19,7 +20,7 @@ const typeDefs = `
 
   type Story {
     _id: ID!
-    title: String!
+    title: String
     content: String!
     author: User!
     likes: Int
@@ -30,7 +31,7 @@ const typeDefs = `
 
   type Comment {
     _id: ID!
-    content: String!
+    content: String
     author: User!
     story: Story!
   }
@@ -64,7 +65,7 @@ const typeDefs = `
     me: User
     myProfile: Profile
     getPrompts: [Prompt]
-    getStories: [Story]
+    getStories(offset: Int, limit: Int): [Story]
   }
 
   type Mutation {
@@ -73,9 +74,12 @@ const typeDefs = `
     createStory(title: String!, content: String!): Story!
     branchStory(storyId: ID!, title: String!, content: String!): Story!
     likeStory(storyId: ID!): Story!
+    unlikeStory(storyId: ID!): Story!
     addComment(storyId: ID!, content: String!): Comment!
     deleteStory(storyId: ID!): Story!
     voteStory(storyId: ID!, voteType: VoteType): Vote!
+    followUser(targetUserId: ID!): User!
+    unfollowUser(targetUserId: ID!): User!
   }
 `;
 

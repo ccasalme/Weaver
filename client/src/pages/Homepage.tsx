@@ -1,5 +1,5 @@
 // src/pages/Homepage.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import "./Wireframe.css";
 import Login from "../components/Login";
@@ -8,287 +8,462 @@ import OOPSModal from "../components/OOPSModal";
 import AddComment from "../components/AddComment";
 import BranchStory from "../components/BranchStory";
 import CreateStory from "../components/CreateStory";
+import DeleteStoryModal from "../components/DeleteStoryModal";
 import HeroBanner from "../assets/weaverBanner.png";
 import SecondBanner from "../assets/weaverBanner2.png";
-import { GET_STORIES } from "../graphql/queries";
-import { LIKE_STORY } from "../graphql/mutations";
+import { GET_STORIES, GET_ME, GET_MY_PROFILE } from "../graphql/queries";
+import { LIKE_STORY, FOLLOW_USER } from "../graphql/mutations";
 
 interface Story {
   _id: string;
   title: string;
   content: string;
-  author: {
-    username: string;
-  };
   likes: number;
-  comments: Comment[];
-}
-
-interface Comment {
-  _id: string;
-  content: string;
-  author: {
-    username: string;
-  };
+  author: { _id: string; username: string };
+  comments: {
+    _id: string;
+    content: string;
+    author: { _id: string; username: string };
+  }[];
+  branches?: Story[];
+  parentStory?: Story | null;
 }
 
 const Homepage: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [showLogin, setShowLogin] = useState<boolean>(false);
-  const [showJoinUs, setShowJoinUs] = useState<boolean>(false);
-  const [showOopsModal, setShowOopsModal] = useState<boolean>(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showJoinUs, setShowJoinUs] = useState(false);
+  const [showOopsModal, setShowOopsModal] = useState(false);
   const [activeStoryId, setActiveStoryId] = useState<string | null>(null);
   const [branchStoryId, setBranchStoryId] = useState<string | null>(null);
-  const [showCreateStory, setShowCreateStory] = useState<boolean>(false);
+  const [showCreateStory, setShowCreateStory] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [storyToDelete, setStoryToDelete] = useState<string | null>(null);
+  const [stories, setStories] = useState<Story[]>([]);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
-  }, []);
+  const storyContainerRef = useRef<HTMLDivElement>(null);
 
-  const { loading, error, data, refetch } = useQuery<{ getStories: Story[] }>(
-    GET_STORIES
-  );
+  const { data: meData } = useQuery(GET_ME);
+  const { data: profileData } = useQuery(GET_MY_PROFILE);
+  const isUserLoggedIn = !!meData?.me;
+  const currentUserId = meData?.me?._id || null;
+  const followingIds = profileData?.myProfile?.following?.map((f: { _id: string }) => f._id) || [];
+
+  const { data, fetchMore, refetch } = useQuery(GET_STORIES, {
+    variables: { offset: 0, limit: 6 },
+    fetchPolicy: "network-only",
+  });
 
   const [likeStory] = useMutation(LIKE_STORY, {
     onCompleted: () => refetch(),
   });
 
+  const [followUser] = useMutation(FOLLOW_USER, {
+    update(cache, { data }) {
+      const existing = cache.readQuery<{ myProfile: { following: { _id: string }[] } }>({
+        query: GET_MY_PROFILE,
+      });
+
+      if (existing && data?.followUser) {
+        const alreadyFollowing = existing.myProfile.following.some(
+          (f) => f._id === data.followUser._id
+        );
+
+        if (!alreadyFollowing) {
+          cache.writeQuery({
+            query: GET_MY_PROFILE,
+            data: {
+              myProfile: {
+                ...existing.myProfile,
+                following: [...existing.myProfile.following, data.followUser],
+              },
+            },
+          });
+        }
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (data?.getStories) {
+      setStories((prev) => {
+        const seen = new Set<string>();
+        const merged = [...data.getStories, ...prev].filter((s) => {
+          if (seen.has(s._id)) return false;
+          seen.add(s._id);
+          return true;
+        });
+        return merged;
+      });
+    }
+  }, [data]);
+
+  const handleScroll = useCallback(() => {
+    if (!storyContainerRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = storyContainerRef.current;
+
+    if (scrollTop + clientHeight >= scrollHeight - 100) {
+      fetchMore({
+        variables: { offset: stories.length, limit: 6 },
+      })
+        .then((res) => {
+          const newStories = res.data.getStories;
+          setStories((prev) => {
+            const seen = new Set<string>();
+            const merged = [...prev, ...newStories].filter((s) => {
+              if (seen.has(s._id)) return false;
+              seen.add(s._id);
+              return true;
+            });
+            return merged;
+          });
+        })
+        .catch((err) => console.error("Scroll Fetch Error:", err));
+    }
+  }, [fetchMore, stories]);
+
   const handleLikeClick = async (storyId: string) => {
+    if (!isUserLoggedIn) return setShowOopsModal(true);
     try {
       await likeStory({ variables: { storyId } });
-      console.log("Story liked!");
-    } catch (error) {
-      console.error("Error liking story:", error);
+    } catch (err) {
+      console.error("Error liking:", err);
     }
   };
 
-  const openAddCommentModal = (storyId: string) => {
-    if (!isAuthenticated) {
-      setShowOopsModal(true);
-      return;
-    }
-    setActiveStoryId(storyId);
-  };
-
-  const openBranchModal = (storyId: string) => {
-    if (!isAuthenticated) {
-      setShowOopsModal(true);
-      return;
-    }
-    setBranchStoryId(storyId);
-  };
-
-  const handleCreateClick = () => {
-    if (!isAuthenticated) {
-      setShowOopsModal(true);
-    } else {
-      setShowCreateStory(true);
+  const handleFollowClick = async (userId: string) => {
+    if (!isUserLoggedIn) return setShowOopsModal(true);
+    try {
+      await followUser({ variables: { targetUserId: userId } });
+    } catch (err) {
+      console.error("Follow failed:", err);
     }
   };
 
-  if (loading) return <p>Loading stories... 📚</p>;
-  if (error) return <p>Error loading stories: {error.message}</p>;
+  const handleThread = (id: string) => {
+    if (!isUserLoggedIn) return setShowOopsModal(true);
+    setActiveStoryId(id);
+  };
+
+  const handleBranch = (id: string) => {
+    if (!isUserLoggedIn) return setShowOopsModal(true);
+    setBranchStoryId(id);
+  };
+
+  const handleDelete = (id: string) => {
+    if (!isUserLoggedIn) return setShowOopsModal(true);
+    setStoryToDelete(id);
+    setShowDeleteModal(true);
+  };
 
   return (
-    <div className="page-container">
-      {/* ✅ Hero Banners */}
+    <div className="page-container" ref={storyContainerRef} onScroll={handleScroll}>
       <div className="banner-container">
         <img src={HeroBanner} alt="Weaver Banner" className="hero-banner" />
-        <img
-          src={SecondBanner}
-          alt="Weaver Banner 2"
-          className="hero-banner-2"
-        />
+        <img src={SecondBanner} alt="Weaver Banner 2" className="hero-banner-2" />
       </div>
 
-      {/* ✅ Auth Buttons */}
-      {!isAuthenticated && (
+      {!isUserLoggedIn && (
         <div className="auth-container">
-          <h2
-            style={{
-              color: "white",
-              textAlign: "center",
-              background:
-                "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
-              padding: "10px",
-              borderRadius: "5px",
-            }}
-          >
-            Welcome to Weaver!
-          </h2>
-          <p style={{ color: "white", textAlign: "center" }}>
-            Join us to explore, create, and engage with stories.
-          </p>
-
-          <button onClick={() => setShowLogin(true)} className="login-btn">
-            Login
-          </button>
-          <button onClick={() => setShowJoinUs(true)} className="join-btn">
-            Join Us
-          </button>
+          <h2 className="auth-title"
+                      style={{
+                        color: "white",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        display: "block",
+                        padding: "2rem 2rem",
+                        textAlign: "center",
+                        fontSize: "2rem",
+                        fontWeight: "bold",
+                        textTransform: "uppercase",
+                        textShadow: "0 0 20px rgba(18, 44, 55, 0.2)",
+                        letterSpacing: "0.1em",
+                        marginBottom: "0rem",
+                        marginTop: "0rem",
+                        width: "100%",
+                        boxShadow: "0 0 20px rgba(255,255,255,0.2)",
+                        margin: "5rem 5rem",
+                      }}
+          >Welcome to Weaver!</h2>
+          <p className="auth-text"
+                                style={{
+                                  color: "white",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  display: "block",
+                                  padding: "2rem 2rem",
+                                  textAlign: "center",
+                                  fontSize: "2rem",
+                                  fontWeight: "bold",
+                                  textTransform: "uppercase",
+                                  letterSpacing: "0.1em",
+                                  marginBottom: "0rem",
+                                  marginTop: "0rem",
+                                  width: "100%",
+                                  margin: "5rem 5rem",
+                                  textShadow: "0 0 20px rgba(18, 44, 55, 0.2)",
+                                }}>Join us to explore, create, and engage with stories.</p>
+          <button onClick={() => setShowLogin(true)} className="login-btn"
+                                              style={{
+                                                marginBottom: "1rem",
+                                                backgroundColor: "#444",
+                                                color: "#333",
+                                                padding: "1rem 1rem",
+                                                borderRadius: "6px",
+                                                border: "none",
+                                                cursor: "pointer",
+                                                fontWeight: "bold",
+                                                fontSize: "1.5rem",
+                                                boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                                                transition: "background-color 0.3s ease"
+                                              }}
+            >Login</button>
+          <button onClick={() => setShowJoinUs(true)} className="join-btn"
+                                              style={{
+                                                marginBottom: "1rem",
+                                                backgroundColor: "#444",
+                                                color: "#333",
+                                                padding: "1rem 1rem",
+                                                borderRadius: "6px",
+                                                border: "none",
+                                                cursor: "pointer",
+                                                fontWeight: "bold",
+                                                fontSize: "1.5rem",
+                                                boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                                                transition: "background-color 0.3s ease"
+                                              }}
+            >Join Us</button>
         </div>
       )}
 
-      {/* ✅ Create Button on Top of Feed */}
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
+      <div style={{ textAlign: "center", margin: "2rem 0" }}>
         <button
-          onClick={handleCreateClick}
-          className="create-btn"
+          onClick={() => {
+            if (!isUserLoggedIn) return setShowOopsModal(true);
+            setShowCreateStory(true);
+          }}
           style={{
-            background:
-              "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
-            color: "white",
-            padding: "10px 20px",
-            borderRadius: "50px",
+            background: "#fff",
+            padding: "3.5rem 2.5rem",
+            borderRadius: "6px",
             border: "none",
             cursor: "pointer",
+            fontWeight: "bold",
+            backgroundColor: "#ccc",
+            color: "#333",
+            fontSize: "1.5rem",
+            boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+            transition: "background-color 0.3s ease"
           }}
         >
-          ➕ Create New Origin
+          + Create a New Origin
         </button>
       </div>
 
-      {/* ✅ Story Feed */}
       <div className="story-feed">
-        <h2
+        <h2 className="story-feed-title"
           style={{
             color: "white",
+            background: "linear-gradient(to right, #3e5151,rgb(150, 137, 113))",
+            padding: "1rem 1.5rem",
+            borderRadius: "12px",
             textAlign: "center",
-            background:
-              "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
-            padding: "10px",
-            borderRadius: "5px",
+            fontSize: "3rem",
+            fontWeight: "bold",
+            textTransform: "uppercase",
+            textShadow: "1px 1px 5px black",
+            letterSpacing: "0.1em",
+            marginBottom: "2.5rem",
+            boxShadow: "0 0 20px rgba(255,255,255,0.2)",
+            
           }}
-        >
-          Recent Stories 📚
-        </h2>
+        >Recent Stories 📚</h2>
+        {stories.length ? (
+          stories.map((story) => (
+            <div key={story._id} 
+            className="story-card"
+            style={{
+                color: "white",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                borderRadius: "12px",
+                justifyContent: "center",
+                alignItems: "center",
+                display: "block",
+                padding: "2rem 2rem",
+                textAlign: "center",
+                fontSize: "2rem",
+                fontWeight: "bold",
+                textTransform: "uppercase",
+                textShadow: "1px 1px 5px black",
+                letterSpacing: "0.1em",
+                marginBottom: "0rem",
+                marginTop: "0rem",
+                width: "100%",
+                backgroundColor: "#444",
+                boxShadow: "0 0 20px rgba(255,255,255,0.2)",
+                margin: "5rem 5rem",
+              }}>
+              <h3>
+                <strong>Most Recent Post:</strong> 
+                <br></br> 
+                <br></br>{story.title} || <strong>By:</strong> @{story.author.username}</h3>
+                {isUserLoggedIn && story.author._id !== currentUserId && (
+                  <span style={{ marginLeft: "10px" }}>
+                    {followingIds.includes(story.author._id) ? (
+                      <span style={{ color: "limegreen" }}>✅ Following</span>
+                    ) : (
+                      <button onClick={() => handleFollowClick(story.author._id)}>
+                        ➕ Follow
+                      </button>
+                    )}
+                  </span>
+                )}
+              <p
+              style={{
+                boxShadow: "0 0 20px rgba(255,255,255,0.2)",
+              }}>{story.content}</p>
+              <div className="origin-block">
+                <h3>{story.title} || <strong>By:</strong> {story.author.username}</h3>
+                <p>{story.content}</p>
 
-        {Array.isArray(data?.getStories) && data.getStories.length > 0 ? (
-          data.getStories.map((story) => (
-            <div key={story._id} className="story-card">
-              <h3>{story.title}</h3>
-              <p>{story.content}</p>
-              <p>
-                <strong>By:</strong> {story.author.username}
-              </p>
 
-              {/* ✅ Grouped Action Buttons */}
+              {/* If it has a parent origin */}
+                {story.parentStory && (
+                <div className="origin-details">
+                  <h4 style={{color:"whitesmoke"}}>🌌 Origin Universe</h4>
+                    <p><strong>{story.parentStory.title}, 
+                      <br></br>
+                      <em>By: {story.parentStory.author.username}</em></strong>
+                      <br></br>
+                      <br></br>
+                      🕸️🕸️🕸️
+                      <br></br>
+                      <br></br>
+                      {story.parentStory.content}
+                      </p>
+
+              </div>
+                )}
+
+              {/* Branches if they exist */}
+              {story.branches && story.branches.length > 0 && (
+                <div className="origin-branches">
+                    <h4 style={{color:"whitesmoke"}}>🌱 Branches</h4>
+                    {story.branches.map((branch) => (
+                    <div key={branch._id} className="branch-entry">
+                    <p><strong>{branch.title}, By: {story.parentStory?.author?.username || "Unknown"}</strong></p>
+                    <p>{branch.content}</p>
+                 </div>
+              ))}
+                </div>
+    )}
+        </div>
+
               <div className="action-btn-group">
-                <button
-                  onClick={() => handleLikeClick(story._id)}
-                  className="like-btn"
-                >
-                  ❤️ Vote ({story.likes || 0})
-                </button>
-
-                <button
-                  onClick={() => openBranchModal(story._id)}
-                  className="branch-btn"
-                >
-                  🌱 Branch
-                </button>
-
-                <button
-                  onClick={() => openAddCommentModal(story._id)}
-                  className="comment-btn"
-                >
-                  💬 Add a thread to the origin!
-                </button>
+                <button onClick={() => handleLikeClick(story._id)}
+                                                    style={{
+                                                      marginBottom: "1rem",
+                                                      backgroundColor: "#444",
+                                                      color: "#333",
+                                                      padding: "1rem 1rem",
+                                                      borderRadius: "6px",
+                                                      border: "none",
+                                                      cursor: "pointer",
+                                                      fontWeight: "bold",
+                                                      fontSize: "1.5rem",
+                                                      boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                                                      transition: "background-color 0.3s ease"
+                                                    }}>❤️ Vote ({story.likes || 0})</button>
+                <button onClick={() => handleBranch(story._id)}
+                                                    style={{
+                                                      marginBottom: "1rem",
+                                                      backgroundColor: "#444",
+                                                      color: "#333",
+                                                      padding: "1rem 1rem",
+                                                      borderRadius: "6px",
+                                                      border: "none",
+                                                      cursor: "pointer",
+                                                      fontWeight: "bold",
+                                                      fontSize: "1.5rem",
+                                                      boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                                                      transition: "background-color 0.3s ease"
+                                                    }}>🌱 Branch</button>
+                <button onClick={() => handleThread(story._id)}
+                                  style={{
+                                    marginBottom: "1rem",
+                                    backgroundColor: "#444",
+                                    color: "#333",
+                                    padding: "1rem 1rem",
+                                    borderRadius: "6px",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    fontWeight: "bold",
+                                    fontSize: "1.5rem",
+                                    boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
+                                    transition: "background-color 0.3s ease"
+                                  }}>💬 Thread</button>
+                {isUserLoggedIn && currentUserId === story.author._id && (
+                  <button onClick={() => handleDelete(story._id)}
+                  style={{
+                    padding: "0.5rem 1rem",
+                    backgroundColor: "#ccc",
+                    color: "#333",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                    fontSize: "1.5rem",
+                    boxShadow: "0 0 10px rgba(246, 32, 32, 0.4)",
+                    transition: "background-color 0.3s ease"
+                  }}>🗑️ Delete</button>
+                )}
               </div>
 
-              {/* ✅ Comments */}
               <div className="comments-section">
-                {story.comments && story.comments.length > 0 ? (
-                  story.comments.map((comment) => (
-                    <div key={comment._id} className="comment-card">
-                      <p>
-                        <strong>{comment.author.username}:</strong>{" "}
-                        {comment.content}
-                      </p>
+                <h3>🧵🕸️Threads🕷️🕸️🧵</h3>
+                {story.comments.length ? (
+                  story.comments.map((c) => (
+                    <div key={c._id} className="comment-card">
+                      <p><strong>By: @{c.author.username}:</strong>
+                      <br></br>
+                      <br></br> 
+                      🕸️🕸️🕸️
+                      <br></br>
+                      <br></br>
+                      {c.content}</p>
                     </div>
                   ))
                 ) : (
-                  <p style={{color: "white"}}>No threads to the origin yet. Be the first to thread! 💬</p>
+                  <p style={{ color: "#ccc" }}>No threads yet.</p>
                 )}
               </div>
             </div>
           ))
         ) : (
-          <p style={{color: "white",
-            padding: "10px",
-            borderRadius: "5px",
-            background: "linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%)",
-            textAlign: "center",
-            marginTop: "20px",
-            marginBottom: "20px",
-            fontSize: "2.5em",
-            fontWeight: "bold",
-            lineHeight: "1.5em",
-            letterSpacing: "0.05em",
-            textTransform: "uppercase",
-            fontFamily: "Arial, sans-serif",
-            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-            transition: "all 0.3s ease"
-          }}>No Origin Multiverses available. Start by creating one! 📚</p>
+          <p className="no-stories-msg">No Origin Multiverses available. Start one! 📚</p>
         )}
       </div>
 
-      {/* ✅ Modals */}
-      {showLogin && (
-        <Login
-          onClose={() => setShowLogin(false)}
-          switchToJoinUs={() => {
-            setShowLogin(false);
-            setShowJoinUs(true);
+      {/* Modals */}
+      {showLogin && <Login onClose={() => setShowLogin(false)} switchToJoinUs={() => { setShowLogin(false); setShowJoinUs(true); }} />}
+      {showJoinUs && <JoinUs onClose={() => setShowJoinUs(false)} switchToLogin={() => { setShowJoinUs(false); setShowLogin(true); }} />}
+      {showOopsModal && <OOPSModal onClose={() => setShowOopsModal(false)} switchToLogin={() => { setShowOopsModal(false); setShowLogin(true); }} switchToJoinUs={() => { setShowOopsModal(false); setShowJoinUs(true); }} />}
+      {activeStoryId && <AddComment storyId={activeStoryId} onClose={() => setActiveStoryId(null)} />}
+      {branchStoryId && <BranchStory parentStoryId={branchStoryId} onClose={() => setBranchStoryId(null)} />}
+      {showCreateStory && <CreateStory onClose={() => setShowCreateStory(false)} />}
+      {showDeleteModal && storyToDelete && (
+        <DeleteStoryModal
+          storyId={storyToDelete}
+          onClose={() => {
+            setShowDeleteModal(false);
+            setStoryToDelete(null);
+          }}
+          onDeleted={() => {
+            setShowDeleteModal(false);
+            setStoryToDelete(null);
+            refetch();
           }}
         />
-      )}
-
-      {showJoinUs && (
-        <JoinUs
-          onClose={() => setShowJoinUs(false)}
-          switchToLogin={() => {
-            setShowJoinUs(false);
-            setShowLogin(true);
-          }}
-        />
-      )}
-
-      {showOopsModal && (
-        <OOPSModal
-          onClose={() => setShowOopsModal(false)}
-          switchToLogin={() => {
-            setShowOopsModal(false);
-            setShowLogin(true);
-          }}
-          switchToJoinUs={() => {
-            setShowOopsModal(false);
-            setShowJoinUs(true);
-          }}
-        />
-      )}
-
-      {activeStoryId && (
-        <AddComment
-          storyId={activeStoryId}
-          onClose={() => setActiveStoryId(null)}
-        />
-      )}
-
-      {branchStoryId && (
-        <BranchStory
-          parentStoryId={branchStoryId}
-          onClose={() => setBranchStoryId(null)}
-        />
-      )}
-
-      {showCreateStory && (
-        <div className="modal-backdrop" onClick={() => setShowCreateStory(false)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <CreateStory onClose={() => setShowCreateStory(false)} />
-          </div>
-        </div>
       )}
     </div>
   );
