@@ -267,59 +267,26 @@ const Homepage: React.FC = () => {
               <div className="action-btn-group">
                 <button onClick={() => handleLikeClick(story._id)}
                                                     style={{
-                                                      marginBottom: "1rem",
-                                                      backgroundColor: "#444",
                                                       color: "#333",
-                                                      padding: "1rem 1rem",
-                                                      borderRadius: "6px",
-                                                      border: "none",
-                                                      cursor: "pointer",
-                                                      fontWeight: "bold",
-                                                      fontSize: "1.5rem",
-                                                      boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                                                      transition: "background-color 0.3s ease"
-                                                    }}>❤️ Vote ({story.likes || 0})</button>
+                                                      fontWeight: "bold"
+                                                    }}
+                                                    >❤️ Vote ({story.likes || 0})</button>
                 <button onClick={() => handleBranch(story._id)}
                                                     style={{
-                                                      marginBottom: "1rem",
-                                                      backgroundColor: "#444",
                                                       color: "#333",
-                                                      padding: "1rem 1rem",
-                                                      borderRadius: "6px",
-                                                      border: "none",
-                                                      cursor: "pointer",
                                                       fontWeight: "bold",
-                                                      fontSize: "1.5rem",
-                                                      boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                                                      transition: "background-color 0.3s ease"
                                                     }}>🌱 Branch</button>
                 <button onClick={() => handleThread(story._id)}
                                   style={{
-                                    marginBottom: "1rem",
-                                    backgroundColor: "#444",
                                     color: "#333",
-                                    padding: "1rem 1rem",
-                                    borderRadius: "6px",
-                                    border: "none",
-                                    cursor: "pointer",
                                     fontWeight: "bold",
-                                    fontSize: "1.5rem",
-                                    boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                                    transition: "background-color 0.3s ease"
                                   }}>💬 Thread</button>
                 {isUserLoggedIn && currentUserId === story.author._id && (
                   <button onClick={() => handleDelete(story._id)}
                   style={{
-                    padding: "0.5rem 1rem",
-                    backgroundColor: "#ccc",
                     color: "#333",
-                    border: "none",
-                    borderRadius: "4px",
-                    cursor: "pointer",
                     fontWeight: "bold",
-                    fontSize: "1.5rem",
                     boxShadow: "0 0 10px rgba(246, 32, 32, 0.4)",
-                    transition: "background-color 0.3s ease"
                   }}>🗑️ Delete</button>
                 )}
               </div>

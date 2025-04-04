@@ -1035,7 +1035,7 @@ button:hover {
 
 
 /* ========================== */
-/* 👀 Profile Actions */
+/* 👀 Action button group */
 /* ========================== */
 .action-btn-group {
   display: flex;
@@ -1129,6 +1129,60 @@ button:hover {
   background-color: #ccc;
   transform: scale(1.05);
 }
+
+.action-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.action-btn-group button {
+  background-color: #444;
+  color: #eee;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1rem;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.action-btn-group button:hover {
+  background-color: #555;
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+}
+
+.action-btn-group .delete-btn {
+  background-color: #ccc;
+  color: #333;
+  box-shadow: 0 0 10px rgba(246, 32, 32, 0.4);
+}
+
+.action-btn-group .delete-btn:hover {
+  background-color: #e06666;
+  color: white;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+@media (max-width: 768px) {
+  .action-btn-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .action-btn-group button {
+    width: 100%;
+    max-width: 300px;
+    font-size: 1rem;
+  }
+}
+
+
 
 /* ========================== */
 /* 📱 Responsive Profile Actions */
