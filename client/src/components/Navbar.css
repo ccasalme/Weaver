@@ -85,7 +85,7 @@
     z-index: 2000;
     overflow-y: auto;
     max-height: 80vh;
-    background-image: url('../assets/PopUpBackground.png');
+    background-image: url('../assets/PopupBackground.png');
 }
 
 /* Smaller Menu Link Styles */
