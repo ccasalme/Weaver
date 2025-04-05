@@ -14,21 +14,6 @@ import SecondBanner from "../assets/weaverBanner2.png";
 import { GET_STORIES, GET_ME, GET_MY_PROFILE } from "../graphql/queries";
 import { LIKE_STORY, FOLLOW_USER } from "../graphql/mutations";
 
-interface Story {
-  _id: string;
-  title: string;
-  content: string;
-  likes: number;
-  author: { _id: string; username: string };
-  comments: {
-    _id: string;
-    content: string;
-    author: { _id: string; username: string };
-  }[];
-  branches?: Story[];
-  parentStory?: Story | null;
-}
-
 interface Author {
   _id: string;
   username: string;
@@ -51,7 +36,6 @@ interface Story {
   parentStory?: Story | null;
 }
 
-
 const Homepage: React.FC = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showJoinUs, setShowJoinUs] = useState(false);
@@ -62,14 +46,13 @@ const Homepage: React.FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [storyToDelete, setStoryToDelete] = useState<string | null>(null);
   const [stories, setStories] = useState<Story[]>([]);
-  const displayName = (user?: { username?: string }) => {
-    return user?.username?.trim()
-  };
-  
+  // Removed unused state variable 'followedUserId'
+  const displayName = (user?: { username?: string }) => user?.username?.trim();
+
   const storyContainerRef = useRef<HTMLDivElement>(null);
 
   const { data: meData } = useQuery(GET_ME);
-  const { data: profileData } = useQuery(GET_MY_PROFILE);
+  const { data: profileData, refetch: refetchProfile } = useQuery(GET_MY_PROFILE);
   const isUserLoggedIn = !!meData?.me;
   const currentUserId = meData?.me?._id || null;
   const followingIds = profileData?.myProfile?.following?.map((f: { _id: string }) => f._id) || [];
@@ -77,24 +60,22 @@ const Homepage: React.FC = () => {
   const { data, fetchMore, refetch } = useQuery(GET_STORIES, {
     variables: { offset: 0, limit: 6 },
     fetchPolicy: "network-only",
-    pollInterval: 10000, // every 10 seconds (adjust as needed)
+    pollInterval: 10000,
   });
 
-  const [likeStory] = useMutation(LIKE_STORY, {
-    onCompleted: () => refetch(),
-  });
+  const [likeStory] = useMutation(LIKE_STORY, { onCompleted: () => refetch() });
 
   const [followUser] = useMutation(FOLLOW_USER, {
+    onCompleted: () => {
+      refetchProfile();
+      // Removed unused state updates for 'followedUserId'
+    },
     update(cache, { data }) {
       const existing = cache.readQuery<{ myProfile: { following: { _id: string }[] } }>({
         query: GET_MY_PROFILE,
       });
-
       if (existing && data?.followUser) {
-        const alreadyFollowing = existing.myProfile.following.some(
-          (f) => f._id === data.followUser._id
-        );
-
+        const alreadyFollowing = existing.myProfile.following.some(f => f._id === data.followUser._id);
         if (!alreadyFollowing) {
           cache.writeQuery({
             query: GET_MY_PROFILE,
@@ -242,6 +223,7 @@ const Homepage: React.FC = () => {
                       <button onClick={() => handleFollowClick(story.author._id)}>
                         ➕ Follow
                       </button>
+ 
                     )}
                   </span>
                 )}
@@ -367,3 +349,11 @@ const Homepage: React.FC = () => {
 };
 
 export default Homepage;
+
+
+//*********************//
+// Note from Cyrl:
+//*********************//
+  // 🕸️ Follow and following abilities is a future feature that I will be working on. 
+  // I need to create a public profile for users
+

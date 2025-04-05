@@ -6,7 +6,8 @@ import {
 } from "../graphql/queries";
 import {
   LIKE_STORY,
-  UNFOLLOW_USER
+  UNFOLLOW_USER,
+  // FOLLOW_USER
 } from "../graphql/mutations";
 import fallbackAvatar from "../assets/fallbackAvatar.png";
 import DeleteStoryModal from "../components/DeleteStoryModal";
@@ -57,6 +58,7 @@ const Profile: React.FC = () => {
 
   const [toggleLike] = useMutation(LIKE_STORY, { onCompleted: () => refetch() });
   const [unfollowUser] = useMutation(UNFOLLOW_USER, { onCompleted: () => refetch() });
+  // const [followUser] = useMutation(FOLLOW_USER, { onCompleted: () => refetch() });
 
   const [activeTab, setActiveTab] = useState<"stories" | "branches" | "likes">("stories");
   const [editing, setEditing] = useState(false);
@@ -116,6 +118,21 @@ const Profile: React.FC = () => {
       console.error("Unfollow failed:", err);
     }
   };
+
+  // const handleFollow = async (userId: string) => {
+  //   try {
+  //     await followUser({ variables: { targetUserId: userId } });
+  //   } catch (err) {
+  //     console.error("Follow failed:", err);
+  //   }
+  // };
+
+  // // Example usage of handleFollow
+  // const handleFollowClick = () => {
+  //   if (profile.followers?.length) {
+  //     handleFollow(profile.followers[0]._id);
+  //   }
+  // };
 
   const renderStoryList = (stories: Story[], isLikedTab = false) => (
     <div className="story-feed">
@@ -283,6 +300,8 @@ const Profile: React.FC = () => {
 export default Profile;
 
 
+
+
 //*********************//
 // Note from Cyrl:
 //*********************//
@@ -297,4 +316,5 @@ export default Profile;
   // 🕸️ The user can also create a new story and it will be saved in the database.
   // 🕸️ The user can also like a story and it will be saved in the database.
   // 🕸️ The user can also unlike a story and it will be saved in the database.
+  // 🕸️ Follow and following abilities is a future feature that I will be working on. I need to create a public profile for users
 
