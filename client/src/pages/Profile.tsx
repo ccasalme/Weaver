@@ -153,33 +153,16 @@ const Profile: React.FC = () => {
             <button onClick={() => handleUnlike(story._id)} className="delete-btn"
             style={{
               backgroundColor: "#ccc",
-              color: "#333",
-              border: "none",
-              padding: "1.5rem 2.5rem",
-              marginLeft: "1rem",
-              borderRadius: "10px",
-              cursor: "pointer",
-              fontWeight: "bold",
-              fontSize: "1.5rem",
               boxShadow: "0 0 50px rgba(142, 26, 26, 0.4)",
-              transition: "background-color 0.3s ease"
-            }}>
+            }}
+            >
               ❌ Remove from Likes
             </button>
           ) : (
             <button onClick={() => setStoryToDelete(story._id)} className="delete-btn"
             style={{
-              backgroundColor: "#ccc",
-              color: "#333",
-              border: "none",
-              padding: "1.5rem 2.5rem",
-              marginLeft: "1rem",
               borderRadius: "10px",
-              cursor: "pointer",
-              fontWeight: "bold",
-              fontSize: "1.5rem",
               boxShadow: "0 0 50px rgba(142, 26, 26, 0.4)",
-              transition: "background-color 0.3s ease"
             }}>
               🗑️ Delete Origin
             </button>
@@ -195,40 +178,11 @@ const Profile: React.FC = () => {
         <img src={HeroBanner} alt="Weaver Banner" className="hero-banner" />
       </div>
 
-      <div className="profile-header"
-                style={{
-                  color: "white",
-                  background: "linear-gradient(to right, #3e5151, #decba4)",
-                  padding: "0.8rem 30rem",
-                  borderRadius: "12px",
-                  textAlign: "center",
-                  fontSize: "3rem",
-                  fontWeight: "bold",
-                  textTransform: "uppercase",
-                  textShadow: "1px 1px 5px black",
-                  letterSpacing: "0.1em",
-                  marginBottom: "2.5rem",
-                  boxShadow: "0 0 20px rgba(255,255,255,0.2)",
-                }}>
+      <div className="profile-header">
         <img src={profile.avatar || fallbackAvatar} alt="Profile" className="profile-pic" />
         <div>
           <h2
-            className="username-heading"
-            style={{
-              color: "white",
-              background: "linear-gradient(to right, #3e5151, #decba4)",
-              padding: "1rem 2rem",
-              borderRadius: "12px",
-              textAlign: "center",
-              fontSize: "3rem",
-              fontWeight: "bold",
-              textTransform: "uppercase",
-              textShadow: "1px 1px 5px black",
-              letterSpacing: "0.1em",
-              marginBottom: "2.5rem",
-              boxShadow: "0 0 20px rgba(255,255,255,0.2)",
-            }}
-          >
+            className="username-heading">
             @{profile.user.username}
           </h2>
           <p className="profile-fullname">{profile.user.fullName}</p>
@@ -239,14 +193,7 @@ const Profile: React.FC = () => {
                 placeholder="New bio"
                 value={newBio}
                 onChange={(e) => setNewBio(e.target.value)}
-                style={{ 
-                  marginBottom: "1rem", 
-                  padding: "4.5rem", 
-                  width: "100%", 
-                  height: "120px",
-                  fontSize: "1.5rem",
-                  boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                 }}
+                className="bio-input"
               />
               <input
                 type="file"
@@ -254,101 +201,26 @@ const Profile: React.FC = () => {
                 onChange={(e) => setNewAvatarFile(e.target.files?.[0] || null)}
               />
               <button onClick={handleProfileUpdate}
-                        style={{
-                          backgroundColor: "#ccc",
-                          color: "#333",
-                          border: "none",
-                          padding: "1.5rem 2.5rem",
-                          marginLeft: "1rem",
-                          borderRadius: "10px",
-                          cursor: "pointer",
-                          fontWeight: "bold",
-                          fontSize: "1.5rem",
-                          boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                          transition: "background-color 0.3s ease"
-                        }}>Save</button>
+              className="save-btn">Save</button>
               <button onClick={() => setEditing(false)}
-                          style={{
-                            backgroundColor: "#ccc",
-                            color: "#333",
-                            border: "none",
-                            padding: "1.5rem 2.5rem",
-                            marginLeft: "1rem",
-                            borderRadius: "10px",
-                            cursor: "pointer",
-                            fontWeight: "bold",
-                            fontSize: "1.5rem",
-                            boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                            transition: "background-color 0.3s ease"
-                          }}>Cancel</button>
+              className="cancel-btn">Cancel</button>
             </>
           ) : (
             <>
               <p className="profile-bio">{profile.bio || "No bio yet."}</p>
-              <p className="profile-followers"
-                                                          style={{
-                                                            backgroundColor: "#ccc",
-                                                            color: "#333",
-                                                            border: "none",
-                                                            padding: "1.5rem 2.5rem",
-                                                            marginLeft: "1rem",
-                                                            borderRadius: "10px",
-                                                            cursor: "pointer",
-                                                            fontWeight: "bold",
-                                                            fontSize: "1.5rem",
-                                                            boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                                                            transition: "background-color 0.3s ease"
-                                                          }}>
+              <p className="profile-followers">
                 👥{" "}
                 <button onClick={() => setShowFollowers(!showFollowers)}
-                                            style={{
-                                              backgroundColor: "rgba(0, 0, 0, 0.75)",
-                                              color: "#333",
-                                              border: "none",
-                                              padding: "1.5rem 2.5rem",
-                                              marginLeft: "1rem",
-                                              marginRight: "1rem",
-                                              borderRadius: "10px",
-                                              cursor: "pointer",
-                                              fontWeight: "bold",
-                                              fontSize: "1.5rem",
-                                              boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                                              transition: "background-color 0.3s ease"
-                                            }}>
+                className="profile-followers-btn">
                   {profile.followers?.length ?? 0} Followers
                 </button>{" "}
                 |{" "}
                 <button onClick={() => setShowFollowing(!showFollowing)}
-                                            style={{
-                                              backgroundColor: "#ccc",
-                                              color: "#333",
-                                              border: "none",
-                                              padding: "1.5rem 2.5rem",
-                                              marginLeft: "1rem",
-                                              borderRadius: "10px",
-                                              cursor: "pointer",
-                                              fontWeight: "bold",
-                                              fontSize: "1.5rem",
-                                              boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                                              transition: "background-color 0.3s ease"
-                                            }}>
+                className="profile-followers-btn">
                   {profile.following?.length ?? 0} Following
                 </button>
               </p>
-              <button onClick={() => setEditing(true)}
-                                          style={{
-                                            backgroundColor: "#ccc",
-                                            color: "#333",
-                                            border: "none",
-                                            padding: "1.5rem 2.5rem",
-                                            marginLeft: "1rem",
-                                            borderRadius: "10px",
-                                            cursor: "pointer",
-                                            fontWeight: "bold",
-                                            fontSize: "1.5rem",
-                                            boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                                            transition: "background-color 0.3s ease"
-                                          }}>Edit Profile</button>
+              <button onClick={() => setEditing(true)} className="edit-btn">Edit Profile</button>
             </>
           )}
 
@@ -358,35 +230,16 @@ const Profile: React.FC = () => {
                         style={{
                           color: "white",
                           background: "linear-gradient(to right, #3e5151, #decba4)",
-                          padding: "1rem 2rem",
-                          borderRadius: "12px",
-                          textAlign: "center",
-                          fontSize: "3rem",
-                          fontWeight: "bold",
-                          textTransform: "uppercase",
-                          textShadow: "1px 1px 5px black",
-                          letterSpacing: "0.1em",
-                          marginBottom: "2.5rem",
-                          boxShadow: "0 0 20px rgba(255,255,255,0.2)",
-                        }}>Followers</h4>
+                          fontSize: "1.3rem",
+                        }}
+                        >Followers</h4>
               <ul>
                 {profile.followers?.map((f) => (
-                  <li key={f._id}>
+                  <li key={f._id}
+                  className="profile-followers-list">
                     @{f.username}{" "}
-                    <button onClick={() => handleUnfollow(f._id)}
-                                                style={{
-                                                  backgroundColor: "#ccc",
-                                                  color: "#333",
-                                                  border: "none",
-                                                  padding: "1.5rem 2.5rem",
-                                                  marginLeft: "1rem",
-                                                  borderRadius: "10px",
-                                                  cursor: "pointer",
-                                                  fontWeight: "bold",
-                                                  fontSize: "1.5rem",
-                                                  boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                                                  transition: "background-color 0.3s ease"
-                                                }}>Unfollow</button>
+                    <br></br>
+                    <button onClick={() => handleUnfollow(f._id)} className="profile-followers-btn">Unfollow</button>
                   </li>
                 ))}
               </ul>
@@ -399,35 +252,16 @@ const Profile: React.FC = () => {
                         style={{
                           color: "white",
                           background: "linear-gradient(to right, #3e5151, #decba4)",
-                          padding: "1rem 2rem",
-                          borderRadius: "12px",
-                          textAlign: "center",
-                          fontSize: "3rem",
-                          fontWeight: "bold",
-                          textTransform: "uppercase",
-                          textShadow: "1px 1px 5px black",
-                          letterSpacing: "0.1em",
-                          marginBottom: "2.5rem",
-                          boxShadow: "0 0 20px rgba(255,255,255,0.2)",
-                        }}>Following</h4>
+                          fontSize: "1.3rem",
+                        }}
+                        >Following</h4>
               <ul>
                 {profile.following?.map((f) => (
-                  <li key={f._id}>
+                  <li key={f._id}
+                  className="profile-followers-list">
                     @{f.username}{" "}
-                    <button onClick={() => handleUnfollow(f._id)}
-                                                style={{
-                                                  backgroundColor: "#ccc",
-                                                  color: "#333",
-                                                  border: "none",
-                                                  padding: "1.5rem 2.5rem",
-                                                  marginLeft: "1rem",
-                                                  borderRadius: "10px",
-                                                  cursor: "pointer",
-                                                  fontWeight: "bold",
-                                                  fontSize: "1.5rem",
-                                                  boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                                                  transition: "background-color 0.3s ease"
-                                                }}>Unfollow</button>
+                    <br></br>
+                    <button onClick={() => handleUnfollow(f._id)} className="profile-followers-btn">Unfollow</button>
                   </li>
                 ))}
               </ul>
@@ -440,49 +274,15 @@ const Profile: React.FC = () => {
         <button
           onClick={() => setActiveTab("stories")}
           className={activeTab === "stories" ? "active-tab" : ""}
-          style={{
-            backgroundColor: "#ccc",
-            color: "#333",
-            border: "none",
-            padding: "1.5rem 2.5rem",
-            borderRadius: "10px",
-            cursor: "pointer",
-            fontWeight: "bold",
-            fontSize: "1.5rem",
-            boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-            transition: "background-color 0.3s ease"
-          }}
         >
           📚 Stories
         </button>
         <button onClick={() => setActiveTab("branches")} className={activeTab === "branches" ? "active-tab" : ""}
-                    style={{
-                      backgroundColor: "#ccc",
-                      color: "#333",
-                      border: "none",
-                      padding: "1.5rem 2.5rem",
-                      borderRadius: "10px",
-                      cursor: "pointer",
-                      fontWeight: "bold",
-                      fontSize: "1.5rem",
-                      boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                      transition: "background-color 0.3s ease"
-                    }}>
+                    >
           🌱 Branches
         </button>
         <button onClick={() => setActiveTab("likes")} className={activeTab === "likes" ? "active-tab" : ""}
-                    style={{
-                      backgroundColor: "#ccc",
-                      color: "#333",
-                      border: "none",
-                      padding: "1.5rem 2.5rem",
-                      borderRadius: "10px",
-                      cursor: "pointer",
-                      fontWeight: "bold",
-                      fontSize: "1.5rem",
-                      boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                      transition: "background-color 0.3s ease"
-                    }}>
+                    >
           ❤️ Likes
         </button>
       </div>
@@ -491,20 +291,8 @@ const Profile: React.FC = () => {
         <>
           <div style={{ textAlign: "center", marginTop: "30px" }}>
             <button
+              className="create-origin-btn"
               onClick={() => setShowCreateModal(true)}
-              style={{
-                background: "#fff",
-                padding: "3.5rem 2.5rem",
-                borderRadius: "6px",
-                border: "none",
-                cursor: "pointer",
-                fontWeight: "bold",
-                backgroundColor: "#ccc",
-                color: "#333",
-                fontSize: "1.5rem",
-                boxShadow: "0 0 10px rgba(0, 255, 255, 0.4)",
-                transition: "background-color 0.3s ease"
-              }}
             >
               + Create a New Origin
             </button>

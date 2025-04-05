@@ -67,10 +67,10 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   padding-top: 0;
-  padding-bottom: 50px;
+  padding-bottom: 2rem;
   margin: 0 auto;
   padding-left: 2rem;
   padding-right: 2rem;
@@ -97,7 +97,6 @@ body {
   }
 }
 
-
 /* ========================== */
 /* 🎯 Banner Styling - Full Width and Height Fix */
 /* ========================== */
@@ -109,7 +108,6 @@ body {
   max-width: 1400px;
   height: auto;
   margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   overflow: hidden;
   aspect-ratio: 16 / 9;
@@ -1035,142 +1033,64 @@ button:hover {
 
 
 /* ========================== */
-/* 👀 Action button group */
+/* 🎨 Base Utility Classes */
 /* ========================== */
-.action-btn-group {
-  display: flex;
-  justify-content: space-between; /* Equal spacing */
-  align-items: center;
-  gap: 10px;
-  margin-top: 16px;
-  flex-wrap: wrap; /* Handles smaller screens */
-}
 
-.action-btn-group button {
-  flex: 1 1 30%;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.profile-avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin-bottom: 16px;
-}
-
-.tab-group {
-  display: flex;
-  gap: 12px;
-  margin: 20px 0;
-  justify-content: center;
-}
-
-.tab-group button {
-  padding: 10px 16px;
-  border-radius: 8px;
-  background: #d2dce3;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.tab-group .active-tab {
-  background: #a6b8c4;
-  font-weight: bold;
-}
-
-.story-list {
-  list-style: none;
-  padding: 0;
-  margin-top: 10px;
-}
-
-.story-item {
-  padding: 12px;
-  background: #ffffffa6;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.comment-thread {
-  margin-top: 10px;
-  padding-left: 20px;
-  list-style: disc;
-}
-
-.see-threads-btn {
-  margin-top: 10px;
-  background: transparent;
-  border: none;
-  color: #333;
-  font-size: 0.95rem;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.floating-create-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 3000;
-  padding: 12px 16px;
-  font-size: 16px;
-  border-radius: 30px;
-  background: linear-gradient(180deg, rgba(207,200,200,1) 0%, rgba(197,203,217,1) 94%);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.3s ease;
-}
-
-.floating-create-btn:hover {
-  background-color: #ccc;
-  transform: scale(1.05);
-}
-
-.action-btn-group {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.action-btn-group button {
-  background-color: #444;
-  color: #eee;
+.btn {
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 1.1rem;
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
   transition: all 0.3s ease;
+  font-size: 1.1rem;
 }
 
-.action-btn-group button:hover {
+.btn-save {
+  background-color: #444;
+  color: #eee;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+.btn-cancel {
+  background-color: #ccc;
+  color: #333;
+  margin-left: 1rem;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+.btn-edit {
+  background-color: #ccc;
+  color: #333;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+.btn-follow {
+  background-color: #444;
+  color: #333;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+.btn-follow:hover {
   background-color: #555;
   transform: translateY(-2px);
   box-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
 }
 
-.action-btn-group .delete-btn {
+.btn-delete {
   background-color: #ccc;
   color: #333;
-  box-shadow: 0 0 10px rgba(246, 32, 32, 0.4);
+  box-shadow: 0 0 50px rgba(142, 26, 26, 0.4);
+  border-radius: 10px;
 }
 
-.action-btn-group .delete-btn:hover {
+.btn-delete:hover {
   background-color: #e06666;
   color: white;
   box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
 }
 
 .create-origin-btn {
-  background-color: #ccc;
   background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
   color: #333;
   border-radius: 8px;
@@ -1179,11 +1099,11 @@ button:hover {
   font-size: 1.5rem;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
-  transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-align: center;
   font-family: 'Bebas Neue', cursive;
+  transition: all 0.3s ease;
 }
 
 .create-origin-btn:hover {
@@ -1193,160 +1113,24 @@ button:hover {
 }
 
 /* ========================== */
-/* 📱 Responsive Action Buttons */
+/* 📦 Layout & Card Styling */
 /* ========================== */
 
-/* 🌸 Small Devices - Mobile (max-width: 480px) */
-@media (max-width: 480px) {
-  .action-btn-group {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-  }
-
-  .action-btn-group button {
-    flex: 1 1 auto;
-    font-size: 0.9rem;
-    padding: 10px;
-  }
-
-  .profile-avatar {
-    width: 80px;
-    height: 80px;
-  }
-
-  .tab-group {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .tab-group button {
-    padding: 8px 12px;
-    font-size: 0.85rem;
-  }
-
-  .see-threads-btn {
-    font-size: 0.85rem;
-  }
-
-  .floating-create-btn {
-    padding: 10px 12px;
-    font-size: 14px;
-    bottom: 16px;
-    right: 16px;
-  }
-}
-
-/* 📲 Medium Devices - Tablets (max-width: 768px) */
-@media (max-width: 768px) {
-  .action-btn-group {
-    gap: 8px;
-  }
-
-  .action-btn-group button {
-    flex: 1 1 45%;
-    font-size: 1rem;
-  }
-
-  .profile-avatar {
-    width: 100px;
-    height: 100px;
-  }
-
-  .tab-group button {
-    font-size: 0.95rem;
-  }
-
-  .floating-create-btn {
-    padding: 11px 14px;
-    font-size: 15px;
-    bottom: 18px;
-    right: 18px;
-  }
-}
-
-@media (max-width: 768px) {
-  .action-btn-group {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .action-btn-group button {
-    width: 100%;
-    max-width: 300px;
-    font-size: 1rem;
-  }
-}
-
-
-@media (max-width: 768px) {
-  .create-origin-btn {
-    font-size: 1.2rem;
-    padding: 1.25rem 2.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .create-origin-btn {
-    font-size: 1.1rem;
-    padding: 1rem 2rem;
-  }
-}
-
-@media (min-width: 1440px) {
-  .create-origin-btn {
-    font-size: 1.6rem;
-    padding: 1.75rem 3.5rem;
-  }
-}
-
-
-/* ========================== */
-/* Profile Styling */
-/* ========================== */
-
-.profile-container {
-  max-width: 700px;
-  margin: auto;
-  padding: 2rem;
-  color: white;
-}
-
-.profile-header {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.profile-pic {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid white;
-}
-
-.profile-bio {
-  margin: 0.5rem 0;
-  color: #ccc;
-  font-size: 1.1rem;
-}
-
-.profile-followers {
-  font-size: 0.95rem;
-  color: #aaa;
+.card {
+  background: rgba(255, 255, 255, 0.07);
+  padding: 1rem;
+  border-radius: 12px;
+  margin: 1rem 0;
+  box-shadow: 0 0 10px rgba(0,255,255,0.1);
+  backdrop-filter: blur(3px);
 }
 
 .tab-group {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 1.5rem;
+  margin: 20px 0;
 }
 
 .tab-group button {
@@ -1365,6 +1149,10 @@ button:hover {
   color: #000;
 }
 
+/* ========================== */
+/* 🧵 Threads & Comments */
+/* ========================== */
+
 .see-threads-btn {
   margin-top: 0.5rem;
   background: none;
@@ -1381,18 +1169,132 @@ button:hover {
   margin-top: 0.5rem;
   border-left: 2px solid #555;
   color: #ccc;
+  font-size: 0.9rem;
 }
 
-.dummy-warning {
-  color: orange;
+/* ========================== */
+/* 👤 Profile Styling */
+/* ========================== */
+
+.profile-container {
+  max-width: 60rem;
+  margin: auto;
+  padding: 1rem;
+  color: white;
+}
+
+.profile-header {
+  color: white;
+  background: linear-gradient(to right, #3e5151, #decba4);
+  padding: 1.5rem 3rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 2rem;
   text-align: center;
-  margin-top: 2rem;
+  text-transform: uppercase;
+  font-family: 'Bebas Neue', cursive;
+  letter-spacing: 1px;
+  font-size: 2rem;
+  font-weight: bold;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.username-heading {
+  color: #fff;
+  background: linear-gradient(to right, #3e5151, #decba4);
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  word-break: break-word;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Bebas Neue', cursive;
+  letter-spacing: 1rem;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  margin-bottom: 1rem;
+}
+
+.profile-pic {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.profile-bio {
+  margin: 0.5rem 0;
+  color: #ccc;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.profile-followers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.bio-input {
+  margin: 0.5rem 0;
+  color: #333;
+  font-size: 1.1rem;
+  padding: 3.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+.modal-heading {
+  color: white;
+  font-size: 1.3rem;
+  background: linear-gradient(to right, #3e5151, #decba4);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.follower-modal,
+.following-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  color: white;
+  background: transparent;
+  box-shadow: none;
+}
+
+.profile-followers-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1.5rem;
 }
 
 
+.profile-followers-btn {
+  width: 90%;
+  max-width: 300px;
+  text-align: center;
+}
 /* ========================== */
-/* 🌸 Mobile & Responsive Styling */
+/* 📱 Responsive Design */
 /* ========================== */
+
 @media (max-width: 768px) {
   .profile-container {
     padding: 1rem;
@@ -1409,49 +1311,31 @@ button:hover {
     height: 80px;
   }
 
-  .tab-group button {
-    padding: 10px 14px;
-    font-size: 0.9rem;
-  }
-
-  .profile-bio {
-    font-size: 1rem;
-    padding: 0 1rem;
-  }
-
-  .profile-followers {
-    font-size: 0.85rem;
-    padding: 0 1rem;
-  }
-
-  .profile-header img {
-    width: 60px;
-    height: 60px;
-  }
-  
-  textarea.bio-textarea {
-    padding: 1rem;
-    font-size: 1rem;
-  }
-  
-}
-
-
-
-@media (max-width: 480px) {
-  .tab-group {
+  .tab-group,
+  .action-btn-group {
     flex-direction: column;
+    align-items: stretch;
     gap: 8px;
   }
 
-  .tab-group button {
+  .tab-group button,
+  .action-btn-group button {
     width: 100%;
+    font-size: 0.95rem;
   }
 
   .profile-bio,
   .profile-followers {
     text-align: center;
-    font-size: 0.95rem;
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tab-group button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
   }
 
   .see-threads-btn {
@@ -1460,6 +1344,82 @@ button:hover {
 
   .comment-thread {
     font-size: 0.9rem;
+  }
+
+  .create-origin-btn {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .profile-header {
+    font-size: 1.7rem;
+    padding: 1.2rem 2rem;
+  }
+
+  .username-heading {
+    font-size: 1.4rem;
+    letter-spacing: 0.6rem;
+  }
+
+  .profile-pic {
+    width: 8.5rem;
+    height: 8.5rem;
+  }
+
+  .profile-bio {
+    font-size: 1.05rem;
+  }
+
+  .profile-followers {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .profile-header {
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 2.2rem;
+    padding: 2rem 4rem;
+    text-align: left;
+  }
+
+  .username-heading {
+    font-size: 2rem;
+    letter-spacing: 1rem;
+  }
+
+  .profile-bio,
+  .profile-followers {
+    text-align: left;
+  }
+}
+
+@media (min-width: 1440px) {
+  .create-origin-btn {
+    font-size: 1.6rem;
+    padding: 1.75rem 3.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-header {
+    padding: 1rem;
+  }
+
+  .profile-bio {
+    font-size: 0.9rem;
+    padding: 0 1rem;
+    text-align: center;
+    word-break: break-word;
+  }
+
+  .create-origin-btn,
+  .edit-btn {
+    width: 90%;
+    margin: 0.5rem auto;
   }
 }
 
@@ -1901,10 +1861,6 @@ button:hover {
     font-size: 0.85rem;
   }
 
-  .floating-create-btn {
-    font-size: 0.9rem;
-    padding: 10px 12px;
-  }
 
   .modal-backdrop h2 {
     font-size: 1.4rem;
