@@ -25,6 +25,14 @@ export const GET_STORIES = gql`
         title
         content
         likes
+        author {
+          _id
+          username
+        }
+        likes {
+          _id
+          username
+        }
         comments {
           _id
           content
