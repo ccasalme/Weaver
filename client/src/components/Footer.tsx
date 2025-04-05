@@ -1,11 +1,9 @@
 import './Footer.css';
 
-const Footer = () => {
+const Footer: React.FC = () => {
   return (
     <footer className="footer">
-      <p className="footer-text">
-        © 2025 Weaver | Cyrl Casalme, Stella Nabajja, Corey Parsons | All rights reserved.
-      </p>
+      <p>© 2025 Weaver | Cyrl Casalme, Stella Nabajja, Corey Parsons | All rights reserved.</p>
     </footer>
   );
 };
