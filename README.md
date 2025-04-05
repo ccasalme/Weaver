@@ -145,7 +145,12 @@ MONGODB_URI=your_mongo_connection_uri
 ```
 Weaver/
 │── client/                # Frontend (React + Vite)
-│   ├── src/               # React components, hooks, etc.
+│   ├── src/
+│   │   ├── Components/    # Reusable React UI components
+│   │   ├── GraphQL/       # Front-end mutations and queries
+│   │   ├── Pages/         # Page-level React components/routes
+│   │   ├── Types/         # TypeScript type definitions
+│   │   ├── Utils/         # Front-end authentication
 │   ├── public/            # Static assets
 │   ├── package.json       # Frontend dependencies
 │   ├── tsconfig.json      # TypeScript config
@@ -155,8 +160,9 @@ Weaver/
 │   ├── src/
 │   │   ├── config/        # Database connection
 │   │   ├── models/        # Mongoose models
-│   │   ├── schemas/       # typeDefs & resolvers
+│   │   ├── schemas/       # TypeDefs & esolvers
 │   │   ├── utils/         # Authentication
+│   │   ├── seeds/         # Seed data for database
 │   │   ├── server.ts      # Main server file
 │   ├── package.json       # Backend dependencies
 │   ├── tsconfig.json      # TypeScript config
@@ -166,6 +172,7 @@ Weaver/
 │
 │── package.json           # Root scripts & dependencies
 │── tsconfig.json          # TypeScript project references
+│── cypress.config.ts      # Configures how Cypress runs tests
 │── README.md              # Project documentation
 ```
 
