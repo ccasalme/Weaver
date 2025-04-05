@@ -201,13 +201,13 @@ const Homepage: React.FC = () => {
             <div key={story._id} 
             className="story-card"
               >
-              <h3>
-                <strong>Most Recent Post:</strong> 
-                <br></br> 
-                <br></br>Title: {story.title} 
-                <br></br>
-                <strong>By:</strong> @{story.author.username}</h3>
-                {isUserLoggedIn && story.author._id !== currentUserId && (
+              <div className="origin-block">
+                <h3>Origin Title: {story.title}
+                  <br></br>
+                  <strong>By:</strong> {story.author.username}
+                  </h3>
+                  <br></br>
+                  {isUserLoggedIn && story.author._id !== currentUserId && (
                   <span style={{ marginLeft: "10px" }}>
                     {followingIds.includes(story.author._id) ? (
                       <span style={{ color: "limegreen" }}>✅ Following</span>
@@ -218,14 +218,6 @@ const Homepage: React.FC = () => {
                     )}
                   </span>
                 )}
-              <p
-              style={{
-                boxShadow: "0 0 20px rgba(255,255,255,0.2)",
-              }}>{story.content}</p>
-              <div className="origin-block">
-                <h3>Origin Title: {story.title}
-                  <br></br>
-                  <strong>By:</strong> {story.author.username}</h3>
                 <p>{story.content}</p>
 
 
@@ -233,7 +225,7 @@ const Homepage: React.FC = () => {
                 {story.parentStory && (
                 <div className="origin-details">
                   <h4 style={{color:"whitesmoke"}}>🌌 Origin Universe</h4>
-                    <p><strong>{story.parentStory.title}, 
+                    <p><strong>Title: {story.parentStory.title}, 
                       <br></br>
                       <em>By: {story.parentStory.author.username}</em></strong>
                       <br></br>
@@ -253,12 +245,17 @@ const Homepage: React.FC = () => {
                     <h4 style={{color:"whitesmoke"}}>🌱 Branches</h4>
                     {story.branches.map((branch) => (
                     <div key={branch._id} className="branch-entry">
-                    <p><strong> 🌱 Branched Universe 🌱 
-                       <br></br>
+                    <p><strong>Branched Universe
+                      <br></br>
+                       🌱
+                      <br></br>
                         <em>Title: {branch.title}</em>
                         <br></br>
-                         By: {story.parentStory?.author?.username || "Unknown"}</strong></p>
-                    <p>{branch.content}</p>
+                         By: {story.parentStory?.author?.username || "Unknown"}</strong>
+                         <br></br>
+                         <br></br>
+                         {branch.content}
+                         </p>
                  </div>
               ))}
                 </div>
@@ -293,7 +290,7 @@ const Homepage: React.FC = () => {
               </div>
 
               <div className="comments-section">
-                <h3>🧵🕸️Threads🕷️🕸️🧵</h3>
+                <h3>🧵🕸️Threads🕷️🧵</h3>
                 {story.comments.length ? (
                   story.comments.map((c) => (
                     <div key={c._id} className="comment-card">

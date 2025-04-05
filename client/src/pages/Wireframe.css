@@ -1183,6 +1183,7 @@ button:hover {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-align: center;
+  font-family: 'Bebas Neue', cursive;
 }
 
 .create-origin-btn:hover {
