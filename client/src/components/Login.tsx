@@ -44,7 +44,7 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
 			}
 		} catch {
 			// fallback to dummy user login
-			if (username === dummyUser.username && password === dummyUser.password) {
+			if (username === dummyUser[0].username && password === dummyUser[0].password) {
 				setToken("dummy-auth-token", "dummy-user-id");
 				alert("Dummy login successful! 🎭");
 				window.location.reload();

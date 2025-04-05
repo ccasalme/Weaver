@@ -212,7 +212,7 @@ const Homepage: React.FC = () => {
               <div className="origin-block">
                 <h3>🕸️Title: {story.title}🕷️
                   <br></br>
-                  <strong>By:</strong> {story.author.username}
+                  <strong>By: </strong> @{story.author.username}
                   </h3>
                   <br></br>
                   {isUserLoggedIn && story.author._id !== currentUserId && (
@@ -236,7 +236,7 @@ const Homepage: React.FC = () => {
                   <h4 style={{color:"whitesmoke"}}>🌌 Origin Universe</h4>
                     <p><strong>Title: {story.parentStory.title}, 
                       <br></br>
-                      <em>By: {story.parentStory.author.username}</em></strong>
+                      <em>By: @{story.parentStory.author.username}</em></strong>
                       <br></br>
                       <br></br>
                       🕸️🕸️🕸️
@@ -260,7 +260,7 @@ const Homepage: React.FC = () => {
                       <br></br>
                         <em>Title: {branch.title}</em>
                         <br></br>
-                         By: {displayName(branch.author)}</strong>
+                         By: @{displayName(branch.author)}</strong>
                          <br></br>
                          <br></br>
                          {branch.content}
