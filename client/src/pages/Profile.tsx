@@ -7,7 +7,6 @@ import {
 import {
   LIKE_STORY,
   UNFOLLOW_USER,
-  // FOLLOW_USER
 } from "../graphql/mutations";
 import fallbackAvatar from "../assets/fallbackAvatar.png";
 import DeleteStoryModal from "../components/DeleteStoryModal";
@@ -58,7 +57,7 @@ const Profile: React.FC = () => {
 
   const [toggleLike] = useMutation(LIKE_STORY, { onCompleted: () => refetch() });
   const [unfollowUser] = useMutation(UNFOLLOW_USER, { onCompleted: () => refetch() });
-  // const [followUser] = useMutation(FOLLOW_USER, { onCompleted: () => refetch() });
+  // Removed unused followUser mutation to fix the error
 
   const [activeTab, setActiveTab] = useState<"stories" | "branches" | "likes">("stories");
   const [editing, setEditing] = useState(false);
@@ -119,21 +118,6 @@ const Profile: React.FC = () => {
     }
   };
 
-  // const handleFollow = async (userId: string) => {
-  //   try {
-  //     await followUser({ variables: { targetUserId: userId } });
-  //   } catch (err) {
-  //     console.error("Follow failed:", err);
-  //   }
-  // };
-
-  // // Example usage of handleFollow
-  // const handleFollowClick = () => {
-  //   if (profile.followers?.length) {
-  //     handleFollow(profile.followers[0]._id);
-  //   }
-  // };
-
   const renderStoryList = (stories: Story[], isLikedTab = false) => (
     <div className="story-feed">
       {stories.map((story) => (
@@ -141,28 +125,30 @@ const Profile: React.FC = () => {
           <h3>{story.title}</h3>
           <p>{story.content}</p>
 
-          {Array.isArray(story.comments) && story.comments.length > 0 && (
-            <button
-              onClick={() =>
-                setExpandedThreads((prev) => ({
-                  ...prev,
-                  [story._id]: !prev[story._id],
-                }))
-              }
-              className="see-threads-btn"
-            >
-              {expandedThreads[story._id] ? "🔽 Hide Threads" : "🧵 See Threads"}
-            </button>
-          )}
+          {story.comments && story.comments.length > 0 && (
+            <>
+              <button
+                onClick={() =>
+                  setExpandedThreads((prev) => ({
+                    ...prev,
+                    [story._id]: !prev[story._id],
+                  }))
+                }
+                className="see-threads-btn"
+              >
+                {expandedThreads[story._id] ? "🔽 Hide Threads" : "🧵 See Threads"}
+              </button>
 
-          {expandedThreads[story._id] && (
-            <ul className="comment-thread">
-              {story.comments?.map((comment) => (
-                <li key={comment._id}>
-                  <strong>{comment.author.username}:</strong> {comment.content}
-                </li>
-              ))}
-            </ul>
+              {expandedThreads[story._id] && (
+                <ul className="comment-thread">
+                  {story.comments.map((comment) => (
+                    <li key={comment._id}>
+                      <strong>{comment.author.username}:</strong> {comment.content}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
           )}
 
           {isLikedTab ? (
@@ -298,23 +284,3 @@ const Profile: React.FC = () => {
 };
 
 export default Profile;
-
-
-
-
-//*********************//
-// Note from Cyrl:
-//*********************//
-  // 🕸️ The avatar and bio are now stored in local storage.
-  // 🕸️ The user can edit them and they will persist even after a page refresh.
-  // 🕸️ The reason why the avatar is not being sent to the server is because the server does not have an endpoint to handle it yet.
-  // 🕸️ This is a future feature that I will be working on
-  // 🕸️ The bio is being sent to the server but it is not being saved in the database yet.
-  // 🕸️ The user can edit the bio and it will be saved in local storage.
-  // 🕸️ The user can also edit the avatar and it will be saved in local storage.
-  // 🕸️ The user can also delete the story and it will be deleted from the database.
-  // 🕸️ The user can also create a new story and it will be saved in the database.
-  // 🕸️ The user can also like a story and it will be saved in the database.
-  // 🕸️ The user can also unlike a story and it will be saved in the database.
-  // 🕸️ Follow and following abilities is a future feature that I will be working on. I need to create a public profile for users
-
