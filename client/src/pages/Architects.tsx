@@ -4,17 +4,17 @@ import "./Wireframe.css"; // Keep using your main style file
 const architects = [
   {
     name: "Cyrl Casalme",
-    image: "https://placehold.co/140x140?text=Cyrl",
-    github: "https://github.com/casalme",
+    image: "https://avatars.githubusercontent.com/u/78170262?s=96&v=4",
+    github: "https://github.com/ccasalme",
   },
   {
     name: "Stella Nabajja",
-    image: "https://placehold.co/140x140?text=Stella",
+    image: "https://avatars.githubusercontent.com/u/181761845?v=4",
     github: "https://github.com/snabaj",
   },
   {
     name: "Corey Parsons",
-    image: "https://placehold.co/140x140?text=Corey",
+    image: "https://avatars.githubusercontent.com/u/181612238?v=4",
     github: "https://github.com/cpars",
   },
 ];
