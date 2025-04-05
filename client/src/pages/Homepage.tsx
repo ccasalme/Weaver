@@ -202,7 +202,7 @@ const Homepage: React.FC = () => {
             className="story-card"
               >
               <div className="origin-block">
-                <h3>Origin Title: {story.title}
+                <h3>🕸️Title: {story.title}🕷️
                   <br></br>
                   <strong>By:</strong> {story.author.username}
                   </h3>
