@@ -12,6 +12,7 @@ body {
   font-family: Arial, sans-serif;
   box-sizing: border-box;
   font-family: 'Inter', sans-serif; /* or 'Poppins', 'Rubik', etc. */
+  
 }
 
 *,
@@ -31,6 +32,7 @@ body {
     no-repeat fixed;
   overflow-x: hidden;
   padding: 0 1rem; /* Small side padding for small devices */
+  padding-bottom: 100px; /* To prevent content hiding behind footer */
   
 }
 
