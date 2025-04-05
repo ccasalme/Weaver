@@ -12,18 +12,18 @@
   - [📝 Description](#-description)
   - [✨ Features](#-features)
   - [⚙️ Installation](#️-installation)
-    - [📦 Dependencies Used](#-dependencies-used)
-    - [Project Structure](#project-structure)
+    - [📦 Dependencies Used and their Versions](#-dependencies-used-and-their-versions)
+    - [✅ Project Structure](#-project-structure)
     - [📋 GraphQL API Queries and Mutations](#-graphql-api-queries-and-mutations)
   - [▶️ Usage](#️-usage)
-    - [🚀 Click here to see deployed application on Render](#-click-here-to-see-deployed-application-on-render)
     - [📷 Screenshot of Homepage](#-screenshot-of-homepage)
     - [📷 Sreenshot of Profile Page](#-sreenshot-of-profile-page)
+    - [🚀 Click here to checkout the deployed application on Render](#-click-here-to-checkout-the-deployed-application-on-render)
     - [🛠️ Technologies Used](#️-technologies-used)
   - [🤝 Contributing](#-contributing)
   - [🧪 Tests](#-tests)
   - [🪪 License](#-license)
-  - [🧠 Architects](#-architects)
+  - [👤 Architects](#-architects)
 
 </details>
 
@@ -79,58 +79,68 @@ JWT_SECRET_KEY=your_jwt_secret
 MONGODB_URI=your_mongo_connection_uri
 ```
 
-### 📦 Dependencies Used
+### 📦 Dependencies Used and their Versions
+```
+{
+  # Client-side runtime dependencies for the React frontend
+  "client": {
+    "dependencies": {
+      "@apollo/client": "3.13.4",         # Apollo GraphQL client for React
+      "graphql": "16.10.0",               # GraphQL language and client integration
+      "react": "18.2.0",                  # React core library for building UIs
+      "react-router-dom": "6.30.0",       # Declarative routing for React
+      "vite": "6.2.0"                     # Fast dev/build tool for frontend
+    },
+    # Development tools and utilities for the frontend
+    "devDependencies": {
+      "@vitejs/plugin-react": "4.3.4",    # Vite plugin to support React
+      "@types/react": "18.2.57",          # Type definitions for React
+      "@types/react-dom": "18.2.17",      # Type definitions for React DOM
+      "cypress": "14.2.0",                # End-to-end testing tool
+      "eslint": "9.21.0",                 # JavaScript linter
+      "typescript": "5.7.2",              # Static typing for JavaScript
+      "vitest": "3.0.8"                   # Unit testing framework for Vite
+    }
+  },
 
-**Client (Frontend) Dependencies**
+  # Server-side runtime dependencies for handling API and GraphQL requests
+  "server": {
+    "dependencies": {
+      "express": "4.19.2",                # Fast, minimal web framework for Node.js
+      "@apollo/server": "4.10.4",         # Apollo Server for GraphQL APIs
+      "graphql": "16.9.0",                # GraphQL language support
+      "mongoose": "8.0.0",                # MongoDB ODM for Node.js
+      "jsonwebtoken": "8.5.1",            # Handling JWTs for authentication
+      "bcrypt": "4.0.1"                   # Password hashing and authentication
+    },
+    # Development tools and utilities for backend
+    "devDependencies": {
+      "dotenv": "16.4.5",                 # Loads env vars from .env
+      "nodemon": "3.1.0",                 # Hot-reloading for development
+      "typescript": "5.4.5",              # Type safety in the backend
+      "@types/bcrypt": "5.0.2",           # Type definitions for bcrypt
+      "@types/express": "4.17.21",        # Type definitions for Express.js
+      "@types/jsonwebtoken": "9.0.6",     # Type definitions for jsonwebtoken
+      "@types/node": "20.14.8"            # Type definitions for Node.js
+    }
+  },
 
-| Package              | Description                                   |
-| -------------------- | --------------------------------------------- |
-| @apollo/client       | Apollo GraphQL client for React               |
-| canvas-confetti      | Confetti animation for UI celebration effects |
-| framer-motion        | Animation library for React                   |
-| graphql              | GraphQL language and client integration       |
-| react                | React core library for building UIs           |
-| react-dom            | DOM rendering for React                       |
-| react-markdown       | Render Markdown inside React components       |
-| react-router-dom     | Declarative routing for React                 |
-| vite                 | Fast dev/build tool for frontend              |
-| @vitejs/plugin-react | Vite plugin to support React                  |
-| typescript           | Static typing for JavaScript                  |
-| cypress              | End-to-end testing tool                       |
-| vitest               | Unit testing for Vite projects                |
-| eslint               | JavaScript linter                             |
-| eslint-plugin-\*     | ESLint plugins for React and best practices   |
+  # Packages shared across the full-stack app
+  "root": {
+      "express": "4.19.2",                # Shared server framework
+      "graphql": "16.9.0",                # GraphQL base support
+      "mongoose": "8.0.0",                # Database modeling used in both front and back
+      "jsonwebtoken": "8.5.1",            # JWT utilities used in both server and client auth
+      "bcrypt": "4.0.1",                  # Shared authentication hashing
+      "dotenv": "16.4.5",                 # Shared configuration support
+      "nodemon": "3.1.0",                 # Development convenience tool
+      "typescript": "5.4.5"               # Shared TypeScript configuration
+    }
+}
 
-**Server (Backend) Dependencies**
+```
 
-| Package        | Description                                     |
-| -------------- | ----------------------------------------------- |
-| express        | Fast, minimal web framework for Node.js         |
-| @apollo/server | Apollo Server for GraphQL APIs                  |
-| graphql        | GraphQL language support                        |
-| mongoose       | MongoDB ODM for Node.js                         |
-| jsonwebtoken   | Handling JWTs for authentication                |
-| bcrypt         | Password hashing and authentication             |
-| dotenv         | Loads env vars from .env                        |
-| typescript     | Type safety in the backend                      |
-| nodemon        | Hot-reloading for development                   |
-| @types/\*      | Type definitions for Node.js and other packages |
-
-**Root (Shared) Dependencies**
-
-| Package      | Description                                       |
-| ------------ | ------------------------------------------------- |
-| express      | Shared server framework                           |
-| graphql      | GraphQL base support                              |
-| mongoose     | Database modeling used in both front and back     |
-| jsonwebtoken | JWT utilities used in both server and client auth |
-| bcrypt       | Shared authentication hashing                     |
-| dotenv       | Shared configuration support                      |
-| nodemon      | Development convenience tool                      |
-| typescript   | Shared TypeScript configuration                   |
-| @types/\*    | Project-wide type declarations                    |
-
-### Project Structure
+### ✅ Project Structure
 
 ```
 Weaver/
@@ -159,7 +169,8 @@ Weaver/
 │── README.md              # Project documentation
 ```
 
-[⬆ Back to top](#weaver)
+[⬆ Back to top](#table-of-contents)
+
 
 ### 📋 GraphQL API Queries and Mutations
 
@@ -208,36 +219,42 @@ npm run develop
 
 **🧩 Server Info**
 
-- Express server runs on: `http://localhost:3000`
+  Express server runs on: 
+  ```
+  http://localhost:3000
+  ```
 
-- GraphQL endpoint: `http://localhost:3001/graphql`
-
-### 🚀 [Click here to see deployed application on Render](https://www.example.com)
+  GraphQL endpoint: 
+  ```
+  http://localhost:3001/graphql
+  ```
 
 ### 📷 Screenshot of Homepage
 
 ### 📷 Sreenshot of Profile Page
 
+### 🚀 [Click here to checkout the deployed application on Render](https://weaver-9su3.onrender.com/)
+
 ### 🛠️ Technologies Used
 
 **Frontend**
-<br>&nbsp; <span>![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react)</span>
-<br>&nbsp; <span>![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router)</span>
-<br>&nbsp; <span>![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite)</span>
-<br>&nbsp; <span>![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript)</span>
-<br>&nbsp; <span>![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript)</span>
-<br>&nbsp; <span>![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5)</span>
-<br>&nbsp; <span>![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3)</span>
-<br>&nbsp; <span>![Cypress](https://img.shields.io/badge/Cypress-17202C?style=for-the-badge&logo=cypress)</span>
+<br>&nbsp; <span>[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react)](https://reactjs.org)</span>
+<br>&nbsp; <span>[![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router)](https://reactrouter.com)</span>
+<br>&nbsp; <span>[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev)</span>
+<br>&nbsp; <span>[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)</span>
+<br>&nbsp; <span>[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)</span>
+<br>&nbsp; <span>[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5)](https://developer.mozilla.org/en-US/docs/Web/HTML)</span>
+<br>&nbsp; <span>[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3)](https://developer.mozilla.org/en-US/docs/Web/CSS)</span>
+<br>&nbsp; <span>[![Cypress](https://img.shields.io/badge/Cypress-17202C?style=for-the-badge&logo=cypress)](https://www.cypress.io)</span>
 
 **Backend**
-<br>&nbsp; <span>![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs)</span>
-<br>&nbsp; <span>![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express)</span>
-<br>&nbsp; <span>![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb)</span>
-<br>&nbsp; <span>![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose)</span>
-<br>&nbsp; <span>![GraphQL](https://img.shields.io/badge/GraphQL-E10098?style=for-the-badge&logo=graphql)</span>
-<br>&nbsp; <span>![Apollo](https://img.shields.io/badge/Apollo_Server-311C87?style=for-the-badge&logo=apollo-graphql)</span>
-<br>&nbsp; <span>![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens)</span>
+<br>&nbsp; <span>[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs)](https://nodejs.org)</span>
+<br>&nbsp; <span>[![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express)](https://expressjs.com)</span>
+<br>&nbsp; <span>[![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb)](https://www.mongodb.com)</span>
+<br>&nbsp; <span>[![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose)](https://mongoosejs.com)</span>
+<br>&nbsp; <span>[![GraphQL](https://img.shields.io/badge/GraphQL-E10098?style=for-the-badge&logo=graphql)](https://graphql.org)</span>
+<br>&nbsp; <span>[![Apollo](https://img.shields.io/badge/Apollo_Server-311C87?style=for-the-badge&logo=apollo-graphql)](https://www.apollographql.com/docs/apollo-server)</span>
+<br>&nbsp; <span>[![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens)](https://jwt.io)</span>
 
 ## 🤝 Contributing
 
@@ -278,7 +295,12 @@ git push origin your-feature-branch
 
 ## 🧪 Tests
 
-Run Cypress tests using:
+For running tests in the terminal, use:
+```
+npm run test
+```
+
+For Cypress GUI, run tests using:
 
 ```
 npm run cypress
@@ -288,30 +310,43 @@ GitHub Actions will run tests automatically on main before deploying to Render.
 
 ## 🪪 License
 
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This project is licensed under the [MIT License](LICENSE).
 
-## 🧠 Architects
+## 👤 Architects
 
 Feel free to reach out with suggestions or questions to the project architects!
 
-👩‍💻 **Cyrl Casalme**
+<a href="https://github.com/ccasalme">
+  <img src="https://github.com/ccasalme.png" width="100" style="border-radius: 50%;" alt="Cyrl Casalme" />
+</a> 
 
-- Role: Client (Front-end)
-- GitHub: [@ccasalme](https://github.com/ccasalme)
-- Email: ccasalme@example.com
+**Cyrl Casalme**
 
-👩‍💻 **Stella Nabajja**
+- **Role**: Client (Front-end)
+- **GitHub**: [@ccasalme](https://github.com/ccasalme)
+- **Email**: ccasalme@example.com
 
-- Role: Database (Back-end)
-- GitHub: [@snabaj](https://github.com/snabaj)
-- Email: snabajja@gmail.com
+<a href="https://github.com/snabaj">
+  <img src="https://github.com/snabaj.png" width="100" style="border-radius: 50%;" alt="Stella Nabajja" />
+</a> 
 
-👨‍💻 **Corey Parsons**
+**Stella Nabajja**
 
-- Role: Cypress Testing & Github Actions CI/CD
-- GitHub: [@cpars](https://github.com/cpars)
-- Email: cpars@example.com
+- **Role**: Database (Back-end)
+- **GitHub**: [@snabaj](https://github.com/snabaj)
+- **Email**: snabajja@gmail.com
 
-[⬆ Back to top](#weaver)
+<a href="https://github.com/cpars">
+  <img src="https://github.com/cpars.png" width="100" style="border-radius: 50%;" alt="Corey Parsons" />
+</a> 
+
+**Corey Parsons**
+
+- **Role**: Cypress Testing & Github Actions CI/CD
+- **GitHub**: [@cpars](https://github.com/cpars)
+- **Email**: cpars@example.com
+
+
+[⬆ Back to top](#table-of-contents)
