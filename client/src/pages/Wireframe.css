@@ -26,7 +26,7 @@ body {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   background: url("../assets/WireFrameBackground.png") center center / cover
     no-repeat fixed;
   overflow-x: hidden;
@@ -64,16 +64,16 @@ body {
   position: relative;
   width: 100%;
   max-width: 1400px;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding-top: 0;
-  padding-bottom: 2rem;
+  padding-bottom: 4rem;
   margin: 0 auto;
   padding-left: 2rem;
-  padding-right: 2rem;
+  padding-right: 4rem;
 }
 
 
