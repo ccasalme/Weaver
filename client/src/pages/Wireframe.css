@@ -1424,6 +1424,24 @@ button:hover {
 }
 
 
+.action-btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem; /* 👈 Spacing between buttons */
+  flex-wrap: wrap; /* ✅ In case it’s small screen */
+  margin-top: 1rem;
+}
+
+.action-btn-group button {
+  padding: 10px 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  min-width: 100px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
 
 /* ========================== */
 /* 🌌 Center Modal Backdrop */
