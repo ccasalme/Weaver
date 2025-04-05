@@ -77,6 +77,7 @@ const Homepage: React.FC = () => {
   const { data, fetchMore, refetch } = useQuery(GET_STORIES, {
     variables: { offset: 0, limit: 6 },
     fetchPolicy: "network-only",
+    pollInterval: 10000, // every 10 seconds (adjust as needed)
   });
 
   const [likeStory] = useMutation(LIKE_STORY, {

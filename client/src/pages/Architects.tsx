@@ -54,7 +54,7 @@ const Architects: React.FC = () => {
           }}
         >
           <p style={{ color: "white"}}>
-            Hello, Weavers... 
+           🕸️🕷️ Hello, Weavers... 🕷️🕸️
             <br></br>
             <br></br>
             We’re Cyrl, Stella, and Corey — a team of developers who met
@@ -63,7 +63,7 @@ const Architects: React.FC = () => {
           </p>
           <p style={{ color: "white"}}>
             <h2 style={{ fontSize: "2.7rem", color: "#baffff", textShadow: "0 0 6px #0ff" }}>
-              The React Architect
+              🕸️ The React Architect 🕸️
             </h2>
             Cyrl brought everything to life with front-end magic and her love for design.
             <br></br>
@@ -72,7 +72,7 @@ const Architects: React.FC = () => {
             attention to detail.
             <br></br> 
             <br></br>
-            She crafted the whole user interface, ensuring that every button, every
+            She crafted the whole user interface and functionality ― ensuring that every button, every
             animation, and every interaction is a delightful experience for you.
             <br></br>
             <br></br>
@@ -80,7 +80,7 @@ const Architects: React.FC = () => {
             <br></br>
             <br></br>
             <h2 style={{ fontSize: "2.7rem", color: "#baffff", textShadow: "0 0 6px #0ff" }}>
-              The Data Architect
+              🕸️ The Data Architect 🕸️
             </h2>
             Stella made sure that the server can handle the magic and that the data flows smoothly.
             <br></br>
@@ -96,9 +96,12 @@ const Architects: React.FC = () => {
             <br></br>
             <br></br>
             <h2 style={{ fontSize: "2.7rem", color: "#baffff", textShadow: "0 0 6px #0ff" }}>
-              The Controller Architect
+              🕸️ The Controller Architect 🕸️
             </h2>
-            Corey made sure that everything worked and the Villainous Bugs are squashed! <br></br> <br></br>
+            Corey made sure that everything worked and the Villainous Bugs are squashed! 
+            <br></br>
+            🐛🐜🐛
+            <br></br>
             With hundreds and hundreds of codes to make this whole thing possible, 
             a sneaky bug can break the whole magic. 
             <br></br>
@@ -106,16 +109,20 @@ const Architects: React.FC = () => {
             With Cyrl and Stella teaming up to create the Multiverses for you, Corey made sure that their chaos is controlled.
             <br></br>
             <br></br>
-            He is the one who makes sure that things are working as they should, and that nothing breaks this illusion for you. <br></br>
-          </p>
-          <p style={{ color: "white"}}> 
+            He is the one who makes sure that things are working as they should, and that nothing breaks this illusion for you. 
+            <br></br>
+            <br></br>
+            🕸️🕸️🕸️
+            <br></br>
             Together, we built <strong>Weaver</strong> as a passion project
             that blends storytelling with interactivity.
-          </p>
-          <p style={{ fontStyle: "italic", color: "#baffff", textShadow: "0 0 6px #0ff" }}>
+            <br></br>
+            <br></br>
             Weaver is more than an app — it’s our love letter to imagination,
             collaboration, and the magic of “what if?”
           </p>
+          <a href="https://github.com/ccasalme/Weaver" target="_blank" style={{ color: "#baffff", textDecoration: "underline", fontSize: "1.5rem" }}>
+            See our Weaver Github Repo Here!</a>
         </div>
 
         <div
