@@ -29,6 +29,29 @@ interface Story {
   parentStory?: Story | null;
 }
 
+interface Author {
+  _id: string;
+  username: string;
+}
+
+interface Comment {
+  _id: string;
+  content: string;
+  author: Author;
+}
+
+interface Story {
+  _id: string;
+  title: string;
+  content: string;
+  likes: number;
+  author: Author;
+  comments: Comment[];
+  branches?: Story[];
+  parentStory?: Story | null;
+}
+
+
 const Homepage: React.FC = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showJoinUs, setShowJoinUs] = useState(false);
@@ -39,7 +62,10 @@ const Homepage: React.FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [storyToDelete, setStoryToDelete] = useState<string | null>(null);
   const [stories, setStories] = useState<Story[]>([]);
-
+  const displayName = (user?: { username?: string }) => {
+    return user?.username?.trim()
+  };
+  
   const storyContainerRef = useRef<HTMLDivElement>(null);
 
   const { data: meData } = useQuery(GET_ME);
@@ -251,7 +277,7 @@ const Homepage: React.FC = () => {
                       <br></br>
                         <em>Title: {branch.title}</em>
                         <br></br>
-                         By: {story.parentStory?.author?.username || "Unknown"}</strong>
+                         By: {displayName(branch.author)}</strong>
                          <br></br>
                          <br></br>
                          {branch.content}
