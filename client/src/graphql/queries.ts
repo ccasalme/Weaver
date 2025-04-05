@@ -29,10 +29,7 @@ export const GET_STORIES = gql`
           _id
           username
         }
-        likes {
-          _id
-          username
-        }
+        likes
         comments {
           _id
           content
