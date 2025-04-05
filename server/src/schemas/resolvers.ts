@@ -28,15 +28,15 @@ const resolvers = {
       const profile = await Profile.findOne({ user: context.user._id })
         .populate({
           path: "user",
-          select: "_id username email fullName"
+          select: "_id username email fullName avatar bio",
         })
         .populate({
           path: "followers",
-          select: "_id username email fullName"
+          select: "_id username email fullName avatar bio"
         })
         .populate({
           path: "following",
-          select: "_id username email fullName"
+          select: "_id username email fullName avatar bio"
         })
         .populate({
           path: "sharedStories",
@@ -45,7 +45,7 @@ const resolvers = {
               path: "comments",
               populate: {
                 path: "author",
-                select: "_id username fullName"
+                select: "_id username fullName avatar bio"
               }
             },
             {
@@ -65,7 +65,7 @@ const resolvers = {
               path: "comments",
               populate: {
                 path: "author",
-                select: "_id username fullName"
+                select: "_id username fullName avatar bio"
               }
             },
             {
@@ -85,7 +85,7 @@ const resolvers = {
               path: "comments",
               populate: {
                 path: "author",
-                select: "_id username fullName"
+                select: "_id username fullName avatar bio"
               }
             },
             {
@@ -428,6 +428,32 @@ unfollowUser: async (_: any, { targetUserId }: { targetUserId: string }, context
 
   return await User.findById(targetUserId);
 },
+
+// Update the profile of the logged-in user
+updateProfile: async (_: any, { bio, avatar }: { bio?: string; avatar?: string }, context: any) => {
+  if (!context.user) {
+    throw new Error("You need to be logged in!");
+  }
+
+  const updated = await Profile.findOneAndUpdate(
+    { user: context.user._id },
+    {
+      ...(bio !== undefined && { bio }),
+      ...(avatar !== undefined && { avatar }),
+    },
+    { new: true }
+  ).populate({
+    path: "user",
+    select: "_id username email fullName bio avatar"
+  });
+
+  if (!updated) {
+    throw new Error("Failed to update profile.");
+  }
+
+  return updated;
+}
+
 
   },
 };

@@ -1207,7 +1207,7 @@ button:hover {
 
 .username-heading {
   color: #fff;
-  background: linear-gradient(to right, #3e5151, #decba4);
+  background: rgba(0,0,0,0.8);
   padding: 0.5rem 1rem;
   border-radius: 12px;
   font-size: 1.2rem;

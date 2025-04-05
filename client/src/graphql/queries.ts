@@ -87,6 +87,8 @@ export const GET_MY_PROFILE = gql`
         username
         email
       }
+      bio
+      avatar
       followers {
         _id
         username

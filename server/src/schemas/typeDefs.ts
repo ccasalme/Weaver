@@ -80,6 +80,7 @@ const typeDefs = `
     voteStory(storyId: ID!, voteType: VoteType): Vote!
     followUser(targetUserId: ID!): User!
     unfollowUser(targetUserId: ID!): User!
+    updateProfile(bio: String, avatar: String): Profile
   }
 `;
 
