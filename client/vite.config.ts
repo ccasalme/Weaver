@@ -13,7 +13,7 @@ export default defineConfig({
     },
     port: 3000, // Ensure the client runs on 3000
   },
-});
+  });
 
   
   // In the above configuration, we are setting up a proxy for the  /api  route. When the React frontend makes a request to  /api , Vite will forward the request to the backend server running on port 3001. 

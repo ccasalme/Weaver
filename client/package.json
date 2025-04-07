@@ -9,6 +9,7 @@
     "lint": "eslint . --ext .ts,.tsx",
     "preview": "vite preview",
     "test": "vitest",
+    "test:client": "vitest run --dir src",
     "test:watch": "vitest watch",
     "test:e2e": "cypress open",
     "test:e2e:run": "cypress run"

@@ -21,10 +21,13 @@
     "devDependencies": {
         "@testing-library/cypress": "^10.0.3",
         "@types/canvas-confetti": "^1.9.0",
+        "@types/jest": "^29.5.14",
+        "@types/node": "^22.14.0",
         "concurrently": "^8.2.2",
         "cypress": "^14.2.0",
         "eslint": "^9.22.0",
-        "typescript": "^5.8.2"
+        "typescript": "^5.8.2",
+        "vitest": "^3.1.1"
     },
     "dependencies": {
         "@types/react": "^18.2.57",
