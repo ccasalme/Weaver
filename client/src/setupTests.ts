@@ -1,6 +1,5 @@
-// src/setupTests.ts
+import '@testing-library/jest-dom'; // 👈 this adds `.toBeInTheDocument()` and other matchers
 import { vi } from 'vitest';
 
-// Mocking the alert function to do nothing
-// This prevents alert dialogs from interrupting the test flow
+// Already existing global stub for alerts
 vi.stubGlobal('alert', () => {});

@@ -1,17 +1,10 @@
 // src/components/AddComment.test.tsx
 /// <reference types="vitest" />
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-  act,
-} from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import AddComment from "./AddComment";
 import { ADD_COMMENT } from "../graphql/mutations";
-import { GET_STORIES } from "../graphql/queries";
 
 describe("<AddComment />", () => {
   const storyId = "test-story-123";
@@ -23,8 +16,8 @@ describe("<AddComment />", () => {
   });
 
   afterEach(() => {
-    vi.useRealTimers();
     vi.restoreAllMocks();
+    vi.useRealTimers();
   });
 
   const mocks = [
@@ -53,10 +46,6 @@ describe("<AddComment />", () => {
         },
       },
     },
-    {
-      request: { query: GET_STORIES },
-      result: { data: { getStories: [] } },
-    },
   ];
 
   it("submits a comment successfully", async () => {
@@ -74,17 +63,19 @@ describe("<AddComment />", () => {
       target: { value: "This is the content of the thread." },
     });
 
-    fireEvent.click(screen.getByText(/submit thread/i));
-
-    console.log("🧪 Submitted form");
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(4000);
-      console.log("🧪 Timers advanced");
+    await act(() => {
+      fireEvent.click(screen.getByText(/submit thread/i));
     });
 
-    await waitFor(() => {
-      expect(mockOnClose).toHaveBeenCalled();
-    });
-  }, 15000);
+    await act(() => vi.advanceTimersByTimeAsync(2000));
+    await act(() => vi.advanceTimersByTimeAsync(2000));
+
+    let attempts = 0;
+    while (!mockOnClose.mock.calls.length && attempts < 10) {
+      await act(() => vi.advanceTimersByTimeAsync(100));
+      attempts++;
+    }
+
+    expect(mockOnClose).toHaveBeenCalled();
+  }, 10000);
 });
