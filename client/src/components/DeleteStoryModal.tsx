@@ -1,5 +1,3 @@
-// src/components/DeleteStoryModal.tsx
-
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { DELETE_STORY } from "../graphql/mutations";
@@ -99,6 +97,8 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            maxHeight: "90vh", // Prevent modal from growing too large
+            overflowY: "auto", // Allow vertical scroll if content overflows
           }}
         >
           <h2
@@ -118,56 +118,65 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
             ⚠️ DELETE ORIGIN UNIVERSE
           </h2>
 
-          {confirmStage === 1 && (
-            <>
-              <p style={warningTextStyle}>
-                You're about to permanently erase a universe from the weave. All
-                branches and threads will vanish. This is the point of no return...
-              </p>
-              <div style={buttonGroupStyle}>
-                <button onClick={() => setConfirmStage(2)} disabled={loading} style={buttonStyle}>
-                  {loading ? "Processing..." : "Yes, delete universe"}
-                </button>
-                <button onClick={onClose} style={buttonStyle}>
-                  Cancel
-                </button>
+          {/* Modal Content Area with Scrollable Feature */}
+          <div
+            style={{
+              padding: "1rem",
+              maxHeight: "80vh", // You can adjust this value as needed
+              overflowY: "auto", // Add scrolling to this container
+            }}
+          >
+            {confirmStage === 1 && (
+              <>
+                <p style={warningTextStyle}>
+                  You're about to permanently erase a universe from the weave. All
+                  branches and threads will vanish. This is the point of no return...
+                </p>
+                <div style={buttonGroupStyle}>
+                  <button onClick={() => setConfirmStage(2)} disabled={loading} style={buttonStyle}>
+                    {loading ? "Processing..." : "Yes, delete universe"}
+                  </button>
+                  <button onClick={onClose} style={buttonStyle}>
+                    Cancel
+                  </button>
+                </div>
+              </>
+            )}
+
+            {confirmStage === 2 && (
+              <>
+                <p style={warningTextStyle}>
+                  {`Dearest Weaver, this is the \nFINAL WARNING \nfrom us, the Architects. \n \nYou are\nabout to destroy a whole\ntimeline. There is no going\nback.\n\nPoint of no return.\n\nYou will now be a\nDestroyer of Worlds...and\nyou may receive the wrath of\nother Weavers that helped\nyour universe grow.\n\nARE YOU ABSOLUTELY SURE?`}
+                </p>
+                <div style={buttonGroupStyle}>
+                  <button onClick={handleFinalDelete} disabled={loading} style={buttonStyle}>
+                    {loading ? "Deleting..." : "🔥 Yes, destroy it"}
+                  </button>
+                  <button onClick={onClose} style={buttonStyle}>
+                    ❎ Cancel
+                  </button>
+                </div>
+              </>
+            )}
+
+            {confirmStage === 3 && (
+              <div style={{ maxWidth: "100%", padding: "1rem" }}>
+                <p style={warningTextStyle}>
+                  Good job. You just deleted a whole universe. 🌌<br />
+                  A timeline that consisted of worlds... gone. The multiverse is shaken.<br />
+                  Branched timelines are damaged. This origin is now wiped from the database.<br /><br />
+                  May you bear the weight of the consequences of destroying an origin universe.<br />
+                  Do not be surprised if other Weavers form a Council to overthrow you. 😔
+                </p>
               </div>
-            </>
-          )}
+            )}
 
-          {confirmStage === 2 && (
-            <>
-              <p style={warningTextStyle}>
-                {`Dearest Weaver, this is the \nFINAL WARNING \nfrom us, the Architects. \n \nYou are\nabout to destroy a whole\ntimeline. There is no going\nback.\n\nPoint of no return.\n\nYou will now be a\nDestroyer of Worlds...and\nyou may receive the wrath of\nother Weavers that helped\nyour universe grow.\n\nARE YOU ABSOLUTELY SURE?`}
+            {error && (
+              <p style={{ marginTop: "1rem", color: "#ffdddd" }}>
+                Error: {error.message}
               </p>
-              <div style={buttonGroupStyle}>
-                <button onClick={handleFinalDelete} disabled={loading} style={buttonStyle}>
-                  {loading ? "Deleting..." : "🔥 Yes, destroy it"}
-                </button>
-                <button onClick={onClose} style={buttonStyle}>
-                  ❎ Cancel
-                </button>
-              </div>
-            </>
-          )}
-
-          {confirmStage === 3 && (
-            <div style={{ maxWidth: "100%", padding: "1rem" }}>
-              <p style={warningTextStyle}>
-                Good job. You just deleted a whole universe. 🌌<br />
-                A timeline that consisted of worlds... gone. The multiverse is shaken.<br />
-                Branched timelines are damaged. This origin is now wiped from the database.<br /><br />
-                May you bear the weight of the consequences of destroying an origin universe.<br />
-                Do not be surprised if other Weavers form a Council to overthrow you. 😔
-              </p>
-            </div>
-          )}
-
-          {error && (
-            <p style={{ marginTop: "1rem", color: "#ffdddd" }}>
-              Error: {error.message}
-            </p>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
@@ -180,10 +189,13 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
             top: 0,
             left: 0,
             height: "100vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             width: "100vw",
             background: "radial-gradient(circle at center, rgba(255,0,0,0.2), transparent 60%)",
-            backdropFilter: "blur(1px)",
-            animation: "rippleCrack 3s ease-out forwards",
+            backdropFilter: "blur(3px)",  /* Added more blur for more impact */
+            animation: "rippleCrack 10s ease-out forwards", 
             zIndex: 9998,
             pointerEvents: "none",
           }}
@@ -198,14 +210,19 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
               transform: scale(1);
               filter: brightness(1);
             }
+              30% {
+              opacity: 0.6;
+              transform: scale(1.5);   /* Increased opacity to make it more visible */
+              filter: brightness(1.2);} /* Increased scale to make the ripple larger */
+
             50% {
               opacity: 1;
-              transform: scale(1.3);
-              filter: brightness(1.4);
+              transform: scale(2);
+              filter: brightness(1.5); /* Even brighter to emphasize the effect */
             }
             100% {
               opacity: 0;
-              transform: scale(2);
+              transform: scale(3); /* Larger final scale to make the effect more dramatic */
               filter: brightness(0.8);
             }
           }

@@ -1890,3 +1890,50 @@ button:hover {
     padding: 20px;
   }
 }
+
+
+.modal {
+  padding: 1.5rem; /* Reduce padding for better content fitting */
+  max-height: 90vh; /* Ensure modal doesn't exceed screen height */
+  overflow-y: auto; /* Enable scrolling if content overflows */
+}
+
+@media (max-width: 768px) {
+  .modal {
+    max-width: 95%; /* Ensure it fits on smaller screens */
+    padding: 1.2rem;
+    font-size: 1rem;
+  }
+
+  .modal-backdrop {
+    padding: 1rem; /* Adjust backdrop padding */
+    align-items: flex-start; /* Push modal slightly up on smaller screens */
+  }
+
+  .modal h2 {
+    font-size: 1.5rem;
+  }
+
+  .modal p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 1rem;
+  }
+
+  .modal h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal p {
+    font-size: 1rem;
+  }
+
+  .modal button {
+    font-size: 1rem;
+    padding: 0.4rem 0.6rem;
+  }
+}
