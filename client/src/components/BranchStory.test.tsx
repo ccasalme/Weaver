@@ -4,6 +4,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import BranchStory from "./BranchStory";
 import { BRANCH_STORY } from "../graphql/mutations";
 import { GET_STORIES } from "../graphql/queries";
+import * as authUtils from "../utils/auth"; // adjust path if needed
 
 describe("<BranchStory />", () => {
   const parentStoryId = "story-abc-123";
@@ -89,17 +90,25 @@ describe("<BranchStory />", () => {
     // Assert onClose was called
     expect(mockOnClose).toHaveBeenCalled();
   }, 10000);
-  it("calls onClose when the ❎ Cancel button is clicked", () => {
+
+  it("calls onClose when the ❎ Cancel button is clicked", async () => {
+    vi.spyOn(authUtils, "isLoggedIn").mockResolvedValue(true);
+
     render(
       <MockedProvider mocks={[]} addTypename={false}>
         <BranchStory parentStoryId="story-abc-123" onClose={mockOnClose} />
       </MockedProvider>
     );
 
-    // Find the cancel button and click it
-    fireEvent.click(screen.getByRole("button", { name: /❎ cancel/i }));
+    // Wait for auth check
+    await act(() => Promise.resolve());
 
-    // Expect onClose to be called
+    // Find the ❎ Cancel button and click it
+    const cancelButton = screen.getByText((text) =>
+      text.toLowerCase().includes("cancel")
+    );
+    fireEvent.click(cancelButton);
+
     expect(mockOnClose).toHaveBeenCalled();
   });
 });
