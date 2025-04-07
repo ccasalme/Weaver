@@ -18,13 +18,13 @@ describe("<AddComment />", () => {
   const mockOnClose = vi.fn();
 
   beforeEach(() => {
-    vi.useFakeTimers(); // fake time for setTimeouts
-    vi.spyOn(globalThis, "alert").mockImplementation(() => {}); // silence alerts
+    vi.useFakeTimers();
+    vi.spyOn(globalThis, "alert").mockImplementation(() => {});
   });
 
   afterEach(() => {
-    vi.restoreAllMocks();
     vi.useRealTimers();
+    vi.restoreAllMocks();
   });
 
   const mocks = [
@@ -54,14 +54,8 @@ describe("<AddComment />", () => {
       },
     },
     {
-      request: {
-        query: GET_STORIES,
-      },
-      result: {
-        data: {
-          getStories: [],
-        },
-      },
+      request: { query: GET_STORIES },
+      result: { data: { getStories: [] } },
     },
   ];
 
@@ -72,7 +66,6 @@ describe("<AddComment />", () => {
       </MockedProvider>
     );
 
-    // Fill in form
     fireEvent.change(screen.getByPlaceholderText("Thread Title"), {
       target: { value: "My Thread Title" },
     });
@@ -83,14 +76,15 @@ describe("<AddComment />", () => {
 
     fireEvent.click(screen.getByText(/submit thread/i));
 
-    // 🧪 Advance time for 1st 2s timeout (ripple) and 2nd 2s timeout (onClose)
+    console.log("🧪 Submitted form");
+
     await act(async () => {
       await vi.advanceTimersByTimeAsync(4000);
+      console.log("🧪 Timers advanced");
     });
 
-    // ✅ Wait for the onClose callback to be called
     await waitFor(() => {
       expect(mockOnClose).toHaveBeenCalled();
     });
-  }, 15000); // extend timeout in case delay sim is slow
+  }, 15000);
 });
