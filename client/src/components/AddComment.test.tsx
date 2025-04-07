@@ -78,4 +78,29 @@ describe("<AddComment />", () => {
 
     expect(mockOnClose).toHaveBeenCalled();
   }, 10000);
+
+  it("renders the input fields and submit button", () => {
+    render(
+      <MockedProvider mocks={[]} addTypename={false}>
+        <AddComment storyId="123" onClose={vi.fn()} />
+      </MockedProvider>
+    );
+
+    expect(screen.getByPlaceholderText("Thread Title")).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText(/weave your story/i)
+    ).toBeInTheDocument();
+    expect(screen.getByText(/submit thread/i)).toBeInTheDocument();
+  });
+
+  it("closes the modal when the backdrop is clicked", () => {
+    render(
+      <MockedProvider mocks={[]} addTypename={false}>
+        <AddComment storyId="123" onClose={mockOnClose} />
+      </MockedProvider>
+    );
+
+    fireEvent.click(screen.getByText(/cancel/i));
+    expect(mockOnClose).toHaveBeenCalled();
+  });
 });
