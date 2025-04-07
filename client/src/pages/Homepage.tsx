@@ -46,7 +46,7 @@ const Homepage: React.FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [storyToDelete, setStoryToDelete] = useState<string | null>(null);
   const [stories, setStories] = useState<Story[]>([]);
-  // Removed unused state variable 'followedUserId'
+ 
   const displayName = (user?: { username?: string }) => user?.username?.trim();
 
   const storyContainerRef = useRef<HTMLDivElement>(null);
@@ -57,6 +57,9 @@ const Homepage: React.FC = () => {
   const currentUserId = meData?.me?._id || null;
   const followingIds = profileData?.myProfile?.following?.map((f: { _id: string }) => f._id) || [];
 
+  // Fetch stories
+  // Offset and limit are used for pagination
+  // Delayed loading of stories to avoid flicker
   const { data, fetchMore, refetch } = useQuery(GET_STORIES, {
     variables: { offset: 0, limit: 6 },
     fetchPolicy: "network-only",
@@ -68,7 +71,6 @@ const Homepage: React.FC = () => {
   const [followUser] = useMutation(FOLLOW_USER, {
     onCompleted: () => {
       refetchProfile();
-      // Removed unused state updates for 'followedUserId'
     },
     update(cache, { data }) {
       const existing = cache.readQuery<{ myProfile: { following: { _id: string }[] } }>({
