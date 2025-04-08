@@ -37,23 +37,29 @@ Built as a single-page MERN stack application, **Weaver** combines modern web te
 
 ## ✨ Features
 
-- Story Threading, Branching, and Voting
+- Collaborative Story Threads
 
-- Comments and Discussions
+- Branching Narrative System
+
+- Voting for Canon Paths
+
+- Commenting on Stories and Threads
 
 - Writing Prompt Generator
 
-- User Profiles with editable bios and avatars
+- Personalized User Profiles
 
-- Liked Stories & Follower System
+- Follower and Like System
 
-- GraphQL API with Apollo Server
+- Secure JWT-Based Authentication
 
-- Component and End-to-End Testing with Cypress
+- GraphQL API Powered by Apollo Server
 
-- Render deployment with GitHub Actions CI/CD
+- Cypress Testing Integration
 
-- JWT Authentication
+- Modern Tech Stack (MERN + Vite + TypeScript)
+
+- CI/CD with GitHub Actions + Render Deployment
 
 ## ⚙️ Installation
 
@@ -85,57 +91,40 @@ MONGODB_URI=your_mongo_connection_uri
   # Client-side runtime dependencies for the React frontend
   "client": {
     "dependencies": {
-      "@apollo/client": "3.13.4",         # Apollo GraphQL client for React
-      "graphql": "16.10.0",               # GraphQL language and client integration
-      "react": "18.2.0",                  # React core library for building UIs
-      "react-router-dom": "6.30.0",       # Declarative routing for React
-      "vite": "6.2.0"                     # Fast dev/build tool for frontend
-    },
-    # Development tools and utilities for the frontend
-    "devDependencies": {
-      "@vitejs/plugin-react": "4.3.4",    # Vite plugin to support React
-      "@types/react": "18.2.57",          # Type definitions for React
-      "@types/react-dom": "18.2.17",      # Type definitions for React DOM
-      "cypress": "14.2.0",                # End-to-end testing tool
-      "eslint": "9.21.0",                 # JavaScript linter
-      "typescript": "5.7.2",              # Static typing for JavaScript
-      "vitest": "3.0.8"                   # Unit testing framework for Vite
+      "@apollo/client": "^3.13.4",        # Apollo GraphQL client for React
+      "canvas-confetti": "^1.9.3",        # Confetti animation for celebration effects
+      "framer-motion": "^12.6.3",         # Framer Motion animation library for React
+      "graphql": "^16.10.0",              # GraphQL language and client integration
+      "react": "18.2.0",                  # Core React library for building UIs
+      "react-dom": "18.2.0",              # React DOM renderer
+      "react-markdown": "^10.1.0",        # Render Markdown inside React
+      "react-router-dom": "^6.30.0"       # Declarative routing for React apps
     }
   },
 
   # Server-side runtime dependencies for handling API and GraphQL requests
   "server": {
     "dependencies": {
-      "express": "4.19.2",                # Fast, minimal web framework for Node.js
-      "@apollo/server": "4.10.4",         # Apollo Server for GraphQL APIs
-      "graphql": "16.9.0",                # GraphQL language support
-      "mongoose": "8.0.0",                # MongoDB ODM for Node.js
-      "jsonwebtoken": "8.5.1",            # Handling JWTs for authentication
-      "bcrypt": "4.0.1"                   # Password hashing and authentication
-    },
-    # Development tools and utilities for backend
-    "devDependencies": {
-      "dotenv": "16.4.5",                 # Loads env vars from .env
-      "nodemon": "3.1.0",                 # Hot-reloading for development
-      "typescript": "5.4.5",              # Type safety in the backend
-      "@types/bcrypt": "5.0.2",           # Type definitions for bcrypt
-      "@types/express": "4.17.21",        # Type definitions for Express.js
-      "@types/jsonwebtoken": "9.0.6",     # Type definitions for jsonwebtoken
-      "@types/node": "20.14.8"            # Type definitions for Node.js
+      "bcrypt": "^4.0.1",                 # Password hashing and authentication
+      "express": "^4.19.2",               # Web framework for Node.js
+      "@apollo/server": "^4.10.4",        # Apollo GraphQL server
+      "graphql": "^16.9.0",               # GraphQL support for APIs
+      "jsonwebtoken": "^8.5.1",           # Handling JWTs for user authentication
+      "mongoose": "^8.0.0"                # MongoDB object modeling for Node.js
     }
   },
 
   # Packages shared across the full-stack app
-  "root": {
-      "express": "4.19.2",                # Shared server framework
-      "graphql": "16.9.0",                # GraphQL base support
-      "mongoose": "8.0.0",                # Database modeling used in both front and back
-      "jsonwebtoken": "8.5.1",            # JWT utilities used in both server and client auth
-      "bcrypt": "4.0.1",                  # Shared authentication hashing
-      "dotenv": "16.4.5",                 # Shared configuration support
-      "nodemon": "3.1.0",                 # Development convenience tool
-      "typescript": "5.4.5"               # Shared TypeScript configuration
+  "main": {
+    "dependencies": {
+      "bcrypt": "^4.0.1",                 # Shared authentication hashing
+      "express": "^4.19.2",               # Shared server framework
+      "@apollo/server": "^4.10.4",        # Apollo server used across stack
+      "graphql": "^16.9.0",               # Shared GraphQL base
+      "jsonwebtoken": "^8.5.1",           # Shared JWT support
+      "mongoose": "^8.0.0"                # Shared MongoDB object modeling
     }
+  }
 }
 
 ```
@@ -331,7 +320,7 @@ Feel free to reach out with suggestions or questions to the project architects!
 
 **Cyrl Casalme**
 
-- **Role**: Client (Front-end)
+- **Role**: Front-end
 - **GitHub**: [@ccasalme](https://github.com/ccasalme)
 - **Email**: ccasalme@example.com
 
@@ -341,7 +330,7 @@ Feel free to reach out with suggestions or questions to the project architects!
 
 **Stella Nabajja**
 
-- **Role**: Database (Back-end)
+- **Role**: Database
 - **GitHub**: [@snabaj](https://github.com/snabaj)
 - **Email**: snabajja@gmail.com
 
