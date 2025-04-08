@@ -116,7 +116,6 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
               display: "inline-block",
               marginBottom: "1rem",
               color: "#fff",
-              color: "#fff",
             }}
           >
             ⚠️ DELETE ORIGIN UNIVERSE
@@ -376,10 +375,6 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
               "radial-gradient(circle at center, rgba(255,0,0,0.2), transparent 60%)",
             backdropFilter: "blur(3px)" /* Added more blur for more impact */,
             animation: "rippleCrack 10s ease-out forwards",
-            background:
-              "radial-gradient(circle at center, rgba(255,0,0,0.2), transparent 60%)",
-            backdropFilter: "blur(1px)",
-            animation: "rippleCrack 3s ease-out forwards",
             zIndex: 9998,
             pointerEvents: "none",
           }}
