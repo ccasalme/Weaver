@@ -57,7 +57,7 @@ const Profile: React.FC = () => {
 
   const [toggleLike] = useMutation(LIKE_STORY, { onCompleted: () => refetch() });
   const [unfollowUser] = useMutation(UNFOLLOW_USER, { onCompleted: () => refetch() });
-  // Removed unused followUser mutation to fix the error
+
 
   const [activeTab, setActiveTab] = useState<"stories" | "branches" | "likes">("stories");
   const [editing, setEditing] = useState(false);
@@ -67,7 +67,7 @@ const Profile: React.FC = () => {
   const [showFollowing, setShowFollowing] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [storyToDelete, setStoryToDelete] = useState<string | null>(null);
-  const [expandedThreads, setExpandedThreads] = useState<Record<string, boolean>>({});
+
 
   useEffect(() => {
     const storedAvatar = localStorage.getItem("localAvatar");
@@ -124,32 +124,6 @@ const Profile: React.FC = () => {
         <div key={story._id} className="story-card">
           <h3>{story.title}</h3>
           <p>{story.content}</p>
-
-          {story.comments && story.comments.length > 0 && (
-            <>
-              <button
-                onClick={() =>
-                  setExpandedThreads((prev) => ({
-                    ...prev,
-                    [story._id]: !prev[story._id],
-                  }))
-                }
-                className="see-threads-btn"
-              >
-                {expandedThreads[story._id] ? "🔽 Hide Threads" : "🧵 See Threads"}
-              </button>
-
-              {expandedThreads[story._id] && (
-                <ul className="comment-thread">
-                  {story.comments.map((comment) => (
-                    <li key={comment._id}>
-                      <strong>{comment.author.username}:</strong> {comment.content}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </>
-          )}
 
           {isLikedTab ? (
             <button onClick={() => handleUnlike(story._id)} className="delete-btn"
