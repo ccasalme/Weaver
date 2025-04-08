@@ -100,6 +100,15 @@ describe("<CreateStory />", () => {
     },
   ];
 
+  it("renders without crashing", async () => {
+    render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <CreateStory onClose={mockOnClose} />
+      </MockedProvider>
+    );
+    expect(screen.getByPlaceholderText("Origin Title")).toBeInTheDocument();
+  });
+
   it("renders form inputs and buttons", async () => {
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
