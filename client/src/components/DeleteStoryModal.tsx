@@ -54,7 +54,9 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
           onDeleted();
         }, 30000); // 30 seconds of epic monologue
       } catch (err) {
-        console.error("Failed to delete story:", err);
+        if (process.env.NODE_ENV !== "test") {
+          console.error("Failed to delete story:", error);
+        }
       }
     }, 500); // Delay animation start
   };
@@ -85,7 +87,8 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
           className="modal"
           onClick={(e) => e.stopPropagation()}
           style={{
-            background: "linear-gradient(to right, rgb(159, 171, 174), rgb(59, 77, 77))",
+            background:
+              "linear-gradient(to right, rgb(159, 171, 174), rgb(59, 77, 77))",
             padding: "2rem",
             borderRadius: "12px",
             width: "90%",
@@ -129,14 +132,83 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
             {confirmStage === 1 && (
               <>
                 <p style={warningTextStyle}>
-                  You're about to permanently erase a universe from the weave. All
-                  branches and threads will vanish. This is the point of no return...
+                  You're about to permanently erase a universe from the weave.
+                  All branches and threads will vanish. This is the point of no
+                  return...
                 </p>
                 <div style={buttonGroupStyle}>
-                  <button onClick={() => setConfirmStage(2)} disabled={loading} style={buttonStyle}>
+                  <button
+                    onClick={() => setConfirmStage(2)}
+                    disabled={loading}
+                    style={buttonStyle}
+                  >
                     {loading ? "Processing..." : "Yes, delete universe"}
                   </button>
                   <button onClick={onClose} style={buttonStyle}>
+                    Cancel
+                  </button>
+                </div>
+              </>
+            )}
+            {confirmStage === 1 && (
+              <>
+                <p
+                  style={{
+                    marginBottom: "1rem",
+                    fontSize: "1.9rem",
+                    textAlign: "center",
+                    color: "#fff",
+                    textShadow: "0 0 5px #ff0000",
+                    lineHeight: "1.5",
+                    whiteSpace: "pre-line",
+                    fontWeight: "bold",
+                    background: "rgba(33, 26, 26, 0.25)",
+                  }}
+                >
+                  You're about to permanently erase a universe from the weave.
+                  All branches and threads will vanish. This is the point of no
+                  return...
+                </p>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: "1rem",
+                  }}
+                >
+                  <button
+                    onClick={() => setConfirmStage(2)}
+                    disabled={loading}
+                    style={{
+                      padding: "0.5rem 1rem",
+                      backgroundColor: "#ccc",
+                      color: "#333",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      fontSize: "1.5rem",
+                      boxShadow: "0 0 50px rgba(246, 32, 32, 0.4)",
+                      transition: "background-color 0.3s ease",
+                    }}
+                  >
+                    {loading ? "Processing..." : "Yes, delete universe"}
+                  </button>
+                  <button
+                    onClick={onClose}
+                    style={{
+                      padding: "0.5rem 1rem",
+                      backgroundColor: "#ccc",
+                      color: "#333",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      fontSize: "1.5rem",
+                      boxShadow: "0 0 50px rgba(246, 32, 32, 0.4)",
+                      transition: "background-color 0.3s ease",
+                    }}
+                  >
                     Cancel
                   </button>
                 </div>
@@ -149,10 +221,77 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
                   {`Dearest Weaver, this is the \nFINAL WARNING \nfrom us, the Architects. \n \nYou are\nabout to destroy a whole\ntimeline. There is no going\nback.\n\nPoint of no return.\n\nYou will now be a\nDestroyer of Worlds...and\nyou may receive the wrath of\nother Weavers that helped\nyour universe grow.\n\nARE YOU ABSOLUTELY SURE?`}
                 </p>
                 <div style={buttonGroupStyle}>
-                  <button onClick={handleFinalDelete} disabled={loading} style={buttonStyle}>
+                  <button
+                    onClick={handleFinalDelete}
+                    disabled={loading}
+                    style={buttonStyle}
+                  >
                     {loading ? "Deleting..." : "🔥 Yes, destroy it"}
                   </button>
                   <button onClick={onClose} style={buttonStyle}>
+                    ❎ Cancel
+                  </button>
+                </div>
+              </>
+            )}
+            {confirmStage === 2 && (
+              <>
+                <p
+                  style={{
+                    marginBottom: "1rem",
+                    fontSize: "1.9rem",
+                    textAlign: "center",
+                    color: "#fff",
+                    textShadow: "0 0 5px #ff0000",
+                    lineHeight: "1.5",
+                    whiteSpace: "pre-line",
+                    fontWeight: "bold",
+                    background: "rgba(33, 26, 26, 0.25)",
+                  }}
+                >
+                  {`Dearest Weaver, this is the \nFINAL WARNING \nfrom us, the Architects. \n \nYou are\nabout to destroy a whole\ntimeline. There is no going\nback.\n\nPoint of no return.\n\nYou will now be a\nDestroyer of Worlds...and\nyou may receive the wrath of\nother Weavers that helped\nyour universe grow.\n\nARE YOU ABSOLUTELY SURE?`}
+                </p>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: "1rem",
+                    marginTop: "1.5rem",
+                  }}
+                >
+                  <button
+                    onClick={handleFinalDelete}
+                    disabled={loading}
+                    style={{
+                      padding: "0.5rem 1rem",
+                      backgroundColor: "#ccc",
+                      color: "#333",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      fontSize: "1.5rem",
+                      boxShadow: "0 0 50px rgba(246, 32, 32, 0.4)",
+                      transition: "background-color 0.3s ease",
+                    }}
+                  >
+                    {loading ? "Deleting..." : "🔥 Yes, destroy it"}
+                  </button>
+                  <button
+                    onClick={onClose}
+                    style={{
+                      padding: "0.5rem 1rem",
+                      backgroundColor: "#ccc",
+                      color: "#333",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      fontSize: "1.5rem",
+                      boxShadow: "0 0 50px rgba(246, 32, 32, 0.4)",
+                      transition: "background-color 0.3s ease",
+                    }}
+                  >
                     ❎ Cancel
                   </button>
                 </div>
@@ -162,13 +301,52 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
             {confirmStage === 3 && (
               <div style={{ maxWidth: "100%", padding: "1rem" }}>
                 <p style={warningTextStyle}>
-                  Good job. You just deleted a whole universe. 🌌<br />
-                  A timeline that consisted of worlds... gone. The multiverse is shaken.<br />
-                  Branched timelines are damaged. This origin is now wiped from the database.<br /><br />
-                  May you bear the weight of the consequences of destroying an origin universe.<br />
-                  Do not be surprised if other Weavers form a Council to overthrow you. 😔
+                  Good job. You just deleted a whole universe. 🌌
+                  <br />
+                  A timeline that consisted of worlds... gone. The multiverse is
+                  shaken.
+                  <br />
+                  Branched timelines are damaged. This origin is now wiped from
+                  the database.
+                  <br />
+                  <br />
+                  May you bear the weight of the consequences of destroying an
+                  origin universe.
+                  <br />
+                  Do not be surprised if other Weavers form a Council to
+                  overthrow you. 😔
                 </p>
               </div>
+            )}
+            {confirmStage === 3 && (
+              <p
+                style={{
+                  marginBottom: "1rem",
+                  fontSize: "1.9rem",
+                  textAlign: "center",
+                  color: "#fff",
+                  textShadow: "0 0 5px #ff0000",
+                  lineHeight: "1.5",
+                  whiteSpace: "pre-line",
+                  fontWeight: "bold",
+                  background: "rgba(33, 26, 26, 0.25)",
+                }}
+              >
+                Good job. You just deleted a whole universe. 🌌
+                <br />
+                A timeline that consisted of worlds... gone. The multiverse is
+                shaken.
+                <br />
+                Branched timelines are damaged. This origin is now wiped from
+                the database.
+                <br />
+                <br />
+                May you bear the weight of the consequences of destroying an
+                origin universe.
+                <br />
+                Do not be surprised if other Weavers form a Council to overthrow
+                you. 😔
+              </p>
             )}
 
             {error && (
@@ -193,9 +371,10 @@ const DeleteStoryModal: React.FC<DeleteStoryModalProps> = ({
             justifyContent: "center",
             alignItems: "center",
             width: "100vw",
-            background: "radial-gradient(circle at center, rgba(255,0,0,0.2), transparent 60%)",
-            backdropFilter: "blur(3px)",  /* Added more blur for more impact */
-            animation: "rippleCrack 10s ease-out forwards", 
+            background:
+              "radial-gradient(circle at center, rgba(255,0,0,0.2), transparent 60%)",
+            backdropFilter: "blur(3px)" /* Added more blur for more impact */,
+            animation: "rippleCrack 10s ease-out forwards",
             zIndex: 9998,
             pointerEvents: "none",
           }}
