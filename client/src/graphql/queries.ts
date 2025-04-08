@@ -25,6 +25,11 @@ export const GET_STORIES = gql`
         title
         content
         likes
+        author {
+          _id
+          username
+        }
+        likes
         comments {
           _id
           content
@@ -55,9 +60,6 @@ export const GET_STORIES = gql`
   }
 `;
 
-
-
-
 // ✅ Get logged-in user basic data
 export const GET_ME = gql`
   query Me {
@@ -82,6 +84,8 @@ export const GET_MY_PROFILE = gql`
         username
         email
       }
+      bio
+      avatar
       followers {
         _id
         username
@@ -156,7 +160,7 @@ export const GET_MY_PROFILE = gql`
   }
 `;
 
-// ✅ Get all prompts (if you implement categories/themes for creativity)
+// ✅ Get all prompts (if you implement categories/themes for creativity later)
 export const GET_PROMPTS = gql`
   query GetPrompts {
     getPrompts {

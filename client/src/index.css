@@ -10,6 +10,7 @@ body {
   background-size: cover;
   padding-bottom: 100px; /* Space for footer */
   min-height: 100vh; /* Ensure the body covers the full height of the viewport */
+  padding-bottom: 100px; /* To prevent content hiding behind footer */
 }
 
 header {

@@ -1,3 +1,6 @@
+// This file contains the types for the Public Profile component
+// This file is for future use and is not currently used in the codebase
+
 export interface UserLite {
 	_id: string;
 	username: string;

@@ -12,7 +12,7 @@ const WeaverInfo: React.FC = () => {
             padding: "1rem 2rem",
             borderRadius: "12px",
             textAlign: "center",
-            fontSize: "3rem", // bumped up from 2.8rem
+            fontSize: "3rem", 
             fontWeight: "bold",
             textTransform: "uppercase",
             textShadow: "1px 1px 5px black",
@@ -86,7 +86,7 @@ const WeaverInfo: React.FC = () => {
 };
 
 const introStyle: React.CSSProperties = {
-  fontSize: "1.9rem", // was 1.4rem
+  fontSize: "1.9rem", 
   color: "#f0f0f0",
   backgroundColor: "rgba(0, 0, 0, 0.8)",
   padding: "1.2rem 1.5rem",
@@ -97,7 +97,7 @@ const introStyle: React.CSSProperties = {
 };
 
 const textBlockStyle: React.CSSProperties = {
-  fontSize: "1.8rem", // was 1.2rem
+  fontSize: "1.8rem", 
   color: "#eee",
   backgroundColor: "rgba(0, 0, 0, 0.8)",
   padding: "1.2rem 1.5rem",

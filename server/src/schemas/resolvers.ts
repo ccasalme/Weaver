@@ -28,15 +28,15 @@ const resolvers = {
       const profile = await Profile.findOne({ user: context.user._id })
         .populate({
           path: "user",
-          select: "_id username email fullName"
+          select: "_id username email fullName avatar bio",
         })
         .populate({
           path: "followers",
-          select: "_id username email fullName"
+          select: "_id username email fullName avatar bio"
         })
         .populate({
           path: "following",
-          select: "_id username email fullName"
+          select: "_id username email fullName avatar bio"
         })
         .populate({
           path: "sharedStories",
@@ -45,7 +45,7 @@ const resolvers = {
               path: "comments",
               populate: {
                 path: "author",
-                select: "_id username fullName"
+                select: "_id username fullName avatar bio"
               }
             },
             {
@@ -65,7 +65,7 @@ const resolvers = {
               path: "comments",
               populate: {
                 path: "author",
-                select: "_id username fullName"
+                select: "_id username fullName avatar bio"
               }
             },
             {
@@ -85,7 +85,7 @@ const resolvers = {
               path: "comments",
               populate: {
                 path: "author",
-                select: "_id username fullName"
+                select: "_id username fullName avatar bio"
               }
             },
             {
@@ -244,10 +244,6 @@ const resolvers = {
 
 
 //////////////////////////////////////////
-//Cyrl's notes: this change prevents the negative count
-  //prevents spam likes
-  //ensures that the user can only like a story once
-  //ensures that the user can unlike a story
   //ensures that it gets saved to the database and profile
   //if the user already liked the story, it will be unliked
   //if the user has not liked the story, it will be liked
@@ -388,8 +384,10 @@ const resolvers = {
       return newVote;
     },
 
+  //////////////////////////////////////////  
     // Follow and Unfollow a user
-// In your resolvers.ts
+    // This is a future feature and will be implemented later
+  //////////////////////////////////////////
 
 followUser: async (_: any, { targetUserId }: { targetUserId: string }, context: any) => {
   if (!context.user) throw new Error("You must be logged in to follow users.");
@@ -428,6 +426,32 @@ unfollowUser: async (_: any, { targetUserId }: { targetUserId: string }, context
 
   return await User.findById(targetUserId);
 },
+
+// Update the profile of the logged-in user
+updateProfile: async (_: any, { bio, avatar }: { bio?: string; avatar?: string }, context: any) => {
+  if (!context.user) {
+    throw new Error("You need to be logged in!");
+  }
+
+  const updated = await Profile.findOneAndUpdate(
+    { user: context.user._id },
+    {
+      ...(bio !== undefined && { bio }),
+      ...(avatar !== undefined && { avatar }),
+    },
+    { new: true }
+  ).populate({
+    path: "user",
+    select: "_id username email fullName bio avatar"
+  });
+
+  if (!updated) {
+    throw new Error("Failed to update profile.");
+  }
+
+  return updated;
+}
+
 
   },
 };

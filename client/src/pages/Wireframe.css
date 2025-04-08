@@ -7,22 +7,56 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
+  min-height: 100vh;
   overflow: auto;
   overflow-x: hidden;
   font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif; /* or 'Poppins', 'Rubik', etc. */
+  
 }
 
-/* Core container that fills the viewport properly */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 #root {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   background: url("../assets/WireFrameBackground.png") center center / cover
     no-repeat fixed;
   overflow-x: hidden;
+  padding: 0 1rem; /* Small side padding for small devices */
+  
+}
+
+/* ========================== */
+/* Media Queries */
+/* ========================== */
+
+@media (max-width: 480px) {
+  #root {
+    background-position: center top;
+    background-size: cover;
+    padding: 0 0.5rem;
+  }
+
+  html,
+  body {
+    font-size: 15px; /* Slightly smaller text base */
+  }
+}
+
+@media (max-width: 375px) {
+  #root {
+    background-attachment: scroll; /* fix janky "fixed" behavior on mobile Safari */
+  }
 }
 
 /* ========================== */
@@ -32,14 +66,35 @@ body {
   position: relative;
   width: 100%;
   max-width: 1400px;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   padding-top: 0;
-  padding-bottom: 50px;
+  padding-bottom: 4rem;
   margin: 0 auto;
+  padding-left: 2rem;
+  padding-right: 4rem;
+}
+
+
+/* ========================== */
+/* 🎉 Media Queries */
+/* ========================== */
+
+@media (max-width: 768px) {
+  .page-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
 }
 
 /* ========================== */
@@ -50,21 +105,54 @@ body {
   flex-direction: column;
   gap: 0px;
   width: 100%;
-  max-width: 1400px; /* ✅ Full width */
+  max-width: 1400px;
   height: auto;
   margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
 }
 
-/* Banners now take up full width properly */
 .hero-banner,
 .hero-banner-2 {
   width: 100%;
-  height: 400px; /* ✅ Increased height for better impact */
+  height: 400px;
   object-fit: cover;
-  border-radius: 12px; /* ✅ No rounded corners for full coverage */
+  border-radius: 12px;
 }
+
+
+/* ========================== */
+/* 🎉 Media Queries */
+/* ========================== */
+@media (max-width: 768px) {
+  .banner-container {
+    margin-bottom: 16px;
+    border-radius: 10px;
+  }
+
+  .hero-banner,
+  .hero-banner-2 {
+    height: 250px;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-container {
+    margin-bottom: 12px;
+    border-radius: 8px;
+  }
+
+  .hero-banner,
+  .hero-banner-2 {
+    height: 180px;
+    border-radius: 8px;
+  }
+}
+
+
+
 
 /* ========================== */
 /* 📚 Story Feed Styles */
@@ -75,64 +163,249 @@ body {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  max-width: 800px; /* ✅ Increased width for better readability */
+  max-width: 1000px;
+  min-height: 100vh;
+  margin: 0 auto;
   height: auto;
-  margin-top: 20px;
-  padding: 240px; /* ✅ Increased padding for breathing room */
+  margin-top: 2rem;
+  padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(84, 110, 162, 0.1);
   background-image: url("../assets/storycardBackground.png");
-  background-size: cover; /* ✅ Ensure full coverage */
-  background-repeat: no-repeat; /* ✅ Stop that repeat */
-  background-position: center; /* ✅ Center the background */
-  position: relative; /* ✅ To avoid weird scroll issues */
-  overflow: hidden; /* ✅ Hide overflow */
-
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
 }
 
-/* 🎯 Individual Story Card */
 .story-card {
   background-color: rgba(255, 255, 255, 0.95);
-  padding: 100px;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin: 3rem auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 10px;
-  background-size: contain;
-  margin: 20px auto;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
   width: 100%;
-  max-width: 700px;
-  background-image: url("../assets/PopUpBackground.png");
+  background-image: url("../assets/PopupBackground.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100vh;
 }
 
-/* Larger titles for better accessibility */
-.story-card h3 {
+
+.story-card h3,
+.story-card p {
+  margin-bottom: 1rem;
+}
+
+/* 🔤 Typography Standards */
+h2.story-feed-title {
   font-size: 2rem;
-  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  background: linear-gradient(to right, #3e5151, #968971);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.story-card h3 {
+  font-size: 1.50rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.5rem 1rem;
   color: white;
-  background: linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%);
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  margin: 0.5rem auto;
+  max-width: 90%;
+  word-break: break-word;
+  background: linear-gradient(to right, #3e5151,rgb(150, 137, 113));
 }
 
 .story-card p {
-  font-size: 1rem;
-  color: white;
-  margin-left: 10px;
-  margin-right: 10px;
-  background: linear-gradient(180deg, rgba(94,98,98,1) 0%, rgba(102,122,126,1) 94%);
-  border-radius: 12px;
-  background-size: contain;
-  justify-content: center;
-  align-items: center;
+  font-size: 1.1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(50, 50, 50, 0.8);
+  border-radius: 10px;
+  margin: 1rem auto;
+  color: #f0f0f0;
   text-align: center;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  line-height: 1.5;
+  max-width: 95%;
+  word-break: break-word;
+  background: linear-gradient(to right, #3e5151,rgb(150, 137, 113));
 }
+
+/* 💬 Threads styling */
+.comments-section {
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+.comment-card {
+  background: rgba(60, 60, 60, 0.8);
+  padding: 1.05rem;
+  border-radius: 10px;
+  margin: 1rem auto;
+  color: #ddd;
+  font-size: 1rem;
+  text-align: center;
+  width: 100%;
+  max-width: 90%;
+}
+
+.story-card h3,
+.comment-card h3 {
+  font-family: 'Bebas Neue', cursive;
+  letter-spacing: 1px;
+}
+
+.story-card {
+  animation: fadeUp 0.6s ease both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ========================== */
+/* 🎉 Media Queries */
+/* ========================== */
+@media (max-width: 1024px) {
+  .story-feed {
+    padding: 120px;
+  }
+
+  .story-card {
+    padding: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .story-feed {
+    padding: 60px 20px;
+    margin-top: 10px;
+  }
+
+  .story-card {
+    padding: 40px 20px;
+    gap: 8px;
+  }
+
+  .story-card h3 {
+    font-size: 1.5rem;
+  }
+
+  .story-card p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .story-feed {
+    padding: 30px 15px;
+  }
+
+  .story-card {
+    padding: 30px 16px;
+    border-radius: 6px;
+  }
+
+  .story-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .story-card p {
+    font-size: 0.9rem;
+    padding: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .story-card {
+    padding: 1rem;
+    margin: 1.5rem auto;
+  }
+
+  .story-card h3 {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .story-card p {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .story-card h3,
+  .comment-card {
+    font-size: 1.2rem;
+  }
+
+  .story-card p {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .story-card h3 {
+    font-size: 1.75rem;
+    padding: 1rem 2rem;
+  }
+
+  .story-card p {
+    font-size: 1.2rem;
+    padding: 2rem 3rem;
+    line-height: 1.75;
+  }
+
+  .comment-card {
+    font-size: 1.15rem;
+    padding: 1.5rem 2.5rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .story-card {
+    max-width: 900px;
+  }
+
+  .comment-card {
+    max-width: 850px;
+  }
+
+  .story-feed {
+    padding: 3rem 2rem;
+  }
+
+  .page-container {
+    padding-top: 2rem;
+  }
+}
+
+
 
 /* ========================== */
 /* 💬 Comment Section */
@@ -155,6 +428,50 @@ body {
   font-size: 1rem;
 }
 
+
+/* ========================== */
+/* 🫧 Focus & Interaction Enhancements */
+/* ========================== */
+.comment-input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #00ffff;
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.comment-btn:active {
+  transform: scale(0.98);
+  background-color: #3fa03f;
+}
+
+/* Optional Ripple Glow for Submit Buttons */
+.comment-btn::after {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  animation: ripple-flash 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes ripple-flash {
+  0% {
+    box-shadow: 0 0 0px rgba(0, 255, 255, 0.6);
+    opacity: 1;
+  }
+  100% {
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0);
+    opacity: 0;
+  }
+}
+
+
 .comment-btn {
   padding: 12px 16px;
   background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
@@ -170,6 +487,20 @@ body {
   background-color: #45a049;
 }
 
+
+.comment-btn {
+  position: relative; /* 👈 Required for ripple animation */
+  padding: 12px 16px;
+  background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(66, 64, 64, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
 .comments-section {
   margin-top: 15px;
   width: 100%;
@@ -177,14 +508,79 @@ body {
 }
 
 .comment-card {
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 12px;
-  margin-top: 8px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: rgba(40, 40, 40, 0.85);
+  padding: 1.5rem;
+  margin: 1.5rem auto;
+  border-radius: 12px;
+  color: white;
+  max-width: 700px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
+
+
+/* ========================== */
+/* 🎉 Media Queries */
+/* ========================== */
+
+@media (max-width: 480px) {
+  .comment-input {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .comment-btn {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .comment-input-section {
+    padding: 0 10px;
+  }
+
+  .comment-input {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  .comment-btn {
+    font-size: 0.95rem;
+    padding: 10px 14px;
+  }
+
+  .comment-card {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .comment-input {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .comment-btn {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  .comment-card {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+
+
+/* ========================== */
 /* 🌟 Modal Container */
+/* ========================== */
+
 .add-comment-container,
 .branch-story-modal {
   display: flex;
@@ -208,6 +604,7 @@ body {
   border-radius: 8px;
   border: 1px solid #ccc;
   resize: none;
+  font-size: 1rem;
 }
 
 /* 🎉 Submit Button */
@@ -220,12 +617,40 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-size: 1rem;
 }
 
 .add-comment-container button:hover,
 .branch-story-modal button:hover {
   background-color: #45a049;
 }
+
+
+/* ========================== */
+/* 🌸 Mobile Responsiveness */
+/* ========================== */
+
+@media (max-width: 480px) {
+  .add-comment-container,
+  .branch-story-modal {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .add-comment-container textarea,
+  .branch-story-modal textarea,
+  .branch-story-modal input {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .add-comment-container button,
+  .branch-story-modal button {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+}
+
 
 /* ========================== */
 /* 🎯 Auth/Feed Container */
@@ -234,14 +659,56 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background-image: url("../assets/PopUpBackground.png");
-  padding: 40px;
+  margin: 5rem auto;
+  padding: 2rem;
+  text-align: center;
+  max-width: 800px;
+  background-image: url("../assets/PopupBackground.png");
+  padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 600px;
   margin-top: 20px;
+}
+
+.auth-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 20px rgba(18, 44, 55, 0.2);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 20px rgba(255,255,255,0.2);
+  padding: 1rem 2rem;
+  font-family: 'Bebas Neue', cursive;
+  letter-spacing: 1px;
+}
+
+.auth-text {
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+  text-shadow: 0 0 20px rgba(18, 44, 55, 0.2);
+}
+
+.login-btn,
+.join-btn {
+  background-color: #444;
+  color: #333;
+  padding: 0.8rem 1.5rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.25rem;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+  transition: background-color 0.3s ease;
 }
 
 /* ✅ Button Styles */
@@ -264,6 +731,88 @@ button:hover {
   background-color: #ddd;
   transform: translateY(-2px);
 }
+
+/* ========================== */
+/* 🌸 Mobile Responsiveness */
+/* ========================== */
+
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+
+  button {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 25px;
+    max-width: 90%;
+    margin-top: 15px;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 11px 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  .auth-container {
+    padding: 15px;
+  }
+
+  button {
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+}
+
+@media (hover: none) {
+  button:active {
+    transform: scale(0.98);
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-title {
+    font-size: 2rem;
+  }
+
+  .auth-text {
+    font-size: 1.1rem;
+  }
+
+  .login-btn,
+  .join-btn {
+    font-size: 1.1rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-title {
+    font-size: 1.6rem;
+    padding: 1rem;
+  }
+
+  .auth-text {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .auth-container {
+    margin: 3rem 1rem;
+    padding: 1rem;
+  }
+}
+
 
 /* ========================== */
 /* 🌟 Modal Styles */
@@ -364,120 +913,317 @@ button:hover {
   resize: vertical;
 }
 
-.action-btn-group {
-  display: flex;
-  justify-content: space-between; /* Equal spacing */
-  align-items: center;
-  gap: 10px;
-  margin-top: 16px;
-  flex-wrap: wrap; /* Handles smaller screens */
+/* ========================== */
+/* 📱 Responsive Modal Styling */
+/* ========================== */
+
+/* 📱 Small Devices - Mobile First (max-width: 480px) */
+@media (max-width: 480px) {
+  .modal-backdrop {
+    padding: 1rem;
+    align-items: flex-start; /* push modal down a bit on super small screens */
+  }
+
+  .modal {
+    padding: 1rem;
+    max-width: 95%;
+    font-size: 0.95rem;
+    border-radius: 10px;
+  }
+
+  .modal-backdrop h2 {
+    font-size: 1.5rem;
+  }
+
+  .modal-input,
+  .modal-textarea {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .modal-backdrop button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .modal-textarea {
+    min-height: 120px;
+  }
 }
 
-.action-btn-group button {
-  flex: 1 1 30%;
+/* 📱 Medium Devices - Tablets and Small Laptops (max-width: 768px) */
+@media (max-width: 768px) {
+  .modal {
+    max-width: 90%;
+    padding: 1.5rem;
+  }
+
+  .modal-backdrop h2 {
+    font-size: 1.75rem;
+  }
+
+  .modal-textarea {
+    min-height: 150px;
+  }
+}
+
+/* For ultra-wide screens */
+@media (min-width: 1440px) {
+  .modal {
+    max-width: 600px;
+  }
+}
+
+
+/* ========================== */
+/* 📱 Responsive Delete Modal Styling */
+/* ========================== */
+@media (max-width: 768px) {
+  .modal-backdrop {
+    padding: 1rem;
+    align-items: flex-start; /* shift slightly up on mobile */
+  }
+
+  .modal {
+    width: 95% !important;
+    padding: 1.5rem !important;
+    font-size: 0.95rem;
+  }
+
+  .modal h2 {
+    font-size: 1.5rem !important;
+    padding: 0.5rem !important;
+  }
+
+  .modal p {
+    font-size: 1.1rem !important;
+    line-height: 1.4 !important;
+    white-space: pre-line;
+  }
+
+  .modal button {
+    font-size: 1rem !important;
+    padding: 0.6rem 0.9rem !important;
+    flex: 1;
+    width: 100%;
+  }
+
+  .modal div[style*="display: flex"] {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 1rem !important;
+  }
+
+  .modal h2 {
+    font-size: 1.2rem !important;
+  }
+
+  .modal p {
+    font-size: 1rem !important;
+  }
+
+  .modal button {
+    font-size: 0.95rem !important;
+    padding: 0.5rem !important;
+  }
+}
+
+
+/* ========================== */
+/* 🎨 Base Utility Classes */
+/* ========================== */
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.btn-save {
+  background-color: #444;
+  color: #eee;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+.btn-cancel {
+  background-color: #ccc;
+  color: #333;
+  margin-left: 1rem;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+.btn-edit {
+  background-color: #ccc;
+  color: #333;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+.btn-follow {
+  background-color: #444;
+  color: #333;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+.btn-follow:hover {
+  background-color: #555;
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+}
+
+.btn-delete {
+  background-color: #ccc;
+  color: #333;
+  box-shadow: 0 0 50px rgba(142, 26, 26, 0.4);
+  border-radius: 10px;
+}
+
+.btn-delete:hover {
+  background-color: #e06666;
+  color: white;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+.create-origin-btn {
+  background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
+  color: #333;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   text-align: center;
-  white-space: nowrap;
+  font-family: 'Bebas Neue', cursive;
+  transition: all 0.3s ease;
 }
 
-.profile-avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin-bottom: 16px;
+.create-origin-btn:hover {
+  background-color: #bbb;
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+}
+
+/* ========================== */
+/* 📦 Layout & Card Styling */
+/* ========================== */
+
+.card {
+  background: rgba(255, 255, 255, 0.07);
+  padding: 1rem;
+  border-radius: 12px;
+  margin: 1rem 0;
+  box-shadow: 0 0 10px rgba(0,255,255,0.1);
+  backdrop-filter: blur(3px);
 }
 
 .tab-group {
   display: flex;
-  gap: 12px;
-  margin: 20px 0;
   justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 20px 0;
 }
 
 .tab-group button {
-  padding: 10px 16px;
-  border-radius: 8px;
   background: #d2dce3;
   border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s ease;
+  font-weight: bold;
 }
 
 .tab-group .active-tab {
   background: #a6b8c4;
-  font-weight: bold;
+  color: #000;
 }
 
-.story-list {
-  list-style: none;
-  padding: 0;
-  margin-top: 10px;
-}
-
-.story-item {
-  padding: 12px;
-  background: #ffffffa6;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.comment-thread {
-  margin-top: 10px;
-  padding-left: 20px;
-  list-style: disc;
-}
+/* ========================== */
+/* 🧵 Threads & Comments */
+/* ========================== */
 
 .see-threads-btn {
-  margin-top: 10px;
-  background: transparent;
+  margin-top: 0.5rem;
+  background: none;
   border: none;
-  color: #333;
-  font-size: 0.95rem;
+  color: #f0f6f6;
   cursor: pointer;
+  font-size: 0.9rem;
   text-decoration: underline;
 }
 
-.floating-create-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 3000;
-  padding: 12px 16px;
-  font-size: 16px;
-  border-radius: 30px;
-  background: linear-gradient(180deg, rgba(207,200,200,1) 0%, rgba(197,203,217,1) 94%);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.3s ease;
-}
-
-.floating-create-btn:hover {
-  background-color: #ccc;
-  transform: scale(1.05);
+.comment-thread {
+  list-style: none;
+  padding-left: 1rem;
+  margin-top: 0.5rem;
+  border-left: 2px solid #555;
+  color: #f3f3f3;
+  font-size: 0.9rem;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 /* ========================== */
-/* Profile Styling */
+/* 👤 Profile Styling */
 /* ========================== */
 
 .profile-container {
-  max-width: 700px;
+  max-width: 60rem;
   margin: auto;
-  padding: 2rem;
+  padding: 1rem;
   color: white;
 }
 
 .profile-header {
+  color: white;
+  background: linear-gradient(to right, #3e5151, #decba4);
+  padding: 1.5rem 3rem;
+  border-radius: 12px;
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   align-items: center;
   margin-bottom: 2rem;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Bebas Neue', cursive;
+  letter-spacing: 1px;
+  font-size: 2rem;
+  font-weight: bold;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.username-heading {
+  color: #fff;
+  background: rgba(0,0,0,0.8);
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  word-break: break-word;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Bebas Neue', cursive;
+  letter-spacing: 1rem;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  margin-bottom: 1rem;
 }
 
 .profile-pic {
-  width: 80px;
-  height: 80px;
+  width: 10rem;
+  height: 10rem;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid white;
@@ -486,115 +1232,219 @@ button:hover {
 .profile-bio {
   margin: 0.5rem 0;
   color: #ccc;
+  font-size: 1.1rem;
+  text-align: center;
 }
 
 .profile-followers {
-  font-size: 0.9rem;
-  color: #aaa;
-}
-
-.tab-group {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 1.5rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 1rem;
 }
 
-.tab-group button {
-  background: transparent;
-  border: none;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  color: #aaa;
-  border-bottom: 2px solid transparent;
-  cursor: pointer;
+.bio-input {
+  margin: 0.5rem 0;
+  color: #333;
+  font-size: 1.1rem;
+  padding: 3.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(207, 200, 200, 1) 0%, rgba(197, 203, 217, 1) 94%);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
 }
 
-.tab-group .active-tab {
+.modal-heading {
   color: white;
-  border-color: white;
-}
-
-.see-threads-btn {
-  margin-top: 0.5rem;
-  background: none;
-  border: none;
-  color: #7ed6df;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.comment-thread {
-  list-style: none;
-  padding-left: 1rem;
-  margin-top: 0.5rem;
-  border-left: 2px solid #555;
-  color: #ccc;
-}
-
-.dummy-warning {
-  color: orange;
+  font-size: 1.3rem;
+  background: linear-gradient(to right, #3e5151, #decba4);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
   text-align: center;
-  margin-top: 2rem;
+}
+
+.follower-modal,
+.following-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  color: white;
+  background: transparent;
+  box-shadow: none;
+}
+
+.profile-followers-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1.5rem;
 }
 
 
+.profile-followers-btn {
+  width: 90%;
+  max-width: 300px;
+  text-align: center;
+}
 /* ========================== */
-/* 🌸 Mobile & Responsive Styling */
+/* 📱 Responsive Design */
 /* ========================== */
+
 @media (max-width: 768px) {
-  .page-container {
-    padding: 0 10px;
+  .profile-container {
+    padding: 1rem;
   }
 
-  .banner-container {
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .profile-pic {
+    width: 80px;
+    height: 80px;
+  }
+
+  .tab-group,
+  .action-btn-group {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tab-group button,
+  .action-btn-group button {
     width: 100%;
+    font-size: 0.95rem;
   }
 
-  .hero-banner,
-  .hero-banner-2 {
-    height: 250px; /* ✅ Adjusted for mobile view */
-  }
-
-  .story-feed {
-    width: 100%;
-    padding: 15px;
-  }
-
-  .story-card {
-    width: 100%;
-  }
-
-  .auth-container {
-    width: 100%;
-    padding: 20px;
-  }
-
-  .modal {
-    width: 90%;
-  }
-
-  button {
-    width: 100%;
+  .profile-bio,
+  .profile-followers {
+    text-align: center;
+    font-size: 1rem;
+    padding: 0 1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .story-card h3 {
-    font-size: 1.5rem;
+  .tab-group button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
   }
 
-  .story-card p {
-    font-size: 1rem;
+  .see-threads-btn {
+    font-size: 0.85rem;
   }
 
-  .comment-input {
+  .comment-thread {
     font-size: 0.9rem;
   }
 
-  button {
+  .create-origin-btn {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .profile-header {
+    font-size: 1.7rem;
+    padding: 1.2rem 2rem;
+  }
+
+  .username-heading {
+    font-size: 1.4rem;
+    letter-spacing: 0.6rem;
+  }
+
+  .profile-pic {
+    width: 8.5rem;
+    height: 8.5rem;
+  }
+
+  .profile-bio {
+    font-size: 1.05rem;
+  }
+
+  .profile-followers {
     font-size: 0.9rem;
   }
 }
+
+@media (min-width: 1024px) {
+  .profile-header {
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 2.2rem;
+    padding: 2rem 4rem;
+    text-align: left;
+  }
+
+  .username-heading {
+    font-size: 2rem;
+    letter-spacing: 1rem;
+  }
+
+  .profile-bio,
+  .profile-followers {
+    text-align: left;
+  }
+}
+
+@media (min-width: 1440px) {
+  .create-origin-btn {
+    font-size: 1.6rem;
+    padding: 1.75rem 3.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-header {
+    padding: 1rem;
+  }
+
+  .profile-bio {
+    font-size: 0.9rem;
+    padding: 0 1rem;
+    text-align: center;
+    word-break: break-word;
+  }
+
+  .create-origin-btn,
+  .edit-btn {
+    width: 90%;
+    margin: 0.5rem auto;
+  }
+}
+
+
+.action-btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem; /* 👈 Spacing between buttons */
+  flex-wrap: wrap; /* ✅ In case it’s small screen */
+  margin-top: 1rem;
+}
+
+.action-btn-group button {
+  padding: 10px 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  min-width: 100px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
 
 /* ========================== */
 /* 🌌 Center Modal Backdrop */
@@ -749,7 +1599,6 @@ button:hover {
 }
 
 
-
 /* ========================== */
 /* Sparkle Animation */
 /* ========================== */
@@ -812,10 +1661,14 @@ button:hover {
   left: 0;
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: radial-gradient(ellipse at center, rgba(255, 0, 0, 0.3), rgba(0, 0, 0, 0.95));
   backdrop-filter: blur(3px);
   z-index: 99999;
-  animation: multiverseCollapse 2.5s ease-out forwards;
+  animation: multiverseCollapse 10s ease-out forwards;
+  animation-fill-mode: forwards;
   pointer-events: none;
 }
 
@@ -844,6 +1697,79 @@ button:hover {
   }
 }
 
+/* ========================== */
+/* 📱 Responsive DeleteStoryModal */
+/* ========================== */
+@media (max-width: 1024px) {
+  .modal {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .modal h2 {
+    font-size: 1.7rem;
+  }
+
+  .modal p {
+    font-size: 1.3rem;
+  }
+
+  .modal button {
+    font-size: 1.2rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal {
+    max-width: 95%;
+    padding: 1.2rem;
+  }
+
+  .modal h2 {
+    font-size: 1.5rem;
+  }
+
+  .modal p {
+    font-size: 1.1rem;
+  }
+
+  .modal button {
+    font-size: 1.1rem;
+    flex: 1 1 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .modal div {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 1rem;
+  }
+
+  .modal h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal p {
+    font-size: 1rem;
+  }
+
+  .modal button {
+    font-size: 1rem;
+    padding: 0.4rem 0.6rem;
+  }
+}
+
+
+/* ========================== */
+/* Origin */
+/** ========================== */
+
 .origin-block {
   background: rgba(0, 0, 0, 0.6);
   padding: 2rem;
@@ -867,3 +1793,147 @@ button:hover {
   padding-left: 1rem;
 }
 
+
+/* ========================== */
+/* 📱 Responsive Enhancements */
+/* ========================== */
+
+/* iPad Pro, Surface Pro, Medium Tablets */
+@media (max-width: 1024px) {
+  .story-feed {
+    padding: 60px;
+  }
+
+  .story-card h3 {
+    font-size: 1.75rem;
+  }
+
+  .modal {
+    max-width: 90%;
+  }
+}
+
+/* iPhone XR, iPhone 12 Pro, Pixel 7, Galaxy S20 */
+@media (max-width: 768px) {
+  .hero-banner,
+  .hero-banner-2 {
+    height: 220px;
+  }
+
+  .story-feed {
+    padding: 30px;
+  }
+
+  .story-card {
+    padding: 30px;
+  }
+
+  .modal {
+    padding: 1.5rem;
+  }
+
+  .tab-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* iPhone SE, Galaxy S8+, Folded Phones */
+@media (max-width: 480px) {
+  .story-feed {
+    padding: 15px;
+  }
+
+  .story-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .story-card p {
+    font-size: 0.95rem;
+  }
+
+  .modal {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+
+  button {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
+  .origin-block {
+    padding: 1rem;
+  }
+
+  .comment-card {
+    font-size: 0.9rem;
+  }
+}
+
+/* Ultra Small Screens (iPhone SE, Nest Hub Mini) */
+@media (max-width: 375px) {
+  .modal-title {
+    font-size: 1.2rem;
+  }
+
+  .modal-textarea {
+    font-size: 0.85rem;
+  }
+
+
+  .modal-backdrop h2 {
+    font-size: 1.4rem;
+  }
+
+  .story-card {
+    padding: 20px;
+  }
+}
+
+
+.modal {
+  padding: 1.5rem; /* Reduce padding for better content fitting */
+  max-height: 90vh; /* Ensure modal doesn't exceed screen height */
+  overflow-y: auto; /* Enable scrolling if content overflows */
+}
+
+@media (max-width: 768px) {
+  .modal {
+    max-width: 95%; /* Ensure it fits on smaller screens */
+    padding: 1.2rem;
+    font-size: 1rem;
+  }
+
+  .modal-backdrop {
+    padding: 1rem; /* Adjust backdrop padding */
+    align-items: flex-start; /* Push modal slightly up on smaller screens */
+  }
+
+  .modal h2 {
+    font-size: 1.5rem;
+  }
+
+  .modal p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 1rem;
+  }
+
+  .modal h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal p {
+    font-size: 1rem;
+  }
+
+  .modal button {
+    font-size: 1rem;
+    padding: 0.4rem 0.6rem;
+  }
+}

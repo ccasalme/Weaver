@@ -1,7 +1,15 @@
-{
-	"_id": "demo-dummy-user-id",
-	"username": "spideynomoney",
-	"email": "spideyisbroke@gmail.com",
-	"password": "nowayhome"
-}
+[
+	{
+		"_id": "demo-dummy-user-id",
+		"username": "spideynomoney",
+		"email": "spideyisbroke@gmail.com",
+		"password": "nowayhome"
+	},
+	{
+		"_id": "demo-dummy-user-id",
+		"username": "strangedr",
+		"email": "multiversewitchdoctor@email.com",
+		"password": "password123"
+	}
+]
   

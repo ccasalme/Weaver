@@ -44,7 +44,7 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
 			}
 		} catch {
 			// fallback to dummy user login
-			if (username === dummyUser.username && password === dummyUser.password) {
+			if (username === dummyUser[0].username && password === dummyUser[0].password) {
 				setToken("dummy-auth-token", "dummy-user-id");
 				alert("Dummy login successful! 🎭");
 				window.location.reload();
@@ -56,7 +56,13 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
 	};
 
 	return (
-		<div className="modal-backdrop" onClick={onClose}>
+		<div   className="modal-backdrop"
+		onClick={(e) => {
+		  // Only close if the click was on the backdrop itself, not inside modal
+		  if (e.target === e.currentTarget) {
+			onClose();
+		  }
+		}}>
 			<div className="modal" onClick={(e) => e.stopPropagation()}>
 				<button
 					className="close-btn"
@@ -121,6 +127,7 @@ const Login: React.FC<LoginProps> = ({ onClose, switchToJoinUs }) => {
 								color: "#666",
 								cursor: "pointer",
 							}}
+							aria-label="Toggle password visibility"
 						>
 							{showPassword ? "🙈 Hide" : "👁️ Show"}
 						</button>

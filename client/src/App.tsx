@@ -9,6 +9,7 @@ import Rules from "./pages/Rules";
 import WeaverInfo from "./pages/WeaverInfo";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import "./pages/Wireframe.css";
 
 function App() {
   console.log("App component rendered");
