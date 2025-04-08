@@ -5,7 +5,7 @@ import "./Navbar.css";
 import Login from "./Login";
 import JoinUs from "./JoinUs";
 import { logout } from "../utils/auth";
-import { GET_ME } from "../graphql/queries"; // 👈 Make sure this exists
+import { GET_ME } from "../graphql/queries"; // 👈 Make sure this exists!
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
