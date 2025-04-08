@@ -1,12 +1,6 @@
 /// <reference types="vitest" />
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-  act,
-} from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import DeleteStoryModal from "./DeleteStoryModal";
 import { DELETE_STORY } from "../graphql/mutations";
