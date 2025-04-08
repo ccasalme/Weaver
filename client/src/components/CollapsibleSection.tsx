@@ -24,8 +24,6 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
             <div style={{ background: "linear-gradient(to right, #3e5151, #decba4)" }}>
             <h2
                 onClick={toggleOpen}
-                // onMouseEnter={(e: React.MouseEvent<HTMLHeadingElement>) => (e.currentTarget.style.backgroundColor = '#e0e0e0')}
-                // onMouseLeave={(e: React.MouseEvent<HTMLHeadingElement>) => (e.currentTarget.style.backgroundColor = '#f0f0f0')}
             >
                 {isOpen ? '🔽' : '▶️'} {title}
             </h2>

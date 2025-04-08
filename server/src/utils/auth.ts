@@ -21,7 +21,7 @@ export const authenticateToken = ({ req }: any) => {
   // Try to verify the token
   try {
     const { data }: any = jwt.verify(token, process.env.JWT_SECRET_KEY || '', { maxAge: '365d' }); 
-    //temporary change to 365d for testing purposes and development - make sure to change back to 2h in production
+    // temporary change to 365d for testing purposes, development, and presentation - make sure to change back to 2h once done
     // If the token is valid, attach the user data to the request object
     req.user = data;
   } catch (err) {

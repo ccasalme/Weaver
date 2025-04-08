@@ -1,20 +1,23 @@
 import React from "react";
-import "./Wireframe.css"; // Keep using your main style file
+import "./Wireframe.css"; // main style file
+import ccasalmeImage from "../assets/ccasalme.jpeg";
+import cparsonsImage from "../assets/cparsons.jpeg";
+import snabajjaImage from "../assets/snabajja.jpg";
 
 const architects = [
   {
     name: "Cyrl Casalme",
-    image: "https://avatars.githubusercontent.com/u/78170262?s=96&v=4",
+    image: ccasalmeImage,
     github: "https://github.com/ccasalme",
   },
   {
     name: "Stella Nabajja",
-    image: "https://avatars.githubusercontent.com/u/181761845?v=4",
+    image: snabajjaImage,
     github: "https://github.com/snabaj",
   },
   {
     name: "Corey Parsons",
-    image: "https://avatars.githubusercontent.com/u/181612238?v=4",
+    image: cparsonsImage,
     github: "https://github.com/cpars",
   },
 ];

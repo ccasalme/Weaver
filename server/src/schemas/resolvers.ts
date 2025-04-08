@@ -244,10 +244,6 @@ const resolvers = {
 
 
 //////////////////////////////////////////
-//Cyrl's notes: this change prevents the negative count
-  //prevents spam likes
-  //ensures that the user can only like a story once
-  //ensures that the user can unlike a story
   //ensures that it gets saved to the database and profile
   //if the user already liked the story, it will be unliked
   //if the user has not liked the story, it will be liked
@@ -388,8 +384,10 @@ const resolvers = {
       return newVote;
     },
 
+  //////////////////////////////////////////  
     // Follow and Unfollow a user
-// In your resolvers.ts
+    // This is a future feature and will be implemented later
+  //////////////////////////////////////////
 
 followUser: async (_: any, { targetUserId }: { targetUserId: string }, context: any) => {
   if (!context.user) throw new Error("You must be logged in to follow users.");
