@@ -17,13 +17,12 @@
     - [📋 GraphQL API Queries and Mutations](#-graphql-api-queries-and-mutations)
   - [▶️ Usage](#️-usage)
     - [📷 Screenshot of Homepage](#-screenshot-of-homepage)
-    - [📷 Sreenshot of Profile Page](#-sreenshot-of-profile-page)
     - [🚀 Click here to checkout the deployed application on Render](#-click-here-to-checkout-the-deployed-application-on-render)
     - [🛠️ Technologies Used](#️-technologies-used)
   - [🤝 Contributing](#-contributing)
   - [🧪 Tests](#-tests)
   - [🪪 License](#-license)
-  - [👤 Architects](#-architects)
+  - [👤👤 Architects](#-architects)
 
 </details>
 
@@ -149,7 +148,7 @@ Weaver/
 │   ├── src/
 │   │   ├── config/        # Database connection
 │   │   ├── models/        # Mongoose models
-│   │   ├── schemas/       # TypeDefs & esolvers
+│   │   ├── schemas/       # TypeDefs & resolvers
 │   │   ├── utils/         # Authentication
 │   │   ├── seeds/         # Seed data for database
 │   │   ├── server.ts      # Main server file
@@ -226,8 +225,7 @@ npm run develop
   ```
 
 ### 📷 Screenshot of Homepage
-
-### 📷 Sreenshot of Profile Page
+![weaver-homepage](client/src/assets/weaver-homepage.jpg)
 
 ### 🚀 [Click here to checkout the deployed application on Render](https://weaver-9su3.onrender.com/)
 
@@ -306,11 +304,11 @@ GitHub Actions will run tests automatically on main before deploying to Render.
 
 ## 🪪 License
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0).
 
-## 👤 Architects
+## 👤👤 Architects
 
 Feel free to reach out with suggestions or questions to the project architects!
 
@@ -322,7 +320,7 @@ Feel free to reach out with suggestions or questions to the project architects!
 
 - **Role**: Front-end
 - **GitHub**: [@ccasalme](https://github.com/ccasalme)
-- **Email**: ccasalme@example.com
+- **Email**: cyrl.casalme@gmail.com
 
 <a href="https://github.com/snabaj">
   <img src="https://github.com/snabaj.png" width="100" style="border-radius: 50%;" alt="Stella Nabajja" />
@@ -342,7 +340,7 @@ Feel free to reach out with suggestions or questions to the project architects!
 
 - **Role**: Cypress Testing & Github Actions CI/CD
 - **GitHub**: [@cpars](https://github.com/cpars)
-- **Email**: cpars@example.com
+- **Email**: cparsons0730@yahoo.com
 
 
 [⬆ Back to top](#table-of-contents)
